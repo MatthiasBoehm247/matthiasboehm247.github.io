@@ -1,0 +1,768 @@
+{
+  "version": "1.5.0",
+  "language": "de",
+  "tools": {
+    "T001": {
+      "title": "SERP-Snippet-Generator: Title & Description vergleichen",
+      "description": "Vergleiche zwei Seitentitel mit einer Snippet-Vorschau für Desktop und Mobilgeräte. Prüfe Textbreite, Aussage und Meta Description direkt im Browser."
+    },
+    "T002": {
+      "title": "Robots.txt erstellen und Regeln mit Testpfaden prüfen",
+      "description": "Erstelle eine robots.txt und teste lokale URL-Pfade gegen Allow- und Disallow-Regeln. Mit Sitemap-Zeile und klaren Grenzen der vereinfachten Prüfung."
+    },
+    "T003": {
+      "title": "JSON-LD-Generator für Person, Artikel und WebApplication",
+      "description": "Erstelle einen JSON-LD-Grundbaustein für Person, Organization, Article oder WebApplication. Bearbeite echte Angaben und exportiere den Code lokal."
+    },
+    "T004": {
+      "title": "Hreflang-Generator: Sprachvarianten als Matrix planen",
+      "description": "Erzeuge hreflang-Verweise aus Sprachcodes und vollständigen URLs. Prüfe doppelte Einträge und plane gegenseitige Verweise samt optionalem x-default."
+    },
+    "T005": {
+      "title": "XML-Sitemap erstellen: URLs und lastmod sauber prüfen",
+      "description": "Erstelle eine XML-Sitemap aus vollständigen URLs und optionalen Änderungsdaten. Prüfe Duplikate, Domain und Datumsformat vor dem lokalen Download."
+    },
+    "T006": {
+      "title": "Canonical und noindex in HTML auf Konflikte prüfen",
+      "description": "Untersuche eingefügtes HTML auf Canonical-Tags und Indexierungsanweisungen. Beziehe einen X-Robots-Tag ein und erkenne lokale Widersprüche."
+    },
+    "T007": {
+      "title": "301-Redirects für Apache erstellen und Ketten prüfen",
+      "description": "Erzeuge Apache-301-Regeln aus alten Pfaden und neuen URLs. Prüfe Weiterleitungsketten und Schleifen; kontrolliere Pfadpräfixe vor dem Einbau."
+    },
+    "T008": {
+      "title": "HTML-SEO-Check: Titel, Überschriften und Links prüfen",
+      "description": "Prüfe eingefügtes HTML auf SEO-Grundlagen: Title, Description, H1, Canonical, Links und fehlende Alt-Attribute. Die Analyse erfolgt lokal im Browser."
+    },
+    "T009": {
+      "title": "Sitemap analysieren: Verzeichnisse und URL-Tiefe zeigen",
+      "description": "Werte die URLs einer eingefügten XML-Sitemap aus. Erkenne Verzeichnisverteilung, URL-Tiefe und doppelte Einträge in einer lokalen Übersicht."
+    },
+    "T010": {
+      "title": "Open-Graph-Tags erstellen und Linkvorschau planen",
+      "description": "Erstelle Open-Graph-Metadaten für Titel, Beschreibung, URL und Bild. Vergleiche eine Textvorschau und exportiere die Tags für deine Website."
+    },
+    "T011": {
+      "title": "Keyword-Mapping: Suchbegriffe und Ziel-URLs zuordnen",
+      "description": "Ordne Keywords, Suchabsichten und URLs aus einer CSV einander zu. Finde mehrfach zugewiesene Begriffe als Ausgangspunkt für eine redaktionelle Prüfung."
+    },
+    "T012": {
+      "title": "SERP-Overlap berechnen: Zwei URL-Listen vergleichen",
+      "description": "Vergleiche zwei manuell erfasste Ergebnislisten über gemeinsame URLs, Jaccard-Wert und Overlap. Bewerte Ähnlichkeit ohne automatische Suchabfrage."
+    },
+    "T013": {
+      "title": "GEO-Testfragen planen: Prompt-Set für KI-Sichtbarkeit",
+      "description": "Erstelle ein strukturiertes Prompt-Set aus Thema, Zielgruppe und Markt. Exportiere Testfragen mit leeren Messfeldern für eine dokumentierte KI-Prüfung."
+    },
+    "T014": {
+      "title": "KI-Erwähnungen auswerten: Zitierungen per CSV messen",
+      "description": "Werte manuell protokollierte KI-Antworten nach Modell aus. Vergleiche Erwähnungs- und Zitierungsanteile mit transparenten 0/1-Kennzeichnungen."
+    },
+    "T015": {
+      "title": "KI-Quellen analysieren: Domains und zitierte URLs zählen",
+      "description": "Analysiere dokumentierte Quellen-URLs aus KI-Tests. Vergleiche Domain-Präsenz und URL-Häufigkeit auf Basis deiner eigenen CSV-Beobachtungen."
+    },
+    "T016": {
+      "title": "Entity-Graph erstellen: JSON-LD mit IDs und Beziehungen",
+      "description": "Plane Entitäten und Beziehungen als JSON-LD-Graph. Vergib stabile IDs, prüfe Referenzen und exportiere eine nachvollziehbare @graph-Struktur."
+    },
+    "T017": {
+      "title": "Crawler-Regeln testen: robots.txt für mehrere Bots",
+      "description": "Vergleiche lokale robots.txt-Regeln für mehrere User-Agents und Pfade. Dokumentiere erlaubte und gesperrte Abrufe vor einer Änderung deiner Website."
+    },
+    "T018": {
+      "title": "llms.txt erstellen: Kuratierte Linkübersicht als Markdown",
+      "description": "Erstelle eine optionale llms.txt mit Kurzbeschreibung und ausgewählten Seitenlinks. Exportiere eine gepflegte Markdown-Übersicht ohne Sichtbarkeitsversprechen."
+    },
+    "T019": {
+      "title": "Aussagen und Quellen prüfen: Evidenz-Matrix per CSV",
+      "description": "Ordne Aussagen ihren Quellen und Prüfständen zu. Finde fehlende Belege und offene Prüfungen in einer lokalen CSV-basierten Evidenz-Matrix."
+    },
+    "T020": {
+      "title": "KI-Antworten vergleichen: Wörter und Zeilen auswerten",
+      "description": "Vergleiche zwei eingefügte KI-Antworten über Wortmengen, Zeilen und Ähnlichkeitswerte. Dokumentiere Textänderungen ohne automatische Faktenbewertung."
+    },
+    "T021": {
+      "title": "Prompt-Vorlage erstellen: Aufgabe, Kontext und Ausgabe",
+      "description": "Strukturiere einen Prompt mit Rolle, Aufgabe, Kontext, Grenzen und Ausgabeformat. Exportiere eine bearbeitbare Vorlage für nachvollziehbare KI-Aufgaben."
+    },
+    "T022": {
+      "title": "Prompt-Evaluation: Manuelle Testfälle per CSV auswerten",
+      "description": "Werte definierte Prompt-Testfälle mit erwarteter und tatsächlicher Antwort aus. Berechne eine transparente Bestehensquote aus manuellen 0/1-Bewertungen."
+    },
+    "T023": {
+      "title": "KI-Kontextbudget rechnen: Platz für Eingabe und Ausgabe",
+      "description": "Plane ein Tokenbudget für Kontext, Systemtext, Nutzereingabe und Antwortreserve. Berechne den verbleibenden Platz für gleich große Textblöcke."
+    },
+    "T024": {
+      "title": "KI-Einsatz dokumentieren: Zweck, Prüfung und Offenlegung",
+      "description": "Erstelle eine nachvollziehbare Dokumentation für einen KI-Einsatz. Halte Modell, Zweck, menschliche Prüfung, Offenlegung und bekannte Risiken zusammen."
+    },
+    "T025": {
+      "title": "Content-Briefing erstellen: Suchintention, Nutzen, Quellen",
+      "description": "Erstelle ein Content-Briefing mit Suchabsicht, eigenständigem Nutzen, Gliederung, Quellen und Qualitätskriterien. Exportiere die Vorlage als Markdown."
+    },
+    "T026": {
+      "title": "Ratgeber planen: Schritte, Beispiele und Qualitätscheck",
+      "description": "Plane einen Ratgeber mit Zielgruppe, Lernziel, Arbeitsschritten und Prüfkriterien. Halte Grenzen und benötigte Beispiele in einer Markdown-Vorlage fest."
+    },
+    "T027": {
+      "title": "Wörter und Zeichen zählen: Textlänge lokal auswerten",
+      "description": "Zähle Wörter, Zeichen und näherungsweise Sätze in deinem Text. Ergänze eine Lesedauer-Schätzung und prüfe den Umfang direkt im Browser."
+    },
+    "T028": {
+      "title": "LIX-Lesbarkeit berechnen und Textstellen gezielt prüfen",
+      "description": "Berechne einen näherungsweisen LIX-Wert aus Satzlänge und langen Wörtern. Nutze die Kennzahl als Hinweis für eine gezielte sprachliche Überarbeitung."
+    },
+    "T029": {
+      "title": "Texte vergleichen: Zeilenänderungen und Wortähnlichkeit",
+      "description": "Vergleiche zwei Texte lokal nach Zeilen und gemeinsamen Wörtern. Finde Änderungen zwischen Fassungen und ordne Ähnlichkeitswerte mit ihren Grenzen ein."
+    },
+    "T030": {
+      "title": "Content-Audit ordnen: URLs, Status und Maßnahmen per CSV",
+      "description": "Strukturiere deinen Content-Audit nach URL, Status und geplanter Maßnahme. Werte die Aktionsverteilung einer vorbereiteten CSV lokal aus."
+    },
+    "T031": {
+      "title": "Redaktionsplan aus CSV: Termine und Zuständigkeiten ordnen",
+      "description": "Sortiere Themen, Termine, Zuständige und Status aus deiner CSV. Erstelle eine klare Arbeitsübersicht für die redaktionelle Planung im Browser."
+    },
+    "T032": {
+      "title": "Überschriften prüfen: Markdown-Hierarchie analysieren",
+      "description": "Prüfe Markdown-Überschriften von H1 bis H6 auf Hierarchiesprünge. Überarbeite deine Gliederung im Text und exportiere den kontrollierten Stand."
+    },
+    "T033": {
+      "title": "Quellen dokumentieren: URLs, Abrufdaten und Zitate ordnen",
+      "description": "Erfasse Quellen mit Titel, URL, Datum und relevantem Auszug. Erstelle eine strukturierte Übersicht für Recherche, Prüfung und redaktionelle Übergaben."
+    },
+    "T034": {
+      "title": "Content-Refresh priorisieren: Klickpotenzial als Szenario",
+      "description": "Sortiere Seiten nach einer transparenten Heuristik aus Impressionen, CTR-Ziel und Alter. Plane Content-Updates mit offen gelegten Annahmen."
+    },
+    "T035": {
+      "title": "Glossar als HTML erstellen: Begriffe und Definitionen",
+      "description": "Verwandle eigene Begriffe und Definitionen in ein alphabetisches HTML-Glossar. Exportiere eine semantische Definitionsliste für deine Website."
+    },
+    "T036": {
+      "title": "Alt-Text planen: Bildzweck und Kontext verständlich klären",
+      "description": "Erarbeite einen passenden Alternativtext anhand von Bildzweck und Seitenkontext. Unterscheide informative, dekorative, funktionale und komplexe Bilder."
+    },
+    "T037": {
+      "title": "UTM-Link erstellen: Kampagnenparameter korrekt ergänzen",
+      "description": "Erstelle einen UTM-Link mit Quelle, Medium und Kampagne. Behalte vorhandene URL-Parameter bei und ergänze optionale Inhalte ohne manuelles URL-Basteln."
+    },
+    "T038": {
+      "title": "Search-Console-CSV analysieren: Klicks und CTR gruppieren",
+      "description": "Analysiere lokale Search-Console-Exporte mit Klicks, Impressionen und gewichteter CTR. Vergleiche Zeiträume und prüfe beobachtete Verluste mit ihren Grenzen."
+    },
+    "T039": {
+      "title": "Regex für Search Console erstellen: Begriffe filtern",
+      "description": "Erzeuge reguläre Ausdrücke aus einer Begriffsliste und teste Beispieltexte lokal. Plane genaue oder alternative Suchfilter für Search-Console-Auswertungen."
+    },
+    "T040": {
+      "title": "SEO-Traffic-Szenarien rechnen: CTR und Conversions",
+      "description": "Modelliere Klick- und Conversion-Szenarien aus Impressionen und angenommenen CTR-Werten. Vergleiche Bandbreiten mit transparenten Eingaben."
+    },
+    "T041": {
+      "title": "SEO-ROI-Szenario rechnen: Beiträge, Kosten und Zeitraum",
+      "description": "Berechne ein vereinfachtes ROI-Szenario aus zusätzlichen Besuchen, Conversion-Rate, Beitrag je Conversion und Kosten. Dokumentiere deine Annahmen."
+    },
+    "T042": {
+      "title": "CTR nach Position auswerten: Search-Daten gruppieren",
+      "description": "Gruppiere Klicks und Impressionen aus einer CSV nach abgerundeter Position. Erstelle eine eigene CTR-Übersicht mit offener Aggregationsgrenze."
+    },
+    "T043": {
+      "title": "Marketing-KPIs berechnen: CTR, CPC, CPA und ROAS",
+      "description": "Berechne CTR, CPC, CPM, CPA, Conversion-Rate und ROAS aus klaren Eingaben. Prüfe Nenner, Einheiten und nicht definierte Werte direkt im Browser."
+    },
+    "T044": {
+      "title": "A/B-Anteile vergleichen: Differenz und 95%-Intervall",
+      "description": "Vergleiche Conversion-Anteile zweier unabhängiger Gruppen mit einem approximativen 95%-Intervall. Prüfe Datenvoraussetzungen und Aussagegrenzen."
+    },
+    "T045": {
+      "title": "KI-Referrer auswerten: Bekannte Domains lokal zuordnen",
+      "description": "Ordne Referrer und Sitzungszahlen einer bearbeitbaren Domainliste zu. Analysiere erkennbare KI-Verweise aus deinem Export ohne Kontoverbindung."
+    },
+    "T046": {
+      "title": "GA4-Events planen: Auslöser, Parameter und Testfälle",
+      "description": "Dokumentiere ein GA4-Event mit Auslöser, Parametern, Zweck und Prüfschritten. Erstelle eine klare Übergabe für Implementierung und Qualitätssicherung."
+    },
+    "T047": {
+      "title": "KPI-Steckbrief erstellen: Definition, Quelle und Kontrolle",
+      "description": "Definiere eine Kennzahl mit Formel, Datenquelle, Segmenten und Zuständigkeit. Erstelle eine überprüfbare Grundlage für ein konsistentes Dashboard."
+    },
+    "T048": {
+      "title": "Marketingbudget verteilen: Gewichtete Kanalszenarien",
+      "description": "Verteile ein Budget anhand eigener Kanalgewichte. Berechne Klick- und Conversion-Szenarien aus CPC und Conversion-Rate mit offenen Annahmen."
+    },
+    "T049": {
+      "title": "JSON formatieren und Syntax prüfen: Lesbarer Export",
+      "description": "Formatiere JSON lokal und prüfe seine Syntax. Zahlen und Zeichenfolgen bleiben tokengetreu; doppelte Schlüssel werden als Fehler gemeldet."
+    },
+    "T050": {
+      "title": "CSV in JSON umwandeln: Trennzeichen und Kopfzeile prüfen",
+      "description": "Konvertiere CSV mit Komma, Semikolon oder Tabulator in JSON. Unterstütze zitierte Felder und erhalte Zellwerte einschließlich führender Nullen als Text."
+    },
+    "T051": {
+      "title": "Regex testen: JavaScript-Muster mit sicheren Zeitlimits",
+      "description": "Teste reguläre Ausdrücke mit JavaScript-Flags und Beispieltext. Sieh gefundene Treffer in einem begrenzten Worker-Lauf und prüfe passende Gegenbeispiele."
+    },
+    "T052": {
+      "title": "Markdown-Vorschau: Einfache Texte sicher in HTML zeigen",
+      "description": "Zeige grundlegendes Markdown als lokale HTML-Vorschau. Prüfe Überschriften, Listen und Hervorhebungen mit einem bewusst begrenzten Funktionsumfang."
+    },
+    "T053": {
+      "title": "JSON-Diff: Objektänderungen mit Pfaden vergleichen",
+      "description": "Vergleiche zwei JSON-Dokumente strukturell. Erkenne hinzugefügte, entfernte und geänderte Werte mit Pfaden statt bloßem Textzeilenvergleich."
+    },
+    "T054": {
+      "title": "CSV bereinigen: Leerraum, Leerzeilen und Duplikatzeilen",
+      "description": "Bereinige eine CSV lokal: entferne äußere Leerzeichen, vollständig leere Zeilen und identische Datenzeilen. Kontrolliere die bereinigte Tabelle vor dem Export."
+    },
+    "T055": {
+      "title": "URL analysieren und Parameter gezielt bearbeiten",
+      "description": "Zerlege eine HTTP- oder HTTPS-URL in ihre Bestandteile. Prüfe Host, Pfad und Query und ergänze einen Parameter ohne manuelle Zeichenkodierung."
+    },
+    "T056": {
+      "title": "Base64 für UTF-8-Text: Kodieren und wieder dekodieren",
+      "description": "Wandle UTF-8-Text in Base64 um oder dekodiere ihn zurück. Prüfe die technische Darstellung lokal und unterscheide Kodierung von Verschlüsselung."
+    },
+    "T057": {
+      "title": "Einfaches YAML prüfen und in JSON umwandeln",
+      "description": "Konvertiere eine begrenzte YAML-Teilmenge mit einfachen Objekten, Listen und Werten in JSON. Erkenne nicht unterstützte Konstrukte vor dem Export."
+    },
+    "T058": {
+      "title": "Unix-Zeitstempel umrechnen: Sekunden, Millisekunden, Zone",
+      "description": "Wandle numerische Unix-Zeitstempel in UTC und eine gewählte Zeitzone um. Lege Sekunden oder Millisekunden ausdrücklich fest und vermeide Einheitenfehler."
+    },
+    "T059": {
+      "title": "JSON-Typen prüfen: Einfache Struktur aus Beispiel ableiten",
+      "description": "Leite einfache Typregeln aus einem JSON-Beispiel ab und prüfe Testdaten dagegen. Erkenne Strukturabweichungen ohne vollständigen JSON-Schema-Validator."
+    },
+    "T060": {
+      "title": "HTML und CSS ausprobieren: Isolierte Vorschau im Browser",
+      "description": "Teste HTML und CSS in einer isolierten Vorschau. Prüfe Struktur und Gestaltung ohne JavaScript-Ausführung und ohne externe Ressourcen im Vorschaufenster."
+    },
+    "T061": {
+      "title": "Farbkontrast prüfen: WCAG-Verhältnis für zwei Farben",
+      "description": "Berechne den Kontrast zweier deckender HEX-Farben. Vergleiche das Verhältnis mit WCAG-Schwellen für Text und große Schrift direkt im Browser."
+    },
+    "T062": {
+      "title": "CSS-Gradient erstellen: Linear, radial oder konisch",
+      "description": "Gestalte einen Verlauf aus zwei Farben und exportiere CSS. Vergleiche lineare, radiale und konische Verläufe in einer direkten Vorschau."
+    },
+    "T063": {
+      "title": "Farbpalette erstellen: Helle und dunkle Abstufungen",
+      "description": "Erzeuge fünf Farbabstufungen aus einer Ausgangsfarbe. Vergleiche Kontrast zu Schwarz und Weiß und exportiere die Palette für deine Gestaltung."
+    },
+    "T064": {
+      "title": "CSS-clamp für Schriftgrößen aus zwei Punkten berechnen",
+      "description": "Berechne flüssige Schriftgrößen mit CSS clamp() aus Mindest- und Höchstwerten. Plane Viewport-Grenzen und prüfe die zugrunde gelegte rem-Größe."
+    },
+    "T065": {
+      "title": "CSS-Grid-Generator: Spalten, Abstände und Auto-fit",
+      "description": "Teste ein CSS-Grid mit Spaltenzahl und Abstand. Erzeuge ergänzend eine Auto-fit-Vorlage mit Mindestbreite für responsive Kartenlayouts."
+    },
+    "T066": {
+      "title": "Flexbox ausprobieren: Ausrichtung, Umbruch und Abstand",
+      "description": "Teste Flexbox-Richtung, Ausrichtung, Umbruch und gap in einer Vorschau. Exportiere das CSS und verstehe die Wirkung von Haupt- und Querachse."
+    },
+    "T067": {
+      "title": "CSS-Box-Shadow erstellen: Eine Schattenebene gestalten",
+      "description": "Gestalte einen einzelnen CSS-Schatten mit Versatz, Unschärfe, Ausdehnung und Deckkraft. Prüfe die Vorschau und exportiere den box-shadow-Wert."
+    },
+    "T068": {
+      "title": "CSS-Eingangsanimation erstellen: Fade, Slide oder Scale",
+      "description": "Erstelle eine einfache Eingangsanimation mit Dauer und Easing. Exportiere CSS einschließlich einer Alternative bei bevorzugter reduzierter Bewegung."
+    },
+    "T069": {
+      "title": "Design-Tokens als CSS-Variablen aus einer Liste erzeugen",
+      "description": "Wandle eigene Token-Namen und Werte in CSS-Custom-Properties um. Prüfe die Benennung und exportiere eine zentrale Basis für wiederkehrende Designwerte."
+    },
+    "T070": {
+      "title": "Tastaturfokus vergleichen: Sichtbare Fokusstile testen",
+      "description": "Vergleiche deutliche und schwache Fokusdarstellungen an Bedienelementen. Prüfe die Bedienung per Tab und entwickle einen erkennbaren CSS-Fokusstil."
+    },
+    "T071": {
+      "title": "Kubische Bézierkurve gestalten und als SVG exportieren",
+      "description": "Verändere zwei Kontrollpunkte einer kubischen Bézierkurve. Untersuche den Kurvenverlauf in einer SVG-Vorschau und exportiere die Geometrie."
+    },
+    "T072": {
+      "title": "Lokale Schriftarten vergleichen: Lesbarkeit und Umbruch",
+      "description": "Vergleiche Georgia, Arial, Monospace und Systemschrift mit demselben Text. Prüfe Größe, Zeilenumbruch und Lesbarkeit ohne externe Font-Abfrage."
+    },
+    "T073": {
+      "title": "Bilder lokal komprimieren: Größe und Qualität vergleichen",
+      "description": "Komprimiere ein Rasterbild lokal mit Breitenlimit und Qualitätswahl. Vergleiche Dateigrößen und exportiere JPEG, WebP oder PNG im unterstützten Browser."
+    },
+    "T074": {
+      "title": "Bildformat umwandeln: PNG, JPEG und WebP im Browser",
+      "description": "Konvertiere ein lokales Bild in PNG, JPEG oder WebP. Prüfe Transparenz, Dateigröße und unterstützte Ausgabeformate vor dem Download."
+    },
+    "T075": {
+      "title": "Bildgröße ändern: Proportional skalieren und PNG exportieren",
+      "description": "Ändere die Pixelmaße eines lokalen Bildes. Behalte bei Höhe null das Seitenverhältnis bei oder lege beide Maße ausdrücklich für den PNG-Export fest."
+    },
+    "T076": {
+      "title": "PNG-Favicon erstellen: Quadratisches Icon mit HTML-Tag",
+      "description": "Erstelle ein einzelnes quadratisches PNG-Icon in einer gewählten Größe. Passe ein lokales Bild ein und erhalte eine HTML-Vorlage für rel=\"icon\"."
+    },
+    "T077": {
+      "title": "Open-Graph-Bild erstellen: 1200 × 630 Pixel lokal",
+      "description": "Gestalte ein 1200 × 630 Pixel großes Social-Bild mit Titel, Untertitel und optionalem lokalem Motiv. Exportiere die fertige Grafik direkt im Browser."
+    },
+    "T078": {
+      "title": "Statischen QR-Code erstellen: SVG und PNG ohne Umleitung",
+      "description": "Erzeuge einen statischen QR-Code für kurzen Text oder eine URL. Exportiere SVG und PNG, beachte das UTF-8-Byte-Limit und teste vor dem Druck."
+    },
+    "T079": {
+      "title": "Einfache SVGs bereinigen: Kommentare und Metadaten prüfen",
+      "description": "Bereinige einfache SVG-Grafiken konservativ und vergleiche Vorher und Nachher. Komplexe oder aktive Inhalte werden nicht als sichere Vollprüfung behandelt."
+    },
+    "T080": {
+      "title": "Bild zuschneiden: Ausschnitt mit Pixelkoordinaten wählen",
+      "description": "Schneide ein lokales Rasterbild anhand von x, y, Breite und Höhe zu. Prüfe den Ausschnitt innerhalb der Originalmaße und exportiere ihn als PNG."
+    },
+    "T081": {
+      "title": "Bildbereich schwärzen: Rechteck lokal als PNG exportieren",
+      "description": "Überdecke einen rechteckigen Bildbereich mit Schwarz und exportiere eine neue PNG-Datei. Prüfe das gesamte Ergebnis sorgfältig auf weitere sichtbare Angaben."
+    },
+    "T082": {
+      "title": "Seitenverhältnis berechnen: Pixelmaße proportional skalieren",
+      "description": "Berechne das gekürzte Seitenverhältnis eines Bildes und eine passende Höhe zur Zielbreite. Prüfe Rundung und Proportionen mit ganzzahligen Pixelmaßen."
+    },
+    "T083": {
+      "title": "Spritesheet erstellen: Frames als PNG und Atlas-JSON",
+      "description": "Fasse bis zu 32 lokale Bilder in einem regelmäßigen Spritesheet zusammen. Wähle Spalten und Abstand und exportiere PNG samt Koordinaten als JSON."
+    },
+    "T084": {
+      "title": "Audio-Wellenform erzeugen: Lokale Datei als PNG zeigen",
+      "description": "Erzeuge aus einer lokalen Audiodatei eine Wellenformgrafik. Exportiere ein 1000 × 300 Pixel großes PNG auf Basis des ersten Audiokanals."
+    },
+    "T085": {
+      "title": "Level-Patterns filtern: Ideen für Biome und Mechaniken",
+      "description": "Durchsuche 60 kuratierte Levelmuster nach Biom und Mechanik. Variiere die Reihenfolge per Seed und übertrage passende Ideen in einen eigenen Levelplan."
+    },
+    "T086": {
+      "title": "Levelplan erstellen: Einführung, Variation und Finale",
+      "description": "Plane ein Level mit Einführung, Variation, Kombination und Abschluss. Halte die Lernaufgabe jeder Phase und passende Testpunkte als Markdown fest."
+    },
+    "T087": {
+      "title": "Kollisionsraster bearbeiten: Einfache Tilemap als JSON",
+      "description": "Erzeuge und bearbeite ein einlagiges Raster mit freien und blockierten Zellen. Nutze Klicks oder Koordinaten und exportiere die Tilemap als JSON."
+    },
+    "T088": {
+      "title": "Sprungphysik berechnen: Höhe, Flugzeit und Reichweite",
+      "description": "Berechne einen idealisierten Sprung aus Geschwindigkeit und Schwerkraft. Vergleiche Sprunghöhe, Flugzeit und horizontale Reichweite mit offener Modellannahme."
+    },
+    "T089": {
+      "title": "Kampfwerte vergleichen: Trefferzahl, DPS und Zeit rechnen",
+      "description": "Berechne ein einfaches Schadensszenario aus Leben, Schaden, Rate und Rüstung. Vergleiche Trefferzahl, DPS und Zeit unter klaren Annahmen."
+    },
+    "T090": {
+      "title": "Loot-Gewichte simulieren: Zufallsverteilung mit Seed",
+      "description": "Simuliere unabhängige Loot-Ziehungen aus eigenen Gewichten. Vergleiche beobachtete Häufigkeiten und wiederhole denselben Versuch mit einem festen Seed."
+    },
+    "T091": {
+      "title": "A*-Wegfindung testen: Kürzeste Wege im Viererraster",
+      "description": "Teste A* auf einem kleinen Raster mit Start, Ziel und Hindernissen. Untersuche Pfad und besuchte Felder bei vier Richtungen und gleichen Bewegungskosten."
+    },
+    "T092": {
+      "title": "Terrain mit Seed erzeugen: Einfache Rasterwelten testen",
+      "description": "Erzeuge ein geglättetes zufälliges Höhenraster mit drei Geländeklassen. Variiere Seed und Wassergrenze und exportiere einen reproduzierbaren Entwurf."
+    },
+    "T093": {
+      "title": "Dialoggraph planen: Szenen, Entscheidungen und Enden",
+      "description": "Verbinde Szenen zu einem einfachen Dialoggraphen. Prüfe Referenzen, Erreichbarkeit und Wege zu Enden und exportiere die Struktur als JSON."
+    },
+    "T094": {
+      "title": "Partikeleffekt testen: Burst mit Farbe und Lebensdauer",
+      "description": "Erstelle einen einfachen Partikel-Burst und verändere Anzahl, Farbe und Dauer. Vergleiche die Wirkung in einer Vorschau für kleine Spieleffekte."
+    },
+    "T095": {
+      "title": "Web-Audio-Testton erzeugen: Oszillator und Filter prüfen",
+      "description": "Erzeuge einen kurzen Testton mit Wellenform, Frequenz, Filter und Hüllkurve. Starte und stoppe die Wiedergabe bewusst und exportiere die Parameter."
+    },
+    "T096": {
+      "title": "16-Step-Sequenz testen: Tonfolge, Tempo und Swing",
+      "description": "Erstelle eine kurze Folge aus 16 Notenschritten und Pausen. Spiele einen Takt mit Tempo und Swing ab und untersuche die browserbasierte Zeitplanung."
+    },
+    "T097": {
+      "title": "Drum-Pattern ausprobieren: Kick, Snare und Hi-Hat",
+      "description": "Programmiere einen 16-Schritt-Takt mit synthetischer Kick, Snare und Hi-Hat. Vergleiche rhythmische Muster bei einer selbst gewählten Geschwindigkeit."
+    },
+    "T098": {
+      "title": "BPM per Tap bestimmen: Zeitabstände und Streuung prüfen",
+      "description": "Tippe einen Rhythmus oder gib Zeitpunkte in Millisekunden ein. Berechne das Tempo aus mittleren Abständen und beurteile die Gleichmäßigkeit deiner Eingaben."
+    },
+    "T099": {
+      "title": "Akkorde anhören: Grundton und Akkordtyp vergleichen",
+      "description": "Vergleiche einfache Dreiklänge und Septakkorde mit wählbarem Grundton. Höre synthetische Akkordtöne und unterscheide die angebotenen Akkordtypen."
+    },
+    "T100": {
+      "title": "ADSR-Hüllkurve verstehen: Verlauf zeichnen und anhören",
+      "description": "Verändere Attack, Decay, Sustain und Release einer Hüllkurve. Vergleiche grafischen Verlauf und Testton mit einer getrennten Haltezeit."
+    },
+    "T101": {
+      "title": "Abstrakte Linienkunst erzeugen: Seed und Phase variieren",
+      "description": "Erzeuge abstrakte SVG-Linienbilder aus Kurven und Interpolation. Variiere Seed, Phase und Farbe und exportiere einen reproduzierbaren grafischen Stand."
+    },
+    "T102": {
+      "title": "Interaktive Geschichte planen: Verzweigungen als Graph",
+      "description": "Modelliere Szenen und Entscheidungen einer einfachen Geschichte. Prüfe Erreichbarkeit und Enden, teste die Vorschau und exportiere die Struktur als JSON."
+    },
+    "T103": {
+      "title": "Website-Relaunch planen: Checkliste bis zum Monitoring",
+      "description": "Erstelle einen Relaunch-Plan mit Inventar, Staging-Prüfung, Veröffentlichung und Nachkontrolle. Dokumentiere konkrete Schritte als Markdown-Checkliste."
+    },
+    "T104": {
+      "title": "Testfall erstellen: Eingaben, Schritte und Soll-Ergebnis",
+      "description": "Schreibe einen reproduzierbaren Testfall mit ID, Eingaben, Schritten und erwartetem Ergebnis. Halte tatsächliche Beobachtungen für eine klare Abnahme fest."
+    },
+    "T105": {
+      "title": "Manuelle Barrierefreiheitsprüfung als Testplan erstellen",
+      "description": "Plane manuelle Prüfungen für Tastatur, Screenreader, Zoom und Kontrast. Dokumentiere Seite, Version und Nachweise für eine nachvollziehbare Kontrolle."
+    },
+    "T106": {
+      "title": "Entscheidungsmatrix rechnen: Kriterien und Gewichte prüfen",
+      "description": "Vergleiche Optionen mit gewichteten Bewertungen von 0 bis 10. Untersuche zusätzlich, wie eine moderate Gewichtsänderung die Reihenfolge beeinflusst."
+    },
+    "T107": {
+      "title": "Experiment planen: Hypothese, Messgröße und Stoppregel",
+      "description": "Dokumentiere ein Experiment mit Hypothese, Variablen, Zielgröße, Stichprobe und Auswertungsregel. Erstelle einen prüfbaren Plan vor dem ersten Datenblick."
+    },
+    "T108": {
+      "title": "Changelog schreiben: Änderungen nach Version strukturieren",
+      "description": "Erstelle einen datierten Markdown-Changelog mit Added, Changed, Fixed und Removed. Beschreibe tatsächliche Release-Änderungen verständlich und überprüfbar."
+    },
+    "T109": {
+      "title": "README erstellen: Zweck, Installation, Tests und Grenzen",
+      "description": "Erstelle eine Markdown-README mit Projektzweck, Einrichtung, Tests, Einschränkungen und Lizenzhinweis. Bereite eine nachvollziehbare Projektübergabe vor."
+    },
+    "T110": {
+      "title": "Datenwörterbuch erstellen: Felder, Typen und Einheiten",
+      "description": "Dokumentiere CSV-Felder mit Datentyp, Einheit, Fehlwertregeln und Quelle. Exportiere ein JSON-Datenwörterbuch als Grundlage für Analyse und Übergaben."
+    }
+  },
+  "guides": {
+    "W001": {
+      "title": "Title und Meta Description mit klaren Hypothesen testen",
+      "description": "Teste Titel und Snippets mit gleichen Suchgruppen. Rechne CTR korrekt, erkenne Mischungseffekte und trenne Upload, Google-Verarbeitung und beobachtete Wirkung."
+    },
+    "W002": {
+      "title": "Robots.txt und noindex: Crawling und Indexierung trennen",
+      "description": "Erfahre, welche Aufgaben robots.txt und noindex erfüllen, wie widersprüchliche Regeln entstehen und welche Prüfungen vor einer Sperre sinnvoll sind."
+    },
+    "W003": {
+      "title": "JSON-LD strukturieren: Entitäten, @id und Beziehungen",
+      "description": "Plane strukturierte Daten mit passenden Entitäten, stabilen IDs und nachvollziehbaren Beziehungen. Prüfe dabei Syntax, Inhalt und tatsächliche Seitendaten."
+    },
+    "W004": {
+      "title": "Hreflang planen: Sprachversionen sauber zuordnen",
+      "description": "Ordne Sprach- und Regionsversionen korrekt zu, plane wechselseitige hreflang-Verweise und prüfe erreichbare Zielseiten sowie ein passendes x-default."
+    },
+    "W005": {
+      "title": "XML-Sitemap erstellen: URLs, lastmod und Prüfschritte",
+      "description": "Stelle eine XML-Sitemap aus passenden kanonischen URLs zusammen. Lerne, wie du Änderungsdaten pflegst, Grenzen prüfst und problematische Einträge findest."
+    },
+    "W006": {
+      "title": "Canonical-Konflikte erkennen und gezielt beheben",
+      "description": "Prüfe Canonicals zusammen mit Weiterleitungen, internen Links und Indexierungsanweisungen. Erfahre, wie widersprüchliche URL-Signale entstehen."
+    },
+    "W007": {
+      "title": "Website-Migration: Redirects planen und kontrollieren",
+      "description": "Bereite einen Website-Umzug mit URL-Inventar, passender Zielzuordnung und Redirect-Tests vor. Kontrolliere Fehler, Ketten und wichtige Seiten nach dem Start."
+    },
+    "W008": {
+      "title": "Keyword-Kannibalisierung mit Suchdaten untersuchen",
+      "description": "Untersuche überlappende Suchanfragen und Zielseiten mit Search-Console-Daten. Unterscheide ähnliche Keywords, wechselnde Rankings und verschiedene Suchabsichten."
+    },
+    "W009": {
+      "title": "SEO und GEO: Ziele, Maßnahmen und Messung einordnen",
+      "description": "Unterscheide Google-KI-Impressionen, eigene Antworttests und Sitzungen. Prüfe Teilnahme-Einstellung, technische Voraussetzungen und belastbare Messgrenzen."
+    },
+    "W010": {
+      "title": "KI-Sichtbarkeit messen: Prompts und Wiederholungen",
+      "description": "Plane KI-Antworttests mit festen Fall-IDs und Wiederholungen. Trenne gültige Antworten, Ausfälle, Nennungen und Quellenqualität mit nachvollziehbaren Nennern."
+    },
+    "W011": {
+      "title": "Quellen in KI-Antworten prüfen und dokumentieren",
+      "description": "Unterscheide Erwähnungen, Quellenlinks und belegte Aussagen in KI-Antworten. Prüfe Originalseiten und dokumentiere, was eine Quelle tatsächlich stützt."
+    },
+    "W012": {
+      "title": "Entitäten konsistent beschreiben: Namen, IDs, Beziehungen",
+      "description": "Beschreibe Personen, Organisationen und Anwendungen mit eindeutigen IDs und nachvollziehbaren Beziehungen. Prüfe Namensvarianten und widersprüchliche Angaben."
+    },
+    "W013": {
+      "title": "KI-Crawler einordnen: Suche, Abruf und Training",
+      "description": "Unterscheide OAI-SearchBot, GPTBot und ChatGPT-User. Prüfe dokumentierte Bot-Zwecke, Google-Teilnahme und Grenzen von robots.txt und Lognachweisen."
+    },
+    "W014": {
+      "title": "llms.txt verstehen: Aufbau, Einsatz und Grenzen",
+      "description": "Ordne llms.txt v2 als Dokumentationsvorschlag ein. Prüfe echte Links, passende Einsatzfälle und Googles klare Abgrenzung zur Sichtbarkeit in der Suche."
+    },
+    "W015": {
+      "title": "KI-Texte prüfen: Aussagen mit Quellen absichern",
+      "description": "Prüfe KI-generierte Aussagen mit passenden Primärquellen. Lerne, komplexe Behauptungen aufzuteilen, Widersprüche zu dokumentieren und Unsicherheit offenzulegen."
+    },
+    "W016": {
+      "title": "Prompts testen: Testfälle, Versionen und Regressionen",
+      "description": "Prüfe Promptänderungen mit festen Aufgaben und einer nachvollziehbaren Bewertungsrubrik. Dokumentiere Versionen, Fehlertypen und wiederholte Durchläufe."
+    },
+    "W017": {
+      "title": "Content-Briefing erstellen: Intent, Nutzen und Quellen",
+      "description": "Erstelle ein hilfreiches Content-Briefing mit Suchabsicht, konkretem Nutzwert, Quellen und Abnahmekriterien. So wird aus einem Thema ein bearbeitbarer Auftrag."
+    },
+    "W018": {
+      "title": "Ratgeber schreiben: Struktur, Beispiele und Qualitätsprüfung",
+      "description": "Plane Ratgeber, die eine konkrete Aufgabe verständlich lösen. Verbinde klare Schritte, passende Beispiele und Belege mit einer nachvollziehbaren Qualitätsprüfung."
+    },
+    "W019": {
+      "title": "Lesbarkeit beurteilen: Kennzahlen richtig verwenden",
+      "description": "Nutze Lesbarkeitskennzahlen als Hinweis und prüfe zusätzlich Begriffe, Struktur und Verständlichkeit. Lerne, was ein LIX-Wert aussagt und was er offenlässt."
+    },
+    "W020": {
+      "title": "Textähnlichkeit, Duplicate Content und Plagiate trennen",
+      "description": "Vergleiche Texte nachvollziehbar und ordne Ähnlichkeitswerte ein. Erfahre, warum Wortüberschneidungen weder gleiche Inhalte noch ein Plagiat sicher belegen."
+    },
+    "W021": {
+      "title": "Content-Audit vorbereiten: Inventar, Daten und Maßnahmen",
+      "description": "Verbinde ein vollständiges Inhaltsinventar mit Suchdaten und redaktioneller Prüfung. Leite begründete Maßnahmen ab und halte Verantwortliche sowie offene Fragen fest."
+    },
+    "W022": {
+      "title": "Evergreen-Content planen: Themen, Pflege und Zuständigkeit",
+      "description": "Organisiere dauerhafte Inhalte mit Themenclustern, klaren Zuständigkeiten und passenden Prüfterminen. Plane neue Beiträge zusammen mit der Pflege bestehender Seiten."
+    },
+    "W023": {
+      "title": "Quellen dokumentieren: Belegstellen, Datum und Kontext",
+      "description": "Dokumentiere Quellen so, dass Aussagen überprüfbar bleiben. Erfasse Belegstellen, Datenstand und Kontext und unterscheide Originalquellen von späteren Zusammenfassungen."
+    },
+    "W024": {
+      "title": "Content pflegen: Aktualisieren, zusammenführen, entfernen",
+      "description": "Entscheide nachvollziehbar, welche Inhalte du aktualisierst, zusammenführst oder entfernst. Beziehe Nutzeraufgabe, Qualität, Suchdaten und bestehende Links ein."
+    },
+    "W025": {
+      "title": "UTM-Parameter einheitlich benennen: Regeln für Teams",
+      "description": "Plane konsistente UTM-Links und prüfe vorhandene Parameter, Fragment und Großschreibung. Unterscheide den erzeugten Link vom tatsächlich gemessenen Besuch."
+    },
+    "W026": {
+      "title": "Search-Console-Exporte verstehen und richtig auswerten",
+      "description": "Prüfe GSC-Berichtsart, Dimensionen, fehlende Zeilen und Nullwerte. Trenne KI-Impressionsberichte von Klickdaten und berücksichtige bekannte Erfassungsfehler."
+    },
+    "W027": {
+      "title": "Search Console mit RegEx filtern: Muster und Testfälle",
+      "description": "Erstelle nachvollziehbare RegEx-Filter für Suchanfragen und URLs. Teste Varianten, Sonderzeichen und Grenzfälle und beachte den Unterschied zu JavaScript-RegEx."
+    },
+    "W028": {
+      "title": "SEO-Traffic als Szenario berechnen und Grenzen zeigen",
+      "description": "Berechne transparente Traffic-Szenarien aus Impressionen, CTR und Conversion-Annahmen. Zeige Spannbreiten und trenne Modellannahmen von beobachteten Daten."
+    },
+    "W029": {
+      "title": "SEO-ROI modellieren: Kosten, Ergebnisbeitrag und Zeit",
+      "description": "Erstelle ein nachvollziehbares SEO-ROI-Szenario mit Kosten, zusätzlichen Besuchen und Ergebnisbeitrag. Prüfe Annahmen, Zeiträume und die Grenzen der Zuordnung."
+    },
+    "W030": {
+      "title": "Marketing-KPIs berechnen: Formeln und Bezugsgrößen",
+      "description": "Lerne, CTR, CPC, CPA, Conversion-Rate und ROAS mit passenden Bezugsgrößen zu berechnen. Prüfe Zeiträume, Währungen und sinnvolle Behandlung von Nullwerten."
+    },
+    "W031": {
+      "title": "A/B-Tests auswerten: Unsicherheit und typische Fehler",
+      "description": "Ordne Unterschiede zwischen zwei Conversion-Raten ein. Lerne, wie Stichprobe, vorzeitiges Ablesen und Konfidenzintervalle die Aussage eines A/B-Tests begrenzen."
+    },
+    "W032": {
+      "title": "KI-Traffic erkennen: Referrer und Messgrenzen verstehen",
+      "description": "Prüfe KI-Referrer mit sicheren Hostregeln. Trenne UTM-Angaben, Analytics-Attribution und fehlende Herkunft; berechne Anteile mit ausdrücklich definierten Nennern."
+    },
+    "W033": {
+      "title": "JSON-Syntax verstehen und typische Fehler beheben",
+      "description": "Lerne JSON-Objekte, Arrays und Datentypen anhand kleiner Beispiele. Finde ungültige Kommas, Anführungszeichen und andere Fehler vor der Weiterverarbeitung."
+    },
+    "W034": {
+      "title": "CSV in JSON umwandeln: Struktur und Werte erhalten",
+      "description": "Konvertiere tabellarische Daten nachvollziehbar zwischen CSV und JSON. Prüfe Trennzeichen, Kopfzeilen, eingebettete Zeilenumbrüche und unverändert erhaltene Werte."
+    },
+    "W035": {
+      "title": "RegEx mit Testfällen lernen: Muster und Laufzeit prüfen",
+      "description": "Entwickle reguläre Ausdrücke anhand passender Treffer und Gegenbeispiele. Prüfe Gruppen, Wiederholungen, Unicode und Grenzen der verwendeten RegEx-Engine."
+    },
+    "W036": {
+      "title": "Markdown dokumentieren: Struktur und sichere Ausgabe",
+      "description": "Schreibe verständliche technische Dokumentation in Markdown. Prüfe Überschriften, Links und Beispiele und beachte Unterschiede zwischen Renderern und HTML-Ausgaben."
+    },
+    "W037": {
+      "title": "JSON strukturell vergleichen: Pfade und Änderungen",
+      "description": "Vergleiche JSON-Dokumente anhand ihrer Struktur statt nur nach Zeilen. Unterscheide neue, entfernte und geänderte Werte und prüfe die Bedeutung von Arraypositionen."
+    },
+    "W038": {
+      "title": "CSV-Datenqualität prüfen: Regeln und Änderungsprotokoll",
+      "description": "Verbessere CSV-Daten mit klaren Regeln für Leerwerte, Dubletten und Formate. Dokumentiere Bereinigungen und prüfe, ob fachlich wichtige Unterschiede erhalten bleiben."
+    },
+    "W039": {
+      "title": "URLs verstehen: Pfade, Parameter und Encoding prüfen",
+      "description": "Zerlege URLs in ihre Bestandteile und verstehe die Rolle von Query, Fragment und Prozentkodierung. Prüfe Änderungen, ohne bestehende Parameter zu beschädigen."
+    },
+    "W040": {
+      "title": "Lokale Browsertools bauen: Dateien, Worker und Grenzen",
+      "description": "Plane Browsertools ohne eigenen Backend-Dienst. Verstehe lokale Dateiverarbeitung, Downloads und Worker und prüfe Netzwerkzugriffe sowie Ressourcenlimits."
+    },
+    "W041": {
+      "title": "Farbkontraste nach WCAG berechnen und einordnen",
+      "description": "Prüfe Textfarben mit relativer Luminanz und Kontrastverhältnis. Unterscheide Schriftgrößen, Anforderungen und Situationen, die ein einzelner Farbtest nicht abdeckt."
+    },
+    "W042": {
+      "title": "CSS-Farbverläufe gestalten: Richtung, Typ und Lesbarkeit",
+      "description": "Gestalte lineare, radiale und konische CSS-Farbverläufe mit nachvollziehbaren Einstellungen. Prüfe Farbübergänge, Textlesbarkeit und Verhalten in verschiedenen Größen."
+    },
+    "W043": {
+      "title": "UI-Farbpalette entwickeln: Rollen, Zustände und Kontrast",
+      "description": "Entwickle eine Farbpalette mit klaren UI-Rollen statt isolierter Farbfelder. Prüfe Text, Flächen, Interaktionen und Statusmeldungen in hellen und dunklen Ansichten."
+    },
+    "W044": {
+      "title": "Responsive Schriftgrößen mit CSS clamp() planen",
+      "description": "Berechne fließende Schriftgrößen zwischen klaren Grenzen. Verstehe die Interpolation mit clamp() und prüfe Zoom, schmale Ansichten und unterschiedliche Grundeinstellungen."
+    },
+    "W045": {
+      "title": "CSS Grid und Flexbox passend zum Layout kombinieren",
+      "description": "Wähle Grid oder Flexbox nach der konkreten Layoutaufgabe. Prüfe Inhaltsreihenfolge, Umbruch und Größenverhalten an typischen Seiten- und Komponentenlayouts."
+    },
+    "W046": {
+      "title": "Design Tokens strukturieren: Rollen und Änderungen",
+      "description": "Organisiere Farben, Abstände und Schriftwerte als verständliche Design Tokens. Trenne Grundwerte von semantischen Rollen und plane nachvollziehbare Änderungen."
+    },
+    "W047": {
+      "title": "Tastaturbedienung prüfen: Fokus und Reihenfolge",
+      "description": "Prüfe eine Website ohne Maus und dokumentiere sichtbaren Fokus, logische Reihenfolge und erreichbare Bedienelemente. Erkenne Fokusfallen und unklare Interaktionen."
+    },
+    "W048": {
+      "title": "Reduced Motion umsetzen: Animationen bewusst reduzieren",
+      "description": "Plane Animationen mit einer passenden Alternative für reduzierte Bewegung. Prüfe Übergänge, Zustandswechsel und Informationen auch ohne räumliche Bewegung."
+    },
+    "W049": {
+      "title": "Webbilder komprimieren: Dateigröße und Details prüfen",
+      "description": "Vergleiche Bildkompression bei gleicher Darstellungsgröße. Beurteile sichtbare Details, Dateigröße und tatsächliche Ausgabe, bevor du eine Qualitätsstufe übernimmst."
+    },
+    "W050": {
+      "title": "JPEG, PNG, WebP und AVIF nach Bildaufgabe auswählen",
+      "description": "Vergleiche Bildformate nach Foto, Grafik, Transparenz und Ausgabeanforderung. Prüfe Qualität und Dateigröße am eigenen Bild statt pauschale Formatversprechen zu übernehmen."
+    },
+    "W051": {
+      "title": "Responsive Bilder: srcset und sizes nachvollziehbar planen",
+      "description": "Plane Bildvarianten mit srcset und passenden sizes-Angaben. Unterscheide Layoutbreite, Pixeldichte und Bildausschnitt und prüfe die tatsächlich geladene Datei."
+    },
+    "W052": {
+      "title": "Favicons einbinden: Dateien, Größen und Nachkontrolle",
+      "description": "Plane passende Favicon-Dateien und prüfe ihre Einbindung in HTML und gegebenenfalls Manifest. Kontrolliere kleine Darstellungen, Pfade und die veröffentlichte Ausgabe."
+    },
+    "W053": {
+      "title": "Social-Preview-Bilder gestalten und Zuschnitte prüfen",
+      "description": "Gestalte lesbare Vorschaubilder für geteilte Links. Plane Textzonen, Bildausschnitt und Open-Graph-Angaben und kontrolliere die Darstellung auf Zielplattformen."
+    },
+    "W054": {
+      "title": "Statische QR-Codes einsetzen: Inhalt und Scan-Test",
+      "description": "Erstelle nachvollziehbare statische QR-Codes und prüfe Inhalt, Kontrast und Scanbarkeit. Beachte Zeichenlänge, Druckgröße und das tatsächliche Ziel eines Links."
+    },
+    "W055": {
+      "title": "SVG optimieren: Darstellung und aktive Inhalte prüfen",
+      "description": "Untersuche SVG-Dateien vor einer Optimierung und vergleiche die Ausgabe mit dem Original. Beachte viewBox, Referenzen und Grenzen einfacher Bereinigungen."
+    },
+    "W056": {
+      "title": "Sprite-Sheets planen: Raster, Padding und Atlasdaten",
+      "description": "Ordne 2D-Grafiken in einem nachvollziehbaren Sprite-Sheet an. Plane Abstände und Atlasdaten und prüfe Zuschnitt, Transparenz und mögliche Rendering-Artefakte."
+    },
+    "W057": {
+      "title": "Levelmechaniken als wiederverwendbare Muster beschreiben",
+      "description": "Dokumentiere Spielmechaniken mit Lernziel, Variation und typischen Fehlerfällen. Entwickle daraus wiederverwendbare Muster für neue 2D-Levelideen."
+    },
+    "W058": {
+      "title": "2D-Level entwerfen: Lernkurve, Tempo und Fairness",
+      "description": "Plane ein 2D-Level mit verständlicher Einführung, sinnvoller Variation und nachvollziehbarem Abschluss. Prüfe Rhythmus, Erholungspunkte und faire Herausforderungen."
+    },
+    "W059": {
+      "title": "Tilemaps und Kollisionen planen: Raster und Layer",
+      "description": "Verstehe, wie visuelle Tiles, Kollisionen und weitere Ebenen zusammenwirken. Plane ein kleines Raster und prüfe Koordinaten sowie das Exportformat der Zielengine."
+    },
+    "W060": {
+      "title": "Sprungphysik abstimmen: Höhe, Zeit und Reichweite",
+      "description": "Leite einfache Sprungbahnen aus Geschwindigkeit und Gravitation ab. Prüfe Höhe, Flugzeit und Reichweite und unterscheide das Modell vom Spielgefühl in der Engine."
+    },
+    "W061": {
+      "title": "Spielbalance prüfen: Modelle, Kennzahlen und Grenzen",
+      "description": "Untersuche Balancefragen mit einfachen Modellen und klaren Annahmen. Vergleiche Schaden, Ressourcen und Zeitabläufe und prüfe Ergebnisse anschließend im Spiel."
+    },
+    "W062": {
+      "title": "Loot-Wahrscheinlichkeiten verstehen und simulieren",
+      "description": "Berechne Chancen aus Gewichten und ordne zufällige Ziehungen ein. Prüfe reproduzierbare Simulationen und unterscheide unabhängige Versuche von Garantie-Systemen."
+    },
+    "W063": {
+      "title": "A*-Wegfindung verstehen: Raster, Kosten und Heuristik",
+      "description": "Lerne A* an einem einfachen Raster kennen. Unterscheide Wegkosten, Heuristik und besuchte Felder und prüfe blockierte Ziele sowie fehlende Verbindungen."
+    },
+    "W064": {
+      "title": "Prozedurale Karten testen: Seeds und Erreichbarkeit",
+      "description": "Nutze reproduzierbare Seeds für prozedurale Karten und prüfe mehr als ihre Optik. Untersuche Verbindungen, Randfälle und unterschiedliche Parameterkombinationen."
+    },
+    "W065": {
+      "title": "Web Audio verstehen: Oszillatoren, Filter und Pegel",
+      "description": "Erkunde grundlegende Klangerzeugung im Browser mit Oszillator, Filter und Lautstärke. Plane Nutzerinteraktion, sauberes Stoppen und kontrollierte Pegel."
+    },
+    "W066": {
+      "title": "Step-Sequencer planen: Audiozeit und Scheduling",
+      "description": "Verstehe den Unterschied zwischen UI-Timern und Audiozeit. Plane Sequenzschritte nachvollziehbar und prüfe Tempoänderungen, Swing und den verfügbaren Wiedergabeumfang."
+    },
+    "W067": {
+      "title": "Drum-Sounds synthetisieren: Klangquellen und Hüllkurven",
+      "description": "Entwickle einfache Drum-Sounds aus Oszillatoren und Rauschen. Vergleiche Tonhöhe, Filter und Hüllkurve und prüfe Pegel sowie das Verhalten in einem Pattern."
+    },
+    "W068": {
+      "title": "Tap-Tempo berechnen: Intervalle, BPM und Ausreißer",
+      "description": "Berechne BPM aus aufeinanderfolgenden Taps und prüfe die Streuung der Intervalle. Unterscheide einen unsicheren Rhythmus von einem tatsächlichen Tempowechsel."
+    },
+    "W069": {
+      "title": "Akkorde und Tonleitern verstehen: Intervalle vergleichen",
+      "description": "Erkunde Akkorde und Tonleitern über Intervalle und Tonstufen. Vergleiche einfache Klangbeispiele und unterscheide den Akkordaufbau von einem vollständigen Tonsystem."
+    },
+    "W070": {
+      "title": "ADSR-Hüllkurven verstehen: Verlauf, Pegel und Dauer",
+      "description": "Untersuche Attack, Decay, Sustain und Release anhand ihres hörbaren Verlaufs. Unterscheide Zeitwerte und Pegel und prüfe kurze sowie lange Noten."
+    },
+    "W071": {
+      "title": "Generative Line Art: Seeds, Kurven und Morphing",
+      "description": "Gestalte abstrakte Liniengrafiken mit reproduzierbaren Parametern. Prüfe Kurvenkorrespondenzen, Übergänge und SVG-Ausgaben anhand ausgewählter Zwischenzustände."
+    },
+    "W072": {
+      "title": "Interaktive Geschichten planen: Pfade und Sackgassen",
+      "description": "Plane Entscheidungen als nachvollziehbaren Story-Graph. Prüfe erreichbare Szenen, beabsichtigte Enden und Rückkehrwege und dokumentiere zusätzliche Zustandsregeln."
+    },
+    "W073": {
+      "title": "Website-Relaunch prüfen: Freigabe und Nachkontrolle",
+      "description": "Plane einen Relaunch mit klaren Prüfpunkten, Zuständigkeiten und Rückfalloption. Verbinde technische Kontrollen vor dem Start mit gezielter Nachbeobachtung."
+    },
+    "W074": {
+      "title": "Testfälle schreiben: Eingaben, Schritte und Ergebnis",
+      "description": "Formuliere ausführbare Testfälle für Browsertools mit klaren Eingaben und erwarteten Ergebnissen. Prüfe Normalfälle, Grenzen und Fehler ohne vage Abnahmekriterien."
+    },
+    "W075": {
+      "title": "Manuelle Barrierefreiheitstests nachvollziehbar dokumentieren",
+      "description": "Prüfe zentrale Nutzerwege mit Tastatur, Zoom und Screenreader. Dokumentiere Umgebung, Schritte und beobachtete Hindernisse, ohne vollständige Konformität zu behaupten."
+    },
+    "W076": {
+      "title": "Entscheidungsmatrizen nutzen: Gewichte kritisch prüfen",
+      "description": "Vergleiche Optionen mit transparenten Kriterien und Gewichten. Prüfe, wie empfindlich das Ergebnis auf Annahmen reagiert und welche Unterschiede nicht in Zahlen passen."
+    },
+    "W077": {
+      "title": "Web-Experimente planen: Hypothese und Auswertungsregel",
+      "description": "Plane ein Web-Experiment mit klarer Hypothese, geeigneter Messgröße und vorab festgelegter Auswertung. Dokumentiere Stichprobe, Abbruchgründe und mögliche Störeinflüsse."
+    },
+    "W078": {
+      "title": "Changelog und Versionierung für Browsertools pflegen",
+      "description": "Dokumentiere Änderungen an öffentlichen Tools verständlich und nachvollziehbar. Unterscheide neue Funktionen, Korrekturen und inkompatible Änderungen mit klaren Versionen."
+    },
+    "W079": {
+      "title": "README schreiben: Einstieg, Nutzung und Grenzen",
+      "description": "Schreibe eine README, die Zweck, Installation und ersten Erfolg verständlich erklärt. Dokumentiere Tests, Grenzen, Lizenz und hilfreiche Wege für Fehlerberichte."
+    },
+    "W080": {
+      "title": "Data Dictionary erstellen: Felder, Einheiten und Herkunft",
+      "description": "Beschreibe Datensätze mit eindeutigen Feldnamen, Typen und Einheiten. Dokumentiere Herkunft, fehlende Werte und Änderungen, damit Auswertungen nachvollziehbar bleiben."
+    }
+  }
+}

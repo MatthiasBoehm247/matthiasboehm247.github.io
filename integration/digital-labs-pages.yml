@@ -1,0 +1,257 @@
+name: Digital Labs prüfen und veröffentlichen
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Pull Requests receive no publishing permission.
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Website prüfen und bereitstellen
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Repository lesen
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Node.js bereitstellen
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Python bereitstellen
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Dateien, Verweise, Metadaten und JavaScript prüfen
+        run: >-
+          python .github/digital-labs/pages.py stage
+          --root .
+          --manifest .github/digital-labs/deployment.json
+          --output "${{ runner.temp }}/digital-labs-pages"
+          --check-js
+          --report "${{ runner.temp }}/digital-labs-pages-report.json"
+      - name: Festgelegte Browser-Testversion installieren
+        run: python -m pip install --disable-pip-version-check -r .github/digital-labs/qa/requirements.txt
+      - name: Testbrowser und Systemabhängigkeiten bereitstellen
+        run: python -m playwright install --with-deps chromium
+      - name: Werkzeuge, Dateiimporte, Exporte und mobile Ansichten prüfen
+        run: >-
+          python .github/digital-labs/qa/browser_gate.py
+          --root "${{ runner.temp }}/digital-labs-pages"
+          --report "${{ runner.temp }}/digital-labs-browser-report.json"
+      - name: Prüfergebnis anzeigen
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          path = Path(os.environ['RUNNER_TEMP']) / 'digital-labs-pages-report.json'
+          if path.exists():
+              data = json.loads(path.read_text())
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+                  out.write('## Digital Labs: ' + data['status'] + '\n\n')
+                  out.write('Geprüfte Dateien: ' + str(data.get('files', 0)) + '\n\n')
+                  out.write('HTML-Seiten: ' + str(data.get('html_routes', 0)) + '\n\n')
+                  out.write('Lokale Verweise: ' + str(data.get('local_references', 0)) + '\n\n')
+                  out.write('Struktur, Syntax und Dateiprüfsummen.\n')
+                  for error in data.get('errors', []):
+                      out.write('\n- ' + error.replace('\n', ' ') + '\n')
+          browser = Path(os.environ['RUNNER_TEMP']) / 'digital-labs-browser-report.json'
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              if browser.exists():
+                  data = json.loads(browser.read_text())
+                  out.write('\n## Browser: ' + data['status'] + '\n\n')
+                  out.write(str(data.get('passed', 0)) + ' von ' + str(data.get('expectedCases', 0)) + ' Fällen bestanden.\n\n')
+                  out.write(data['scope'] + '\n')
+                  for kind, identifiers in data.get('coverage', {}).items():
+                      if identifiers:
+                          out.write('\n- Fallabdeckung ' + kind + ': ' + ', '.join(identifiers) + '\n')
+                  for item in data.get('results', []):
+                      if item['status'] != 'PASS':
+                          out.write('\n- ' + item['id'] + ': ' + item.get('error', 'Fehler').replace('\n', ' ') + '\n')
+                      xml = item.get('sitemapXml')
+                      if xml:
+                          out.write('\n### T009: XML-Unterfälle\n\n' + str(xml['passed']) + ' von ' + str(xml['expected']) + ' bestanden; ' + str(xml['executed']) + ' ausgeführt.\n')
+                          for case in xml['cases']:
+                              out.write('\n- ' + case['status'] + ': ' + case['name'] + ' (`' + case['key'] + '`)\n')
+              else:
+                  out.write('\n## Browser: NICHT AUSGEFÜHRT\n\nKein Browserbericht vorhanden; dieser Lauf gibt keine Veröffentlichung frei.\n')
+          PY
+      - name: Prüfberichte aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: digital-labs-vorabnahme
+          path: |
+            ${{ runner.temp }}/digital-labs-pages-report.json
+            ${{ runner.temp }}/digital-labs-browser-report.json
+          if-no-files-found: ignore
+          retention-days: 14
+      - name: GitHub Pages konfigurieren
+        id: pages
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'MatthiasBoehm247/matthiasboehm247.github.io'
+        uses: actions/configure-pages@v5
+        with:
+          enablement: false
+      - name: Domain und Hauptverzeichnis bestätigen
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'MatthiasBoehm247/matthiasboehm247.github.io'
+        env:
+          PAGES_BASE_URL: ${{ steps.pages.outputs.base_url }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          expected = json.loads(Path('.github/digital-labs/deployment.json').read_text())['origin']
+          actual = os.environ['PAGES_BASE_URL'].rstrip('/')
+          if actual != expected:
+              raise SystemExit('Pages-Adresse passt nicht zum Build: ' + actual + ' statt ' + expected)
+          PY
+      - name: Nur freigegebene Website-Dateien hochladen
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'MatthiasBoehm247/matthiasboehm247.github.io'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ runner.temp }}/digital-labs-pages
+
+  deploy:
+    name: Auf GitHub Pages veröffentlichen
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'MatthiasBoehm247/matthiasboehm247.github.io'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Genau den geprüften Commit lesen
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Python für öffentliche Abnahme bereitstellen
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Überholte Commits vor Veröffentlichung aussortieren
+        id: current-head
+        env:
+          EXPECTED_COMMIT: ${{ github.sha }}
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          # BEGIN CURRENT_HEAD_GUARD
+          import json, os, re
+          from http.client import HTTPException
+          from pathlib import Path
+          from urllib.error import HTTPError, URLError
+          from urllib.request import HTTPRedirectHandler, Request, build_opener
+          class NoRedirect(HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+          try:
+              expected = os.environ['EXPECTED_COMMIT']
+              if not re.fullmatch(r'[0-9a-f]{40}', expected):
+                  raise ValueError('Ungültiger erwarteter Commit')
+              token = os.environ['GH_TOKEN']
+              if not token:
+                  raise ValueError('Lesetoken fehlt')
+              request = Request(
+                  'https://api.github.com/repos/MatthiasBoehm247/matthiasboehm247.github.io/git/ref/heads/main',
+                  headers={'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + token,
+                           'X-GitHub-Api-Version': '2026-03-10', 'Cache-Control': 'no-cache'})
+              with build_opener(NoRedirect()).open(request, timeout=20) as response:
+                  if response.status != 200:
+                      raise ValueError('Unerwarteter API-Status')
+                  raw = response.read(65537)
+                  if len(raw) > 65536:
+                      raise ValueError('Unerwartet große API-Antwort')
+                  data = json.loads(raw)
+              if data['ref'] != 'refs/heads/main' or data['object']['type'] != 'commit':
+                  raise ValueError('Unerwartete Git-Referenz')
+              actual = data['object']['sha']
+              if not isinstance(actual, str) or not re.fullmatch(r'[0-9a-f]{40}', actual):
+                  raise ValueError('Ungültiger aktueller Commit')
+              current = actual == expected
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+                  out.write('current=' + str(current).lower() + '\n')
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+                  if current:
+                      out.write('## Commit-Abgleich: aktuell\n\nDer geprüfte Commit ist weiterhin der aktuelle main-Stand.\n')
+                  else:
+                      out.write('## Veröffentlichung: ÜBERSPRUNGEN\n\nmain hat inzwischen einen anderen Commit. Dieser überholte Lauf veröffentlicht kein älteres Artefakt.\n')
+              print('Commit-Abgleich: ' + ('aktuell' if current else 'überholter Lauf, Veröffentlichung übersprungen'))
+          except (OSError, URLError, HTTPError, HTTPException, ValueError, KeyError, TypeError) as error:
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+                  out.write('## Commit-Abgleich: FEHLGESCHLAGEN\n\nDer aktuelle main-Stand konnte nicht sicher bestätigt werden; keine Veröffentlichung freigegeben.\n')
+              print('Commit-Abgleich fehlgeschlagen: ' + (('HTTP ' + str(error.code)) if isinstance(error, HTTPError) else type(error).__name__))
+              raise SystemExit(1)
+          # END CURRENT_HEAD_GUARD
+          PY
+      - name: Geprüfte Website veröffentlichen
+        id: deployment
+        if: steps.current-head.outputs.current == 'true'
+        uses: actions/deploy-pages@v4
+      - name: Öffentliche Dateien gegen diesen Release prüfen
+        if: steps.current-head.outputs.current == 'true'
+        run: >-
+          python .github/digital-labs/live_check.py
+          --manifest .github/digital-labs/deployment.json
+          --expected-root .
+          --all
+          --timeout 10
+          --attempts 4
+          --retry-delay 15
+          --budget-seconds 300
+          --report "${{ runner.temp }}/digital-labs-live-report.json"
+      - name: Öffentliche Abnahme anzeigen
+        if: always()
+        env:
+          HEAD_IS_CURRENT: ${{ steps.current-head.outputs.current }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          path = Path(os.environ['RUNNER_TEMP']) / 'digital-labs-live-report.json'
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              if os.environ.get('HEAD_IS_CURRENT') == 'false':
+                  out.write('## Öffentliche Abnahme: ÜBERSPRUNGEN\n\nDieser Lauf war vor dem Deployment bereits überholt und hat keine Website veröffentlicht.\n')
+              elif not path.exists():
+                  out.write('## Öffentliche Abnahme: NICHT AUSGEFÜHRT\n\nDieser Lauf bestätigt keine vollständige Live-Abnahme.\n')
+              else:
+                  data = json.loads(path.read_text())
+                  out.write('## Öffentliche Abnahme: ' + data['status'] + '\n\n')
+                  out.write('Release: ' + data.get('release', 'unbekannt') + '\n\n')
+                  out.write('Bestanden: ' + str(data.get('passed', 0)) + ' / ' + str(data.get('files', 0)) + '\n\n')
+                  out.write('Mit Prüfsumme bestätigt: ' + str(data.get('hash_checked', 0)) + '\n\n')
+                  out.write(data.get('scope', data.get('error', '')) + '\n')
+                  for item in data.get('results', []):
+                      if item['status'] != 'PASS':
+                          out.write('\n- ' + item['file'] + ': ' + item.get('error', 'Fehler').replace('\n', ' ') + '\n')
+          PY
+      - name: Öffentlichen Prüfbericht aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: digital-labs-live-abnahme
+          path: ${{ runner.temp }}/digital-labs-live-report.json
+          if-no-files-found: ignore
+          retention-days: 14

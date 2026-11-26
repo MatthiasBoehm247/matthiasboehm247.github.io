@@ -1,0 +1,386 @@
+name: Digital Labs Source prüfen und veröffentlichen
+
+# This public workflow needs only audited website build inputs and synthetic
+# integration/qa media generators. It never reads tests/, historical fixtures,
+# planning documents or local QA reports from the checkout.
+# The 50 source/unit suites are verified locally and remain in the private full
+# download. This workflow builds, stages and runs 139 native browser cases;
+# it does not claim that the 50 local suites were executed remotely.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    permissions:
+      contents: read
+      pages: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      QA_REPORTS: ${{ runner.temp }}/digital-labs-source-qa
+      QA_REPOSITORY: ${{ runner.temp }}/digital-labs-source-repository
+      QA_PUBLIC: ${{ runner.temp }}/digital-labs-source-public
+      LABS_FONT_DIR: /usr/share/fonts/truetype/dejavu
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install QA dependencies
+        run: |
+          python -m pip install --disable-pip-version-check -r integration/qa/requirements.txt Pillow
+          python -m playwright install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install -y fonts-dejavu-core
+      - name: Build the current release
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$QA_REPORTS"
+          python source/make_editorial_diagrams.py
+          node source/build.mjs
+          python source/make_social.py
+          python source/write_deployment_manifest.py
+      - name: Install into the current checked-out portfolio
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PYCODE'
+          # BEGIN SOURCE_PORTFOLIO_PREPARE
+          import os, shutil, sys
+          from pathlib import Path
+          from install import safe_path
+          sys.path.insert(0, str(Path('integration').resolve()))
+          from pages import checked_file, load_manifest
+          checkout = Path.cwd().resolve()
+          target = safe_path(Path(os.environ['QA_REPOSITORY']))
+          if target.exists():
+              raise ValueError('Integration target already exists')
+          manifest = load_manifest(checkout / 'integration/deployment.json')
+          sources = [(checked_file(checkout, name), name) for name in manifest['portfolioFiles']]
+          readme = safe_path(checkout / 'README.md', file_expected=True)
+          if readme.is_file():
+              sources.append((readme, 'README.md'))
+          target.mkdir(parents=True)
+          for original, name in sources:
+              destination = target / name
+              destination.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copy2(original, destination)
+          # END SOURCE_PORTFOLIO_PREPARE
+          PYCODE
+          python install.py "$QA_REPOSITORY" --with-github-pages
+      - name: Stage and validate the integrated public website
+        run: >-
+          python "$QA_REPOSITORY/.github/digital-labs/pages.py" stage
+          --root "$QA_REPOSITORY"
+          --manifest .github/digital-labs/deployment.json
+          --output "$QA_PUBLIC"
+          --check-js
+          --report "$QA_REPORTS/staging.json"
+      - name: Run the current 139-case HTTP browser gate
+        run: >-
+          python "$QA_REPOSITORY/.github/digital-labs/qa/browser_gate.py"
+          --root "$QA_PUBLIC"
+          --report "$QA_REPORTS/browser.json"
+      - name: Preserve authoritative metadata for this checked artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PYCODE'
+          # BEGIN SOURCE_METADATA_SAVE
+          import hashlib, json, os, shutil, sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path('integration').resolve()))
+          from pages import HASH, checked_file, load_manifest
+          reports = Path(os.environ['QA_REPORTS'])
+          public = Path(os.environ['QA_PUBLIC']).resolve(strict=True)
+          manifest_path = Path(os.environ['QA_REPOSITORY']) / '.github/digital-labs/deployment.json'
+          manifest = load_manifest(manifest_path)
+          staging = json.loads((reports / 'staging.json').read_text())
+          browser = json.loads((reports / 'browser.json').read_text())
+          expected = set(manifest['files']) | set(manifest['portfolioFiles'])
+          hashes = staging.get('file_sha256')
+          if staging.get('status') != 'PASS' or staging.get('staged') is not True or staging.get('version') != manifest['version'] or staging.get('origin') != manifest['origin']:
+              raise ValueError('No matching successful staging report')
+          if browser.get('status') != 'PASS' or browser.get('environment', {}).get('releaseVersion') != manifest['version']:
+              raise ValueError('No matching successful native browser report')
+          if not isinstance(hashes, dict) or set(hashes) != expected:
+              raise ValueError('Staging hashes do not exactly cover the approved public files')
+          for name, digest in hashes.items():
+              if not isinstance(digest, str) or not HASH.fullmatch(digest):
+                  raise ValueError('Invalid staging hash: ' + name)
+              if name in manifest['files'] and manifest['files'][name] != digest:
+                  raise ValueError('Release hash differs from staging: ' + name)
+              if hashlib.sha256(checked_file(public, name).read_bytes()).hexdigest() != digest:
+                  raise ValueError('Public artifact changed after validation: ' + name)
+          shutil.copy2(manifest_path, reports / 'deployment.json')
+          # END SOURCE_METADATA_SAVE
+          PYCODE
+      - name: Upload authoritative deployment metadata
+        uses: actions/upload-artifact@v5
+        with:
+          name: digital-labs-source-deployment-metadata
+          path: |
+            ${{ runner.temp }}/digital-labs-source-qa/deployment.json
+            ${{ runner.temp }}/digital-labs-source-qa/staging.json
+            ${{ runner.temp }}/digital-labs-source-qa/browser.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload only reports from this run
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: digital-labs-source-qa
+          path: ${{ runner.temp }}/digital-labs-source-qa
+          if-no-files-found: ignore
+          retention-days: 14
+      - name: GitHub Pages konfigurieren
+        id: pages
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'MatthiasBoehm247/matthiasboehm247.github.io'
+        uses: actions/configure-pages@v5
+        with:
+          enablement: false
+      - name: Domain und Hauptverzeichnis bestätigen
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'MatthiasBoehm247/matthiasboehm247.github.io'
+        env:
+          PAGES_BASE_URL: ${{ steps.pages.outputs.base_url }}
+        run: |
+          python - <<'PYCODE'
+          import json, os
+          from pathlib import Path
+          expected = json.loads((Path(os.environ['QA_REPORTS']) / 'deployment.json').read_text())['origin']
+          actual = os.environ['PAGES_BASE_URL'].rstrip('/')
+          if actual != expected:
+              raise SystemExit('Pages-Adresse passt nicht zum Build: ' + actual + ' statt ' + expected)
+          PYCODE
+      - name: Nur die geprüften Website-Dateien hochladen
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'MatthiasBoehm247/matthiasboehm247.github.io'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ runner.temp }}/digital-labs-source-public
+
+  deploy:
+    name: Auf GitHub Pages veröffentlichen
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'MatthiasBoehm247/matthiasboehm247.github.io'
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Genau den geprüften Commit lesen
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Python für öffentliche Abnahme bereitstellen
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Metadaten des geprüften Source-Artefakts laden
+        uses: actions/download-artifact@v8
+        with:
+          name: digital-labs-source-deployment-metadata
+          path: ${{ runner.temp }}/digital-labs-source-metadata
+      - name: Exakt das geprüfte Pages-Artefakt laden
+        uses: actions/download-artifact@v8
+        with:
+          name: github-pages
+          path: ${{ runner.temp }}/digital-labs-pages-download
+      - name: Geprüfte Bytes einschließlich Portfolio wiederherstellen
+        env:
+          QA_METADATA: ${{ runner.temp }}/digital-labs-source-metadata
+          QA_ARCHIVE: ${{ runner.temp }}/digital-labs-pages-download/artifact.tar
+          QA_EXPECTED: ${{ runner.temp }}/digital-labs-live-expected
+        run: |
+          python - <<'PYCODE'
+          # BEGIN SOURCE_ARTIFACT_RESTORE
+          import hashlib, json, os, sys, tarfile, tempfile
+          from pathlib import Path, PurePosixPath
+          from install import safe_path
+          sys.path.insert(0, str(Path('integration').resolve()))
+          from pages import HASH, check_path, load_manifest
+          metadata = Path(os.environ['QA_METADATA'])
+          manifest = load_manifest(metadata / 'deployment.json')
+          staging = json.loads((metadata / 'staging.json').read_text())
+          browser = json.loads((metadata / 'browser.json').read_text())
+          expected = set(manifest['files']) | set(manifest['portfolioFiles'])
+          hashes = staging.get('file_sha256')
+          if staging.get('status') != 'PASS' or staging.get('staged') is not True or staging.get('version') != manifest['version'] or staging.get('origin') != manifest['origin']:
+              raise ValueError('Staging evidence does not match the release')
+          if browser.get('status') != 'PASS' or browser.get('environment', {}).get('releaseVersion') != manifest['version']:
+              raise ValueError('Browser evidence does not match the release')
+          if not isinstance(hashes, dict) or set(hashes) != expected:
+              raise ValueError('Artifact hashes do not cover exactly the approved files')
+          for name, digest in hashes.items():
+              check_path(name)
+              if not isinstance(digest, str) or not HASH.fullmatch(digest):
+                  raise ValueError('Invalid artifact hash: ' + name)
+              if name in manifest['files'] and digest != manifest['files'][name]:
+                  raise ValueError('Artifact hash differs from the release manifest: ' + name)
+          destination = safe_path(Path(os.environ['QA_EXPECTED']))
+          if destination.exists():
+              raise ValueError('Expected-byte directory already exists')
+          destination.parent.mkdir(parents=True, exist_ok=True)
+          directories = {parent.as_posix() for name in expected for parent in PurePosixPath(name).parents}
+          seen = set()
+          with tempfile.TemporaryDirectory(prefix='.labs-verified-artifact-', dir=destination.parent) as temporary:
+              target = Path(temporary) / 'public'
+              target.mkdir()
+              with tarfile.open(os.environ['QA_ARCHIVE'], 'r:*') as archive:
+                  for member in archive:
+                      name = member.name[2:] if member.name.startswith('./') else member.name
+                      if member.isdir():
+                          if name not in directories or PurePosixPath(name).as_posix() != name:
+                              raise ValueError('Unexpected archive directory: ' + name)
+                          continue
+                      if not member.isfile():
+                          raise ValueError('Archive links and special files are forbidden: ' + name)
+                      check_path(name)
+                      if name not in expected or name in seen or not 0 <= member.size <= 16 * 1024 * 1024:
+                          raise ValueError('Unexpected, duplicate or oversized archive file: ' + name)
+                      stream = archive.extractfile(member)
+                      if stream is None:
+                          raise ValueError('Cannot read approved archive file: ' + name)
+                      with stream:
+                          raw = stream.read(16 * 1024 * 1024 + 1)
+                      if len(raw) != member.size or hashlib.sha256(raw).hexdigest() != hashes[name]:
+                          raise ValueError('Archive bytes differ from successful staging: ' + name)
+                      output = target / name
+                      output.parent.mkdir(parents=True, exist_ok=True)
+                      output.write_bytes(raw)
+                      seen.add(name)
+              if seen != expected:
+                  raise ValueError('Pages archive lacks approved public files')
+              if destination.exists() or destination.is_symlink():
+                  raise ValueError('Expected-byte destination changed during verification')
+              target.rename(destination)
+          print(json.dumps({'verifiedFiles': len(seen), 'release': manifest['version'], 'portfolioFiles': len(manifest['portfolioFiles'])}))
+          # END SOURCE_ARTIFACT_RESTORE
+          PYCODE
+      - name: Überholte Commits vor Veröffentlichung aussortieren
+        id: current-head
+        env:
+          EXPECTED_COMMIT: ${{ github.sha }}
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          # BEGIN CURRENT_HEAD_GUARD
+          import json, os, re
+          from http.client import HTTPException
+          from pathlib import Path
+          from urllib.error import HTTPError, URLError
+          from urllib.request import HTTPRedirectHandler, Request, build_opener
+          class NoRedirect(HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+          try:
+              expected = os.environ['EXPECTED_COMMIT']
+              if not re.fullmatch(r'[0-9a-f]{40}', expected):
+                  raise ValueError('Ungültiger erwarteter Commit')
+              token = os.environ['GH_TOKEN']
+              if not token:
+                  raise ValueError('Lesetoken fehlt')
+              request = Request(
+                  'https://api.github.com/repos/MatthiasBoehm247/matthiasboehm247.github.io/git/ref/heads/main',
+                  headers={'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + token,
+                           'X-GitHub-Api-Version': '2026-03-10', 'Cache-Control': 'no-cache'})
+              with build_opener(NoRedirect()).open(request, timeout=20) as response:
+                  if response.status != 200:
+                      raise ValueError('Unerwarteter API-Status')
+                  raw = response.read(65537)
+                  if len(raw) > 65536:
+                      raise ValueError('Unerwartet große API-Antwort')
+                  data = json.loads(raw)
+              if data['ref'] != 'refs/heads/main' or data['object']['type'] != 'commit':
+                  raise ValueError('Unerwartete Git-Referenz')
+              actual = data['object']['sha']
+              if not isinstance(actual, str) or not re.fullmatch(r'[0-9a-f]{40}', actual):
+                  raise ValueError('Ungültiger aktueller Commit')
+              current = actual == expected
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+                  out.write('current=' + str(current).lower() + '\n')
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+                  if current:
+                      out.write('## Commit-Abgleich: aktuell\n\nDer geprüfte Commit ist weiterhin der aktuelle main-Stand.\n')
+                  else:
+                      out.write('## Veröffentlichung: ÜBERSPRUNGEN\n\nmain hat inzwischen einen anderen Commit. Dieser überholte Lauf veröffentlicht kein älteres Artefakt.\n')
+              print('Commit-Abgleich: ' + ('aktuell' if current else 'überholter Lauf, Veröffentlichung übersprungen'))
+          except (OSError, URLError, HTTPError, HTTPException, ValueError, KeyError, TypeError) as error:
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+                  out.write('## Commit-Abgleich: FEHLGESCHLAGEN\n\nDer aktuelle main-Stand konnte nicht sicher bestätigt werden; keine Veröffentlichung freigegeben.\n')
+              print('Commit-Abgleich fehlgeschlagen: ' + (('HTTP ' + str(error.code)) if isinstance(error, HTTPError) else type(error).__name__))
+              raise SystemExit(1)
+          # END CURRENT_HEAD_GUARD
+          PY
+      - name: Geprüfte Website veröffentlichen
+        id: deployment
+        if: steps.current-head.outputs.current == 'true'
+        uses: actions/deploy-pages@v4
+      - name: Öffentliche Dateien gegen diesen Release prüfen
+        if: steps.current-head.outputs.current == 'true'
+        run: >-
+          python integration/live_check.py
+          --manifest "${{ runner.temp }}/digital-labs-source-metadata/deployment.json"
+          --expected-root "${{ runner.temp }}/digital-labs-live-expected"
+          --all
+          --timeout 10
+          --attempts 4
+          --retry-delay 15
+          --budget-seconds 300
+          --report "${{ runner.temp }}/digital-labs-live-report.json"
+      - name: Öffentliche Abnahme anzeigen
+        if: always()
+        env:
+          HEAD_IS_CURRENT: ${{ steps.current-head.outputs.current }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          path = Path(os.environ['RUNNER_TEMP']) / 'digital-labs-live-report.json'
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              if os.environ.get('HEAD_IS_CURRENT') == 'false':
+                  out.write('## Öffentliche Abnahme: ÜBERSPRUNGEN\n\nDieser Lauf war vor dem Deployment bereits überholt und hat keine Website veröffentlicht.\n')
+              elif not path.exists():
+                  out.write('## Öffentliche Abnahme: NICHT AUSGEFÜHRT\n\nDieser Lauf bestätigt keine vollständige Live-Abnahme.\n')
+              else:
+                  data = json.loads(path.read_text())
+                  out.write('## Öffentliche Abnahme: ' + data['status'] + '\n\n')
+                  out.write('Release: ' + data.get('release', 'unbekannt') + '\n\n')
+                  out.write('Bestanden: ' + str(data.get('passed', 0)) + ' / ' + str(data.get('files', 0)) + '\n\n')
+                  out.write('Mit Prüfsumme bestätigt: ' + str(data.get('hash_checked', 0)) + '\n\n')
+                  out.write(data.get('scope', data.get('error', '')) + '\n')
+                  for item in data.get('results', []):
+                      if item['status'] != 'PASS':
+                          out.write('\n- ' + item['file'] + ': ' + item.get('error', 'Fehler').replace('\n', ' ') + '\n')
+          PY
+      - name: Öffentlichen Prüfbericht aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: digital-labs-live-abnahme
+          path: ${{ runner.temp }}/digital-labs-live-report.json
+          if-no-files-found: ignore
+          retention-days: 14

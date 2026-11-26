@@ -1,0 +1,1716 @@
+{
+  "tools": [
+    [
+      "T001",
+      "SEO & Technik",
+      "SERP-Snippet-Generator",
+      "serp snippet generator",
+      "/tools/seo/serp-snippet-generator/"
+    ],
+    [
+      "T002",
+      "SEO & Technik",
+      "Robots.txt-Generator & Tester",
+      "robots txt generator",
+      "/tools/seo/robots-txt-generator-tester/"
+    ],
+    [
+      "T003",
+      "SEO & Technik",
+      "Schema.org JSON-LD Builder",
+      "schema markup generator",
+      "/tools/seo/schema-org-json-ld-builder/"
+    ],
+    [
+      "T004",
+      "SEO & Technik",
+      "Hreflang-Matrix-Generator",
+      "hreflang generator",
+      "/tools/seo/hreflang-matrix-generator/"
+    ],
+    [
+      "T005",
+      "SEO & Technik",
+      "XML-Sitemap-Generator",
+      "xml sitemap generator",
+      "/tools/seo/xml-sitemap-generator/"
+    ],
+    [
+      "T006",
+      "SEO & Technik",
+      "Canonical- & Indexierungsprüfer",
+      "canonical checker html",
+      "/tools/seo/canonical-indexierungspruefer/"
+    ],
+    [
+      "T007",
+      "SEO & Technik",
+      "301-Redirect-Generator",
+      "301 redirect generator",
+      "/tools/seo/301-redirect-generator/"
+    ],
+    [
+      "T008",
+      "SEO & Technik",
+      "HTML-SEO-Inspektor",
+      "html seo checker",
+      "/tools/seo/html-seo-inspektor/"
+    ],
+    [
+      "T009",
+      "SEO & Technik",
+      "Sitemap-Visualizer",
+      "sitemap visualizer",
+      "/tools/seo/sitemap-visualizer/"
+    ],
+    [
+      "T010",
+      "SEO & Technik",
+      "Open-Graph-Vorschau",
+      "open graph preview generator",
+      "/tools/seo/open-graph-vorschau/"
+    ],
+    [
+      "T011",
+      "SEO & Technik",
+      "Keyword-Mapping-Board",
+      "keyword mapping tool",
+      "/tools/seo/keyword-mapping-board/"
+    ],
+    [
+      "T012",
+      "SEO & Technik",
+      "SERP-Overlap-Rechner",
+      "serp overlap tool",
+      "/tools/seo/serp-overlap-rechner/"
+    ],
+    [
+      "T013",
+      "GEO & KI",
+      "GEO-Testfragen-Generator",
+      "geo prompt generator",
+      "/tools/geo-ki/geo-testfragen-generator/"
+    ],
+    [
+      "T014",
+      "GEO & KI",
+      "KI-Sichtbarkeits-Messboard",
+      "ki sichtbarkeit messen tool",
+      "/tools/geo-ki/ki-sichtbarkeits-messboard/"
+    ],
+    [
+      "T015",
+      "GEO & KI",
+      "KI-Quellenvergleich",
+      "ai citation tracker",
+      "/tools/geo-ki/ki-quellenvergleich/"
+    ],
+    [
+      "T016",
+      "GEO & KI",
+      "Entity-Graph-Builder",
+      "entity graph generator",
+      "/tools/geo-ki/entity-graph-builder/"
+    ],
+    [
+      "T017",
+      "GEO & KI",
+      "KI-Crawler-Regelplaner",
+      "ai crawler robots txt checker",
+      "/tools/geo-ki/ki-crawler-regelplaner/"
+    ],
+    [
+      "T018",
+      "GEO & KI",
+      "LLMs.txt-Generator",
+      "llms txt generator",
+      "/tools/geo-ki/llms-txt-generator/"
+    ],
+    [
+      "T019",
+      "GEO & KI",
+      "Aussagen-Quellen-Matrix",
+      "claim evidence matrix tool",
+      "/tools/geo-ki/aussagen-quellen-matrix/"
+    ],
+    [
+      "T020",
+      "GEO & KI",
+      "KI-Antwortvergleich",
+      "ai response comparison tool",
+      "/tools/geo-ki/ki-antwortvergleich/"
+    ],
+    [
+      "T021",
+      "GEO & KI",
+      "Prompt-Builder",
+      "prompt generator deutsch",
+      "/tools/geo-ki/prompt-builder/"
+    ],
+    [
+      "T022",
+      "GEO & KI",
+      "Prompt-Regressionstester",
+      "prompt evaluation tool",
+      "/tools/geo-ki/prompt-regressionstester/"
+    ],
+    [
+      "T023",
+      "GEO & KI",
+      "RAG-Kontextbudget-Rechner",
+      "rag token budget calculator",
+      "/tools/geo-ki/rag-kontextbudget-rechner/"
+    ],
+    [
+      "T024",
+      "GEO & KI",
+      "KI-Transparenz-Checkliste",
+      "ki content transparenz checkliste",
+      "/tools/geo-ki/ki-transparenz-checkliste/"
+    ],
+    [
+      "T025",
+      "Content & Redaktion",
+      "Content-Briefing-Generator",
+      "content briefing generator",
+      "/tools/content/content-briefing-generator/"
+    ],
+    [
+      "T026",
+      "Content & Redaktion",
+      "Ratgeber-Briefing-Builder",
+      "ratgeber prompt generator",
+      "/tools/content/ratgeber-briefing-builder/"
+    ],
+    [
+      "T027",
+      "Content & Redaktion",
+      "Zeichen- & Wortzähler",
+      "zeichen zaehler online",
+      "/tools/content/zeichen-wortzaehler/"
+    ],
+    [
+      "T028",
+      "Content & Redaktion",
+      "Lesbarkeitsanalyse Deutsch",
+      "lesbarkeit text pruefen deutsch",
+      "/tools/content/lesbarkeitsanalyse-deutsch/"
+    ],
+    [
+      "T029",
+      "Content & Redaktion",
+      "Textvergleich",
+      "texte vergleichen online",
+      "/tools/content/textvergleich/"
+    ],
+    [
+      "T030",
+      "Content & Redaktion",
+      "Content-Inventar-Board",
+      "content audit tool",
+      "/tools/content/content-inventar-board/"
+    ],
+    [
+      "T031",
+      "Content & Redaktion",
+      "Redaktionsplan-Builder",
+      "redaktionsplan erstellen tool",
+      "/tools/content/redaktionsplan-builder/"
+    ],
+    [
+      "T032",
+      "Content & Redaktion",
+      "Überschriften-Strukturplaner",
+      "artikel gliederung erstellen tool",
+      "/tools/content/ueberschriften-strukturplaner/"
+    ],
+    [
+      "T033",
+      "Content & Redaktion",
+      "Quellen- & Zitatmanager",
+      "quellenverwaltung online tool",
+      "/tools/content/quellen-zitatmanager/"
+    ],
+    [
+      "T034",
+      "Content & Redaktion",
+      "Content-Refresh-Priorisierer",
+      "content refresh tool",
+      "/tools/content/content-refresh-priorisierer/"
+    ],
+    [
+      "T035",
+      "Content & Redaktion",
+      "Glossar-Generator",
+      "glossar erstellen tool",
+      "/tools/content/glossar-generator/"
+    ],
+    [
+      "T036",
+      "Content & Redaktion",
+      "Alt-Text-Assistent",
+      "alt text schreiben tool",
+      "/tools/content/alt-text-assistent/"
+    ],
+    [
+      "T037",
+      "Analytics & Marketing",
+      "UTM-Link-Builder",
+      "utm generator",
+      "/tools/analytics/utm-link-builder/"
+    ],
+    [
+      "T038",
+      "Analytics & Marketing",
+      "Search-Console-CSV-Analyzer",
+      "search console daten analysieren tool",
+      "/tools/analytics/search-console-csv-analyzer/"
+    ],
+    [
+      "T039",
+      "Analytics & Marketing",
+      "GSC-Regex-Builder",
+      "search console regex generator",
+      "/tools/analytics/gsc-regex-builder/"
+    ],
+    [
+      "T040",
+      "Analytics & Marketing",
+      "SEO-Potenzial-Rechner",
+      "seo potenzial rechner",
+      "/tools/analytics/seo-potenzial-rechner/"
+    ],
+    [
+      "T041",
+      "Analytics & Marketing",
+      "SEO-ROI-Rechner",
+      "seo roi rechner",
+      "/tools/analytics/seo-roi-rechner/"
+    ],
+    [
+      "T042",
+      "Analytics & Marketing",
+      "CTR-Kurven-Explorer",
+      "ctr kurve seo",
+      "/tools/analytics/ctr-kurven-explorer/"
+    ],
+    [
+      "T043",
+      "Analytics & Marketing",
+      "Kampagnen-KPI-Rechner",
+      "marketing kpi rechner",
+      "/tools/analytics/kampagnen-kpi-rechner/"
+    ],
+    [
+      "T044",
+      "Analytics & Marketing",
+      "A/B-Test-Auswerter",
+      "ab test rechner",
+      "/tools/analytics/a-b-test-auswerter/"
+    ],
+    [
+      "T045",
+      "Analytics & Marketing",
+      "KI-Traffic-Klassifizierer",
+      "ga4 ki traffic filter",
+      "/tools/analytics/ki-traffic-klassifizierer/"
+    ],
+    [
+      "T046",
+      "Analytics & Marketing",
+      "GA4-Event-Planer",
+      "ga4 event tracking plan",
+      "/tools/analytics/ga4-event-planer/"
+    ],
+    [
+      "T047",
+      "Analytics & Marketing",
+      "Dashboard-Metrik-Builder",
+      "marketing dashboard kpi plan",
+      "/tools/analytics/dashboard-metrik-builder/"
+    ],
+    [
+      "T048",
+      "Analytics & Marketing",
+      "Kampagnenbudget-Simulator",
+      "marketing budget rechner",
+      "/tools/analytics/kampagnenbudget-simulator/"
+    ],
+    [
+      "T049",
+      "Daten & Entwicklung",
+      "JSON-Formatter & Validator",
+      "json formatter online",
+      "/tools/entwicklung/json-formatter-validator/"
+    ],
+    [
+      "T050",
+      "Daten & Entwicklung",
+      "CSV-zu-JSON-Konverter",
+      "csv to json converter",
+      "/tools/entwicklung/csv-zu-json-konverter/"
+    ],
+    [
+      "T051",
+      "Daten & Entwicklung",
+      "Regex-Testlabor",
+      "regex tester online",
+      "/tools/entwicklung/regex-testlabor/"
+    ],
+    [
+      "T052",
+      "Daten & Entwicklung",
+      "Markdown-Editor",
+      "markdown editor online",
+      "/tools/entwicklung/markdown-editor/"
+    ],
+    [
+      "T053",
+      "Daten & Entwicklung",
+      "JSON-Diff",
+      "json diff online",
+      "/tools/entwicklung/json-diff/"
+    ],
+    [
+      "T054",
+      "Daten & Entwicklung",
+      "CSV-Datenbereinigung",
+      "csv bereinigen online",
+      "/tools/entwicklung/csv-datenbereinigung/"
+    ],
+    [
+      "T055",
+      "Daten & Entwicklung",
+      "URL-Parser",
+      "url parser online",
+      "/tools/entwicklung/url-parser/"
+    ],
+    [
+      "T056",
+      "Daten & Entwicklung",
+      "Base64-Encoder/Decoder",
+      "base64 decoder online",
+      "/tools/entwicklung/base64-encoder-decoder/"
+    ],
+    [
+      "T057",
+      "Daten & Entwicklung",
+      "YAML-JSON-Konverter",
+      "yaml json converter",
+      "/tools/entwicklung/yaml-json-konverter/"
+    ],
+    [
+      "T058",
+      "Daten & Entwicklung",
+      "Timestamp-Konverter",
+      "unix timestamp converter",
+      "/tools/entwicklung/timestamp-konverter/"
+    ],
+    [
+      "T059",
+      "Daten & Entwicklung",
+      "JSON-Schema-Editor",
+      "json schema generator",
+      "/tools/entwicklung/json-schema-editor/"
+    ],
+    [
+      "T060",
+      "Daten & Entwicklung",
+      "HTML/CSS-Playground",
+      "html css editor online",
+      "/tools/entwicklung/html-css-playground/"
+    ],
+    [
+      "T061",
+      "Design & Barrierefreiheit",
+      "WCAG-Kontrast-Checker",
+      "wcag kontrast checker",
+      "/tools/design/wcag-kontrast-checker/"
+    ],
+    [
+      "T062",
+      "Design & Barrierefreiheit",
+      "CSS-Gradient-Generator",
+      "css gradient generator",
+      "/tools/design/css-gradient-generator/"
+    ],
+    [
+      "T063",
+      "Design & Barrierefreiheit",
+      "Farbpaletten-Studio",
+      "farbpalette generator",
+      "/tools/design/farbpaletten-studio/"
+    ],
+    [
+      "T064",
+      "Design & Barrierefreiheit",
+      "Responsive-Typografie-Rechner",
+      "css clamp rechner",
+      "/tools/design/responsive-typografie-rechner/"
+    ],
+    [
+      "T065",
+      "Design & Barrierefreiheit",
+      "CSS-Grid-Playground",
+      "css grid generator",
+      "/tools/design/css-grid-playground/"
+    ],
+    [
+      "T066",
+      "Design & Barrierefreiheit",
+      "Flexbox-Playground",
+      "flexbox generator",
+      "/tools/design/flexbox-playground/"
+    ],
+    [
+      "T067",
+      "Design & Barrierefreiheit",
+      "Box-Shadow-Editor",
+      "css box shadow generator",
+      "/tools/design/box-shadow-editor/"
+    ],
+    [
+      "T068",
+      "Design & Barrierefreiheit",
+      "CSS-Animationseditor",
+      "css animation generator",
+      "/tools/design/css-animationseditor/"
+    ],
+    [
+      "T069",
+      "Design & Barrierefreiheit",
+      "Design-Token-Builder",
+      "design token generator",
+      "/tools/design/design-token-builder/"
+    ],
+    [
+      "T070",
+      "Design & Barrierefreiheit",
+      "Tastatur-Fokus-Demo",
+      "keyboard focus accessibility tool",
+      "/tools/design/tastatur-fokus-demo/"
+    ],
+    [
+      "T071",
+      "Design & Barrierefreiheit",
+      "SVG-Pfad-Playground",
+      "svg path editor online",
+      "/tools/design/svg-pfad-playground/"
+    ],
+    [
+      "T072",
+      "Design & Barrierefreiheit",
+      "Typografie-Vergleich",
+      "font pair preview tool",
+      "/tools/design/typografie-vergleich/"
+    ],
+    [
+      "T073",
+      "Bild & Medien",
+      "Bildkompressor",
+      "bilder komprimieren online",
+      "/tools/medien/bildkompressor/"
+    ],
+    [
+      "T074",
+      "Bild & Medien",
+      "Bildformat-Konverter",
+      "png webp jpg converter",
+      "/tools/medien/bildformat-konverter/"
+    ],
+    [
+      "T075",
+      "Bild & Medien",
+      "Bildgrößen-Editor",
+      "bildgroesse aendern online",
+      "/tools/medien/bildgroessen-editor/"
+    ],
+    [
+      "T076",
+      "Bild & Medien",
+      "Favicon-Generator",
+      "favicon generator",
+      "/tools/medien/favicon-generator/"
+    ],
+    [
+      "T077",
+      "Bild & Medien",
+      "Open-Graph-Bildstudio",
+      "open graph image generator",
+      "/tools/medien/open-graph-bildstudio/"
+    ],
+    [
+      "T078",
+      "Bild & Medien",
+      "QR-Code-Generator",
+      "qr code generator online",
+      "/tools/medien/qr-code-generator/"
+    ],
+    [
+      "T079",
+      "Bild & Medien",
+      "SVG-Optimierer",
+      "svg optimieren online",
+      "/tools/medien/svg-optimierer/"
+    ],
+    [
+      "T080",
+      "Bild & Medien",
+      "Bild-Crop-Studio",
+      "bild zuschneiden online",
+      "/tools/medien/bild-crop-studio/"
+    ],
+    [
+      "T081",
+      "Bild & Medien",
+      "Screenshot-Annotator",
+      "screenshot bearbeiten online",
+      "/tools/medien/screenshot-annotator/"
+    ],
+    [
+      "T082",
+      "Bild & Medien",
+      "Bild-Seitenverhältnis-Rechner",
+      "seitenverhaeltnis rechner",
+      "/tools/medien/bild-seitenverhaeltnis-rechner/"
+    ],
+    [
+      "T083",
+      "Bild & Medien",
+      "Sprite-Sheet-Assembler",
+      "sprite sheet generator",
+      "/tools/medien/sprite-sheet-assembler/"
+    ],
+    [
+      "T084",
+      "Bild & Medien",
+      "Wellenform-Visualizer",
+      "audio waveform generator",
+      "/tools/medien/wellenform-visualizer/"
+    ],
+    [
+      "T085",
+      "Game Development",
+      "2D-Levelideen-Datenbank",
+      "2d platformer level ideas",
+      "/tools/game-development/2d-levelideen-datenbank/"
+    ],
+    [
+      "T086",
+      "Game Development",
+      "Level-Design-Builder",
+      "level design tool online",
+      "/tools/game-development/level-design-builder/"
+    ],
+    [
+      "T087",
+      "Game Development",
+      "Tilemap-Editor",
+      "tilemap editor online",
+      "/tools/game-development/tilemap-editor/"
+    ],
+    [
+      "T088",
+      "Game Development",
+      "Platformer-Sprung-Simulator",
+      "platformer jump physics calculator",
+      "/tools/game-development/platformer-sprung-simulator/"
+    ],
+    [
+      "T089",
+      "Game Development",
+      "Game-Balancing-Rechner",
+      "game balancing tool",
+      "/tools/game-development/game-balancing-rechner/"
+    ],
+    [
+      "T090",
+      "Game Development",
+      "Loot-Tabellen-Simulator",
+      "loot table simulator",
+      "/tools/game-development/loot-tabellen-simulator/"
+    ],
+    [
+      "T091",
+      "Game Development",
+      "A*-Pathfinding-Labor",
+      "a star pathfinding visualizer",
+      "/tools/game-development/a-pathfinding-labor/"
+    ],
+    [
+      "T092",
+      "Game Development",
+      "Prozeduraler Karten-Generator",
+      "procedural map generator",
+      "/tools/game-development/prozeduraler-karten-generator/"
+    ],
+    [
+      "T093",
+      "Game Development",
+      "Dialogbaum-Editor",
+      "dialogue tree editor online",
+      "/tools/game-development/dialogbaum-editor/"
+    ],
+    [
+      "T094",
+      "Game Development",
+      "Game-Juice-Playground",
+      "game juice effects demo",
+      "/tools/game-development/game-juice-playground/"
+    ],
+    [
+      "T095",
+      "Musik & Kreativität",
+      "Browser-Synthesizer",
+      "browser synthesizer",
+      "/tools/musik-kreativitaet/browser-synthesizer/"
+    ],
+    [
+      "T096",
+      "Musik & Kreativität",
+      "Step-Sequencer",
+      "step sequencer online",
+      "/tools/musik-kreativitaet/step-sequencer/"
+    ],
+    [
+      "T097",
+      "Musik & Kreativität",
+      "Drum-Machine",
+      "drum machine online",
+      "/tools/musik-kreativitaet/drum-machine/"
+    ],
+    [
+      "T098",
+      "Musik & Kreativität",
+      "BPM-Tap-Tool",
+      "bpm tap online",
+      "/tools/musik-kreativitaet/bpm-tap-tool/"
+    ],
+    [
+      "T099",
+      "Musik & Kreativität",
+      "Akkord-Explorer",
+      "chord explorer online",
+      "/tools/musik-kreativitaet/akkord-explorer/"
+    ],
+    [
+      "T100",
+      "Musik & Kreativität",
+      "ADSR-Simulator",
+      "adsr envelope simulator",
+      "/tools/musik-kreativitaet/adsr-simulator/"
+    ],
+    [
+      "T101",
+      "Musik & Kreativität",
+      "Generative-Line-Art-Studio",
+      "generative line art tool",
+      "/tools/musik-kreativitaet/generative-line-art-studio/"
+    ],
+    [
+      "T102",
+      "Musik & Kreativität",
+      "Interaktive-Geschichten-Builder",
+      "interactive story builder",
+      "/tools/musik-kreativitaet/interaktive-geschichten-builder/"
+    ],
+    [
+      "T103",
+      "Forschung & Qualität",
+      "Website-Relaunch-Planer",
+      "website relaunch checkliste tool",
+      "/tools/forschung-qualitaet/website-relaunch-planer/"
+    ],
+    [
+      "T104",
+      "Forschung & Qualität",
+      "QA-Testfall-Generator",
+      "testfall generator",
+      "/tools/forschung-qualitaet/qa-testfall-generator/"
+    ],
+    [
+      "T105",
+      "Forschung & Qualität",
+      "Accessibility-Testplan",
+      "barrierefreiheit website checkliste",
+      "/tools/forschung-qualitaet/accessibility-testplan/"
+    ],
+    [
+      "T106",
+      "Forschung & Qualität",
+      "Entscheidungsmatrix",
+      "entscheidung matrix tool",
+      "/tools/forschung-qualitaet/entscheidungsmatrix/"
+    ],
+    [
+      "T107",
+      "Forschung & Qualität",
+      "Experiment-Planer",
+      "experiment plan erstellen tool",
+      "/tools/forschung-qualitaet/experiment-planer/"
+    ],
+    [
+      "T108",
+      "Forschung & Qualität",
+      "Changelog-Builder",
+      "changelog generator",
+      "/tools/forschung-qualitaet/changelog-builder/"
+    ],
+    [
+      "T109",
+      "Forschung & Qualität",
+      "Repository-README-Builder",
+      "github readme generator",
+      "/tools/forschung-qualitaet/repository-readme-builder/"
+    ],
+    [
+      "T110",
+      "Forschung & Qualität",
+      "Daten-Dokumentations-Builder",
+      "data dictionary generator",
+      "/tools/forschung-qualitaet/daten-dokumentations-builder/"
+    ]
+  ],
+  "guides": [
+    [
+      "W001",
+      "SEO & Technik",
+      "Title und Meta Description systematisch testen",
+      "title meta description optimieren",
+      "/wissen/seo/title-und-meta-description-systematisch-testen/",
+      "Snippet-Experimente planen und GSC-Vergleich erläutern",
+      "T001"
+    ],
+    [
+      "W002",
+      "SEO & Technik",
+      "Robots.txt und Meta-Robots richtig unterscheiden",
+      "robots txt noindex unterschied",
+      "/wissen/seo/robots-txt-und-meta-robots-richtig-unterscheiden/",
+      "Crawling versus Indexierung an Testfällen erklären",
+      "T002"
+    ],
+    [
+      "W003",
+      "SEO & Technik",
+      "Strukturierte Daten als zusammenhängenden Graph aufbauen",
+      "json ld graph erstellen",
+      "/wissen/seo/strukturierte-daten-als-zusammenhaengenden-graph-aufbauen/",
+      "Reale Entitäten, @id, Referenzen und Validierung anhand eines Beispiels",
+      "T003"
+    ],
+    [
+      "W004",
+      "SEO & Technik",
+      "Internationale Websites mit hreflang planen",
+      "hreflang richtig einsetzen",
+      "/wissen/seo/internationale-websites-mit-hreflang-planen/",
+      "Rückverweise, x-default und Sprach-/Regionsfehler zeigen",
+      "T004"
+    ],
+    [
+      "W005",
+      "SEO & Technik",
+      "XML-Sitemaps für große statische Websites",
+      "xml sitemap best practices",
+      "/wissen/seo/xml-sitemaps-fuer-grosse-statische-websites/",
+      "URL-Auswahl, lastmod, Limits und Prüfschritte",
+      "T005"
+    ],
+    [
+      "W006",
+      "SEO & Technik",
+      "Canonical-Konflikte diagnostizieren",
+      "canonical tag fehler",
+      "/wissen/seo/canonical-konflikte-diagnostizieren/",
+      "Canonical, Redirect und Indexierungsstatus auseinanderhalten",
+      "T006"
+    ],
+    [
+      "W007",
+      "SEO & Technik",
+      "Website-Migration: Weiterleitungen und Fehlerkontrolle",
+      "seo website migration redirects",
+      "/wissen/seo/website-migration-weiterleitungen-und-fehlerkontrolle/",
+      "Inventar, Redirect-Ketten und Vorher-nachher-Tests",
+      "T007"
+    ],
+    [
+      "W008",
+      "SEO & Technik",
+      "Keyword-Kannibalisierung anhand von Daten erkennen",
+      "keyword kannibalisierung erkennen",
+      "/wissen/seo/keyword-kannibalisierung-anhand-von-daten-erkennen/",
+      "GSC-Signale, Intent und Seitenüberschneidungen prüfen",
+      "T011"
+    ],
+    [
+      "W009",
+      "GEO & KI",
+      "SEO und GEO: Wo die Methoden wirklich auseinandergehen",
+      "seo geo unterschied",
+      "/wissen/geo-ki/seo-und-geo-wo-die-methoden-wirklich-auseinandergehen/",
+      "Zielmetriken, Suchsysteme und Grenzen mit Quellen unterscheiden",
+      "T013"
+    ],
+    [
+      "W010",
+      "GEO & KI",
+      "Reproduzierbares Messverfahren für KI-Sichtbarkeit",
+      "ki sichtbarkeit messen methode",
+      "/wissen/geo-ki/reproduzierbares-messverfahren-fuer-ki-sichtbarkeit/",
+      "Prompts, Modelle, Stichproben, Wiederholungen und Streuung dokumentieren",
+      "T014"
+    ],
+    [
+      "W011",
+      "GEO & KI",
+      "Quellen in KI-Antworten untersuchen",
+      "ki antworten quellen analysieren",
+      "/wissen/geo-ki/quellen-in-ki-antworten-untersuchen/",
+      "Erwähnungen, Links, Zitate und Richtigkeit trennen",
+      "T015"
+    ],
+    [
+      "W012",
+      "GEO & KI",
+      "Entitäten im Web konsistent beschreiben",
+      "entity seo entitaeten",
+      "/wissen/geo-ki/entitaeten-im-web-konsistent-beschreiben/",
+      "Namensvarianten, IDs und Beziehungen mit Beispielen modellieren",
+      "T016"
+    ],
+    [
+      "W013",
+      "GEO & KI",
+      "KI-Crawler verstehen: Suche, Abruf und Training",
+      "ki crawler robots txt",
+      "/wissen/geo-ki/ki-crawler-verstehen-suche-abruf-und-training/",
+      "Aktuelle Bot-Dokumentation und Unterschiede nach Zweck",
+      "T017"
+    ],
+    [
+      "W014",
+      "GEO & KI",
+      "Was llms.txt kann und was nicht",
+      "llms txt sinnvoll",
+      "/wissen/geo-ki/was-llms-txt-kann-und-was-nicht/",
+      "Spezifikation, belegte Nutzung und fehlenden Google-Rankingeffekt erklären",
+      "T018"
+    ],
+    [
+      "W015",
+      "GEO & KI",
+      "Aussagen in KI-Texten redaktionell absichern",
+      "ki texte faktencheck",
+      "/wissen/geo-ki/aussagen-in-ki-texten-redaktionell-absichern/",
+      "Behauptungen aufteilen, Primärquellen prüfen und Widersprüche markieren",
+      "T019"
+    ],
+    [
+      "W016",
+      "GEO & KI",
+      "Prompts wie Software testen und versionieren",
+      "prompt evaluation methode",
+      "/wissen/geo-ki/prompts-wie-software-testen-und-versionieren/",
+      "Testdatensatz, Rubrik, Versionen und Regressionen beschreiben",
+      "T022"
+    ],
+    [
+      "W017",
+      "Content & Redaktion",
+      "Ein Content-Briefing erstellen, das Autoren tatsächlich hilft",
+      "content briefing erstellen",
+      "/wissen/content/ein-content-briefing-erstellen-das-autoren-tatsaechlich-hilft/",
+      "Vollständiges Muster mit Intent, Nutzen, Quellen und Freigabe",
+      "T025"
+    ],
+    [
+      "W018",
+      "Content & Redaktion",
+      "Hochwertige Ratgeber systematisch produzieren",
+      "ratgeber schreiben anleitung",
+      "/wissen/content/hochwertige-ratgeber-systematisch-produzieren/",
+      "Fachprofile, Handlungsschritte, Illustrationsplan und Qualitätssicherung",
+      "T026"
+    ],
+    [
+      "W019",
+      "Content & Redaktion",
+      "Lesbarkeit messen, ohne Inhalte zu vereinfachen",
+      "lesbarkeit verbessern text",
+      "/wissen/content/lesbarkeit-messen-ohne-inhalte-zu-vereinfachen/",
+      "Formeln, Beispiele und Grenzen diskutieren",
+      "T028"
+    ],
+    [
+      "W020",
+      "Content & Redaktion",
+      "Textähnlichkeit, Duplicate Content und Plagiate unterscheiden",
+      "duplicate content texte unterschied",
+      "/wissen/content/textaehnlichkeit-duplicate-content-und-plagiate-unterscheiden/",
+      "Methoden und typische Fehlinterpretationen zeigen",
+      "T029"
+    ],
+    [
+      "W021",
+      "Content & Redaktion",
+      "Content-Audits mit Search Console vorbereiten",
+      "content audit durchfuehren",
+      "/wissen/content/content-audits-mit-search-console-vorbereiten/",
+      "Inventar, Leistungsdaten, qualitative Bewertung und Maßnahmen",
+      "T030"
+    ],
+    [
+      "W022",
+      "Content & Redaktion",
+      "Eine Redaktion mit Evergreen-Inhalten organisieren",
+      "evergreen content redaktionsplan",
+      "/wissen/content/eine-redaktion-mit-evergreen-inhalten-organisieren/",
+      "Cluster, Aktualisierungsregeln und Prioritäten planen",
+      "T031"
+    ],
+    [
+      "W023",
+      "Content & Redaktion",
+      "Quellen richtig dokumentieren und zitieren",
+      "online quellen dokumentieren",
+      "/wissen/content/quellen-richtig-dokumentieren-und-zitieren/",
+      "Primär-/Sekundärquellen, Datenstand, Belegstellen und Lizenzen",
+      "T033"
+    ],
+    [
+      "W024",
+      "Content & Redaktion",
+      "Content aktualisieren, zusammenführen oder entfernen",
+      "content refresh strategie",
+      "/wissen/content/content-aktualisieren-zusammenfuehren-oder-entfernen/",
+      "Entscheidungsbaum anhand echter oder gekennzeichneter Beispieldaten",
+      "T034"
+    ],
+    [
+      "W025",
+      "Analytics & Marketing",
+      "UTM-Namenskonventionen für Teams",
+      "utm parameter best practices",
+      "/wissen/analytics/utm-namenskonventionen-fuer-teams/",
+      "Kampagnentaxonomie, Kleinschreibung, Datenschutz und Beispiele",
+      "T037"
+    ],
+    [
+      "W026",
+      "Analytics & Marketing",
+      "Search-Console-Exporte richtig interpretieren",
+      "search console daten auswerten",
+      "/wissen/analytics/search-console-exporte-richtig-interpretieren/",
+      "Aggregationen, Anonymisierung, Dimensionen und Stichproben",
+      "T038"
+    ],
+    [
+      "W027",
+      "Analytics & Marketing",
+      "Reguläre Ausdrücke in Google Search Console",
+      "search console regex beispiele",
+      "/wissen/analytics/regulaere-ausdruecke-in-google-search-console/",
+      "RE2-Regeln und produktive Filterbeispiele",
+      "T039"
+    ],
+    [
+      "W028",
+      "Analytics & Marketing",
+      "SEO-Traffic-Prognosen transparent berechnen",
+      "seo traffic prognose",
+      "/wissen/analytics/seo-traffic-prognosen-transparent-berechnen/",
+      "Szenarien, Suchvolumen, CTR und Unsicherheit unterscheiden",
+      "T040"
+    ],
+    [
+      "W029",
+      "Analytics & Marketing",
+      "ROI von SEO fair bewerten",
+      "seo roi berechnen methode",
+      "/wissen/analytics/roi-von-seo-fair-bewerten/",
+      "Marge, Zeitverzug, Opportunitätskosten und Sensitivität",
+      "T041"
+    ],
+    [
+      "W030",
+      "Analytics & Marketing",
+      "Marketing-KPIs richtig definieren",
+      "marketing kpi formeln",
+      "/wissen/analytics/marketing-kpis-richtig-definieren/",
+      "Rechenbeispiele, Bezugsgrößen, Währungen und Nullfälle",
+      "T043"
+    ],
+    [
+      "W031",
+      "Analytics & Marketing",
+      "A/B-Tests auswerten: typische Statistikfehler",
+      "ab test auswertung statistik",
+      "/wissen/analytics/a-b-tests-auswerten-typische-statistikfehler/",
+      "Stichprobenplanung, Peeking und Konfidenzintervalle",
+      "T044"
+    ],
+    [
+      "W032",
+      "Analytics & Marketing",
+      "KI-Traffic in Analytics erkennen und begrenzen",
+      "ki traffic ga4 messen",
+      "/wissen/analytics/ki-traffic-in-analytics-erkennen-und-begrenzen/",
+      "Referrer, Dark Traffic, Attribution und Datenschutz",
+      "T045"
+    ],
+    [
+      "W033",
+      "Daten & Entwicklung",
+      "JSON verstehen und typische Syntaxfehler beheben",
+      "json fehler beheben",
+      "/wissen/entwicklung/json-verstehen-und-typische-syntaxfehler-beheben/",
+      "Objekte, Arrays, Kommas und UTF-8 mit Testdaten",
+      "T049"
+    ],
+    [
+      "W034",
+      "Daten & Entwicklung",
+      "CSV- und JSON-Daten sicher umwandeln",
+      "csv json umwandeln anleitung",
+      "/wissen/entwicklung/csv-und-json-daten-sicher-umwandeln/",
+      "Trennzeichen, Datentypen und Rundtrip-Tests",
+      "T050"
+    ],
+    [
+      "W035",
+      "Daten & Entwicklung",
+      "RegEx lernen mit reproduzierbaren Testfällen",
+      "regex lernen beispiele",
+      "/wissen/entwicklung/regex-lernen-mit-reproduzierbaren-testfaellen/",
+      "Gruppen, Quantifier, Unicode und Laufzeitfallen",
+      "T051"
+    ],
+    [
+      "W036",
+      "Daten & Entwicklung",
+      "Markdown für technische Dokumentation nutzen",
+      "markdown dokumentation schreiben",
+      "/wissen/entwicklung/markdown-fuer-technische-dokumentation-nutzen/",
+      "Struktur, Links, Tabellen und sichere HTML-Ausgabe",
+      "T052"
+    ],
+    [
+      "W037",
+      "Daten & Entwicklung",
+      "JSON-Daten strukturell statt als Text vergleichen",
+      "json diff erklaerung",
+      "/wissen/entwicklung/json-daten-strukturell-statt-als-text-vergleichen/",
+      "Pfade, Schlüsselreihenfolge, Arrays und semantische Grenzen",
+      "T053"
+    ],
+    [
+      "W038",
+      "Daten & Entwicklung",
+      "CSV-Datenqualität mit überprüfbaren Regeln verbessern",
+      "csv datenqualitaet pruefen",
+      "/wissen/entwicklung/csv-datenqualitaet-mit-ueberpruefbaren-regeln-verbessern/",
+      "Fehlende Werte, Typen, Dubletten und Transformationsprotokoll",
+      "T054"
+    ],
+    [
+      "W039",
+      "Daten & Entwicklung",
+      "URL-Aufbau, Parameter und Encoding verstehen",
+      "url parameter erklaerung",
+      "/wissen/entwicklung/url-aufbau-parameter-und-encoding-verstehen/",
+      "Pfad, Query, Fragment und Prozentkodierung",
+      "T055"
+    ],
+    [
+      "W040",
+      "Daten & Entwicklung",
+      "Browsertools entwickeln, die ohne Backend funktionieren",
+      "browser tools ohne backend entwickeln",
+      "/wissen/entwicklung/browsertools-entwickeln-die-ohne-backend-funktionieren/",
+      "File API, Blob, Web Worker, CORS und lokale Speicherung",
+      "T060"
+    ],
+    [
+      "W041",
+      "Design & Barrierefreiheit",
+      "WCAG-Farbkontraste richtig berechnen",
+      "wcag kontrast berechnen",
+      "/wissen/design/wcag-farbkontraste-richtig-berechnen/",
+      "Relative Luminanz, Schriftgröße, AA/AAA und Nicht-Text-Kontrast",
+      "T061"
+    ],
+    [
+      "W042",
+      "Design & Barrierefreiheit",
+      "CSS-Farbverläufe visuell gestalten",
+      "css gradient beispiele",
+      "/wissen/design/css-farbverlaeufe-visuell-gestalten/",
+      "Farbstopps, Richtung und verschiedene Gradienttypen",
+      "T062"
+    ],
+    [
+      "W043",
+      "Design & Barrierefreiheit",
+      "Eine konsistente UI-Farbpalette entwickeln",
+      "farbpalette ui design erstellen",
+      "/wissen/design/eine-konsistente-ui-farbpalette-entwickeln/",
+      "Semantische Rollen, helle/dunkle Zustände und Kontrast",
+      "T063"
+    ],
+    [
+      "W044",
+      "Design & Barrierefreiheit",
+      "Responsive Typografie mit CSS clamp()",
+      "css clamp schriftgroesse",
+      "/wissen/design/responsive-typografie-mit-css-clamp/",
+      "Interpolation und Zoom-Tests erklären",
+      "T064"
+    ],
+    [
+      "W045",
+      "Design & Barrierefreiheit",
+      "CSS Grid und Flexbox sinnvoll kombinieren",
+      "css grid flexbox unterschied",
+      "/wissen/design/css-grid-und-flexbox-sinnvoll-kombinieren/",
+      "Reale Layoutaufgaben und Entscheidungsregeln",
+      "T065"
+    ],
+    [
+      "W046",
+      "Design & Barrierefreiheit",
+      "Design Tokens für konsistente Websites",
+      "design tokens erstellen",
+      "/wissen/design/design-tokens-fuer-konsistente-websites/",
+      "Primitive, semantische Tokens und Versionskontrolle",
+      "T069"
+    ],
+    [
+      "W047",
+      "Design & Barrierefreiheit",
+      "Tastaturbedienung und sichtbare Fokuszustände",
+      "tastatur bedienbarkeit website",
+      "/wissen/design/tastaturbedienung-und-sichtbare-fokuszustaende/",
+      "Manuelle Prüfabläufe, Fokusfalle, Skip Links",
+      "T070"
+    ],
+    [
+      "W048",
+      "Design & Barrierefreiheit",
+      "Animationen mit Rücksicht auf reduced motion",
+      "prefers reduced motion animation",
+      "/wissen/design/animationen-mit-ruecksicht-auf-reduced-motion/",
+      "Bewegung sparsam nutzen und Alternativen bereitstellen",
+      "T068"
+    ],
+    [
+      "W049",
+      "Bild & Medien",
+      "Bilder fürs Web komprimieren: Qualitätsvergleich",
+      "bilder fuer website komprimieren",
+      "/wissen/medien/bilder-fuers-web-komprimieren-qualitaetsvergleich/",
+      "Dateigröße, Bilddetail und messbare Ladeeffekte",
+      "T073"
+    ],
+    [
+      "W050",
+      "Bild & Medien",
+      "JPEG, PNG, WebP und AVIF vergleichen",
+      "webp avif png jpg unterschied",
+      "/wissen/medien/jpeg-png-webp-und-avif-vergleichen/",
+      "Transparenz, Browserunterstützung und Fallbeispiele",
+      "T074"
+    ],
+    [
+      "W051",
+      "Bild & Medien",
+      "Responsive Bilder mit srcset und sizes",
+      "responsive bilder srcset sizes",
+      "/wissen/medien/responsive-bilder-mit-srcset-und-sizes/",
+      "Auflösung, Layoutbreite, art direction und Ladeprioritäten",
+      "T075"
+    ],
+    [
+      "W052",
+      "Bild & Medien",
+      "Favicons korrekt in moderne Websites integrieren",
+      "favicon einbinden html",
+      "/wissen/medien/favicons-korrekt-in-moderne-websites-integrieren/",
+      "Dateitypen, Größen, Manifest und Suchdarstellung",
+      "T076"
+    ],
+    [
+      "W053",
+      "Bild & Medien",
+      "Social-Preview-Bilder richtig gestalten",
+      "open graph bild groesse",
+      "/wissen/medien/social-preview-bilder-richtig-gestalten/",
+      "Textzonen, Zuschnitt und Plattformunterschiede",
+      "T077"
+    ],
+    [
+      "W054",
+      "Bild & Medien",
+      "Statische QR-Codes ohne Tracking einsetzen",
+      "qr code ohne tracking",
+      "/wissen/medien/statische-qr-codes-ohne-tracking-einsetzen/",
+      "Kontrast, Fehlerkorrektur und Scan-Test",
+      "T078"
+    ],
+    [
+      "W055",
+      "Bild & Medien",
+      "SVG-Dateien optimieren und sicher verwenden",
+      "svg optimieren anleitung",
+      "/wissen/medien/svg-dateien-optimieren-und-sicher-verwenden/",
+      "Pfade, viewBox, Fremdinhalte und Vorher-nachher-Prüfung",
+      "T079"
+    ],
+    [
+      "W056",
+      "Bild & Medien",
+      "Sprite-Sheets für 2D-Spiele strukturieren",
+      "sprite sheet erstellen anleitung",
+      "/wissen/medien/sprite-sheets-fuer-2d-spiele-strukturieren/",
+      "Padding, Atlasformate und Rendering-Artefakte",
+      "T083"
+    ],
+    [
+      "W057",
+      "Game Development",
+      "Levelmechaniken als wiederverwendbare Designmuster",
+      "2d level design patterns",
+      "/wissen/game-development/levelmechaniken-als-wiederverwendbare-designmuster/",
+      "Mechaniken mit Einführung, Variation und Kombination katalogisieren",
+      "T085"
+    ],
+    [
+      "W058",
+      "Game Development",
+      "Ein 2D-Level mit guter Lernkurve entwerfen",
+      "2d platformer level design",
+      "/wissen/game-development/ein-2d-level-mit-guter-lernkurve-entwerfen/",
+      "Tempo, Ruhepunkte, Lernziele und Fairness prüfen",
+      "T086"
+    ],
+    [
+      "W059",
+      "Game Development",
+      "Tilemaps, Kollisionen und Layer planen",
+      "tilemap erstellen anleitung",
+      "/wissen/game-development/tilemaps-kollisionen-und-layer-planen/",
+      "Raster, Kollisionen und Engine-Export an einem Beispiel",
+      "T087"
+    ],
+    [
+      "W060",
+      "Game Development",
+      "Sprungphysik in Platformern abstimmen",
+      "platformer jump physics",
+      "/wissen/game-development/sprungphysik-in-platformern-abstimmen/",
+      "Gravitation, Coyote Time und variable Höhe simulieren",
+      "T088"
+    ],
+    [
+      "W061",
+      "Game Development",
+      "Spielbalance anhand von Simulationen überprüfen",
+      "game balancing methoden",
+      "/wissen/game-development/spielbalance-anhand-von-simulationen-ueberpruefen/",
+      "Ressourcen, Kostenkurven und dominante Strategien",
+      "T089"
+    ],
+    [
+      "W062",
+      "Game Development",
+      "Loot-Wahrscheinlichkeiten ohne irreführende Modelle",
+      "loot drop rate berechnen",
+      "/wissen/game-development/loot-wahrscheinlichkeiten-ohne-irrefuehrende-modelle/",
+      "Gewichte, unabhängige Ziehungen und reproduzierbare Tests",
+      "T090"
+    ],
+    [
+      "W063",
+      "Game Development",
+      "A*-Wegfindung verständlich erklärt",
+      "a star algorithmus erklaerung",
+      "/wissen/game-development/a-wegfindung-verstaendlich-erklaert/",
+      "Heuristiken, Kosten und Grenzfälle visualisieren",
+      "T091"
+    ],
+    [
+      "W064",
+      "Game Development",
+      "Prozedurale Karten mit reproduzierbaren Seeds",
+      "procedural generation seed",
+      "/wissen/game-development/prozedurale-karten-mit-reproduzierbaren-seeds/",
+      "Konnektivität, Variabilität und Testseeds erklären",
+      "T092"
+    ],
+    [
+      "W065",
+      "Musik & Kreativität",
+      "Web Audio: Synthese direkt im Browser",
+      "web audio synthesizer tutorial",
+      "/wissen/musik-kreativitaet/web-audio-synthese-direkt-im-browser/",
+      "AudioContext, Oszillatoren, Filter, Lautstärke und Nutzerinteraktion",
+      "T095"
+    ],
+    [
+      "W066",
+      "Musik & Kreativität",
+      "Einen Step-Sequencer ohne Timing-Drift bauen",
+      "web audio step sequencer",
+      "/wissen/musik-kreativitaet/einen-step-sequencer-ohne-timing-drift-bauen/",
+      "Lookahead-Scheduling und Audio-Clock mit Tests",
+      "T096"
+    ],
+    [
+      "W067",
+      "Musik & Kreativität",
+      "Drum-Sounds synthetisieren statt Samples kopieren",
+      "drum sound synthesis",
+      "/wissen/musik-kreativitaet/drum-sounds-synthetisieren-statt-samples-kopieren/",
+      "Originale Wellenformen, Hüllkurven und Pegelkontrolle",
+      "T097"
+    ],
+    [
+      "W068",
+      "Musik & Kreativität",
+      "Tempo aus Tap-Intervallen berechnen",
+      "tap tempo berechnung",
+      "/wissen/musik-kreativitaet/tempo-aus-tap-intervallen-berechnen/",
+      "Robuste Mittelwerte, Ausreißer und Reset",
+      "T098"
+    ],
+    [
+      "W069",
+      "Musik & Kreativität",
+      "Akkorde und Tonleitern visuell verstehen",
+      "akkorde tonleitern erklaerung",
+      "/wissen/musik-kreativitaet/akkorde-und-tonleitern-visuell-verstehen/",
+      "Intervalle, Stufen und eigene Audiobeispiele",
+      "T099"
+    ],
+    [
+      "W070",
+      "Musik & Kreativität",
+      "ADSR-Hüllkurven: Wirkung und Grenzen",
+      "adsr huellkurve erklaerung",
+      "/wissen/musik-kreativitaet/adsr-huellkurven-wirkung-und-grenzen/",
+      "Vier Phasen an einer interaktiven Grafik nachvollziehen",
+      "T100"
+    ],
+    [
+      "W071",
+      "Musik & Kreativität",
+      "Generative Line Art mit Seed und Morphing",
+      "generative line art algorithmus",
+      "/wissen/musik-kreativitaet/generative-line-art-mit-seed-und-morphing/",
+      "Kurven, Korrespondenzen und reproduzierbare Ergebnisse",
+      "T101"
+    ],
+    [
+      "W072",
+      "Musik & Kreativität",
+      "Interaktive Geschichten ohne Sackgassen entwerfen",
+      "interactive storytelling branching",
+      "/wissen/musik-kreativitaet/interaktive-geschichten-ohne-sackgassen-entwerfen/",
+      "Entscheidungsgraph, Zustände, Rückkehrpunkte und Testpfade",
+      "T102"
+    ],
+    [
+      "W073",
+      "Forschung & Qualität",
+      "Relaunch-Qualität von Planung bis Nachkontrolle",
+      "website relaunch checkliste",
+      "/wissen/forschung-qualitaet/relaunch-qualitaet-von-planung-bis-nachkontrolle/",
+      "Vorbereitung, Launch-Tests, Monitoring und Rollback",
+      "T103"
+    ],
+    [
+      "W074",
+      "Forschung & Qualität",
+      "Testfälle für Browsertools systematisch schreiben",
+      "testfaelle webanwendungen",
+      "/wissen/forschung-qualitaet/testfaelle-fuer-browsertools-systematisch-schreiben/",
+      "Äquivalenzklassen, Grenzwerte, Regression und E2E",
+      "T104"
+    ],
+    [
+      "W075",
+      "Forschung & Qualität",
+      "Manuelle Barrierefreiheitstests sinnvoll dokumentieren",
+      "barrierefreiheit website testen",
+      "/wissen/forschung-qualitaet/manuelle-barrierefreiheitstests-sinnvoll-dokumentieren/",
+      "Tastatur, Screenreader, Zoom und Fehlerprotokolle",
+      "T105"
+    ],
+    [
+      "W076",
+      "Forschung & Qualität",
+      "Entscheidungsmatrizen ohne Scheingenauigkeit",
+      "nutzwertanalyse entscheidungsmatrix",
+      "/wissen/forschung-qualitaet/entscheidungsmatrizen-ohne-scheingenauigkeit/",
+      "Gewichte und Sensitivitätsprüfung anhand eines Beispiels",
+      "T106"
+    ],
+    [
+      "W077",
+      "Forschung & Qualität",
+      "Ein belastbares Web-Experiment planen",
+      "experiment hypothese erstellen",
+      "/wissen/forschung-qualitaet/ein-belastbares-web-experiment-planen/",
+      "Hypothese, Messgrößen, Kontrollgruppe und Abbruchkriterien",
+      "T107"
+    ],
+    [
+      "W078",
+      "Forschung & Qualität",
+      "Versionshistorie für öffentliche Browsertools",
+      "changelog best practices",
+      "/wissen/forschung-qualitaet/versionshistorie-fuer-oeffentliche-browsertools/",
+      "SemVer, Breaking Changes und nachvollziehbare Releases",
+      "T108"
+    ],
+    [
+      "W079",
+      "Forschung & Qualität",
+      "Eine hilfreiche Open-Source-README schreiben",
+      "github readme best practices",
+      "/wissen/forschung-qualitaet/eine-hilfreiche-open-source-readme-schreiben/",
+      "Installation, Screenshots, Lizenz, Tests und Fehlerberichte",
+      "T109"
+    ],
+    [
+      "W080",
+      "Forschung & Qualität",
+      "Datensätze mit Data Dictionaries beschreiben",
+      "data dictionary erstellen",
+      "/wissen/forschung-qualitaet/datensaetze-mit-data-dictionaries-beschreiben/",
+      "Einheiten, Herkunft, Missing Values und Versionen",
+      "T110"
+    ]
+  ],
+  "clusters": [
+    [
+      "H01",
+      "SEO & Technik",
+      "/tools/seo/",
+      "/wissen/seo/"
+    ],
+    [
+      "H02",
+      "GEO & KI",
+      "/tools/geo-ki/",
+      "/wissen/geo-ki/"
+    ],
+    [
+      "H03",
+      "Content & Redaktion",
+      "/tools/content/",
+      "/wissen/content/"
+    ],
+    [
+      "H04",
+      "Analytics & Marketing",
+      "/tools/analytics/",
+      "/wissen/analytics/"
+    ],
+    [
+      "H05",
+      "Daten & Entwicklung",
+      "/tools/entwicklung/",
+      "/wissen/entwicklung/"
+    ],
+    [
+      "H06",
+      "Design & Barrierefreiheit",
+      "/tools/design/",
+      "/wissen/design/"
+    ],
+    [
+      "H07",
+      "Bild & Medien",
+      "/tools/medien/",
+      "/wissen/medien/"
+    ],
+    [
+      "H08",
+      "Game Development",
+      "/tools/game-development/",
+      "/wissen/game-development/"
+    ],
+    [
+      "H09",
+      "Musik & Kreativität",
+      "/tools/musik-kreativitaet/",
+      "/wissen/musik-kreativitaet/"
+    ],
+    [
+      "H10",
+      "Forschung & Qualität",
+      "/tools/forschung-qualitaet/",
+      "/wissen/forschung-qualitaet/"
+    ]
+  ],
+  "projects": [
+    [
+      "L01",
+      "Projekt",
+      "Kalenderwoche.info",
+      "/projekte/kalenderwoche-info/",
+      "ISO-8601, Mehrsprachigkeit und Testfälle; echte Messwerte erst nach Prüfung"
+    ],
+    [
+      "L02",
+      "Projekt",
+      "Jahreskalender.org",
+      "/projekte/jahreskalender-org/",
+      "Regionale Kalenderlogik, Datenquellen, Informationsarchitektur"
+    ],
+    [
+      "L03",
+      "Projekt",
+      "Schlafrechner.org",
+      "/projekte/schlafrechner-org/",
+      "Berechnungsannahmen, Unsicherheiten, UX; keine Diagnose"
+    ],
+    [
+      "L04",
+      "Projekt",
+      "Matthias-Boehm.com",
+      "/projekte/matthias-boehm-com/",
+      "Expertenidentität, Seitenarchitektur und technische Entscheidungen"
+    ],
+    [
+      "L05",
+      "Labor",
+      "2D-Levelideen-Bibliothek",
+      "/labor/2d-levelideen/",
+      "Kuratierte spielbare Muster; keine Kopie fremder Level"
+    ],
+    [
+      "L06",
+      "Labor",
+      "Line-Art-Morphing",
+      "/labor/line-art-morphing/",
+      "Seed-basierte Formen, reduzierte Bewegung, eigene Bildsprache"
+    ],
+    [
+      "L07",
+      "Labor",
+      "Web-Audio-Synthese",
+      "/labor/web-audio-synthese/",
+      "Originalklänge, Timing, Pegel, Mobil-Audio"
+    ],
+    [
+      "L08",
+      "Labor",
+      "Strategie-Browsergame",
+      "/labor/strategie-browsergame/",
+      "Spielbare kleine Karte, Regeln, KI-Gegner, Performance"
+    ],
+    [
+      "L09",
+      "Labor",
+      "Interaktive Geschichten",
+      "/labor/interaktive-geschichten/",
+      "Eigenständige Verzweigungsdemo mit Zuständen und Alternativen"
+    ],
+    [
+      "L10",
+      "Labor",
+      "Wasser- und Natur-Simulation",
+      "/labor/wasser-natur-simulation/",
+      "Illustratives Modell, Annahmen und Grenzen; keine hydrologische Prognose"
+    ],
+    [
+      "L11",
+      "Labor",
+      "Prozedurale Welten",
+      "/labor/prozedurale-welten/",
+      "Seed-Generator, Biome, reproduzierbare Karten"
+    ],
+    [
+      "L12",
+      "Labor",
+      "Barrierefreies Browsertool",
+      "/labor/barrierefreie-browsertools/",
+      "Tastatur, Zoom, Screenreader und echte Testprotokolle"
+    ]
+  ],
+  "research": [
+    [
+      "F01",
+      "SERP-Snippet-Längenstudie",
+      "/forschung/serp-snippet-laengen/",
+      "Definierte Stichprobe von Suchanfragen; tatsächliche Titel und Descriptions mit Datum/Gerät vergleichen; keine allgemeinen Grenzwerte ableiten",
+      "Daten erheben, Methodik und Rohdaten prüfen, Ergebnisse erst danach veröffentlichen"
+    ],
+    [
+      "F02",
+      "GEO-Repeatability-Benchmark",
+      "/forschung/geo-repeatability/",
+      "Gleiche Prompts je Modell in wiederholten Sessions; Varianz, Modellversion und Stichprobe dokumentieren",
+      "Daten erheben, Methodik und Rohdaten prüfen, Ergebnisse erst danach veröffentlichen"
+    ],
+    [
+      "F03",
+      "KI-Zitations- und Quellenstudie",
+      "/forschung/ki-zitationen/",
+      "Manuell geprüfte Quellenzuordnung und Evidenz; Datensatz mit Rechten veröffentlichen",
+      "Daten erheben, Methodik und Rohdaten prüfen, Ergebnisse erst danach veröffentlichen"
+    ],
+    [
+      "F04",
+      "Statische Websites und Web Vitals",
+      "/forschung/statische-websites-performance/",
+      "Vergleich identischer Inhalte mit/ohne clientseitige App-Shell; Lab und Felddaten trennen",
+      "Daten erheben, Methodik und Rohdaten prüfen, Ergebnisse erst danach veröffentlichen"
+    ],
+    [
+      "F05",
+      "Internationalisierung und hreflang",
+      "/forschung/hreflang-testkorpus/",
+      "Synthetischer reproduzierbarer Satz korrekter und fehlerhafter Matrizen",
+      "Daten erheben, Methodik und Rohdaten prüfen, Ergebnisse erst danach veröffentlichen"
+    ],
+    [
+      "F06",
+      "WCAG-Kontrast-Testkorpus",
+      "/forschung/wcag-kontrast-testkorpus/",
+      "Referenzfarben, Randfälle und Sollwerte anhand offizieller Kriterien",
+      "Daten erheben, Methodik und Rohdaten prüfen, Ergebnisse erst danach veröffentlichen"
+    ],
+    [
+      "F07",
+      "CSV-/JSON-Interop-Benchmark",
+      "/forschung/csv-json-interop/",
+      "Roundtrip-Testdaten für Trennzeichen, Unicode, große Zahlen und leere Zellen",
+      "Daten erheben, Methodik und Rohdaten prüfen, Ergebnisse erst danach veröffentlichen"
+    ],
+    [
+      "F08",
+      "Web-Audio-Timing-Benchmark",
+      "/forschung/web-audio-timing/",
+      "Timing-Abweichung nach Browser und Gerät unter definierter Last",
+      "Daten erheben, Methodik und Rohdaten prüfen, Ergebnisse erst danach veröffentlichen"
+    ],
+    [
+      "F09",
+      "Platformer-Bewegungsphysik",
+      "/forschung/platformer-physik/",
+      "Eigene Simulationsdaten, Reichweite, Höhe und Zeit mit Referenzwerten",
+      "Daten erheben, Methodik und Rohdaten prüfen, Ergebnisse erst danach veröffentlichen"
+    ],
+    [
+      "F10",
+      "Lokale Browsertools und Datenschutz",
+      "/forschung/browsertools-datenfluesse/",
+      "Netzwerkprüfung inklusive Assets, Analytics, Speicherung und Export; keine pauschale Datenschutzgarantie",
+      "Daten erheben, Methodik und Rohdaten prüfen, Ergebnisse erst danach veröffentlichen"
+    ]
+  ]
+}

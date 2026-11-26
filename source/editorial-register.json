@@ -1,0 +1,1039 @@
+[
+  {
+    "id": "W001",
+    "title": "Title und Meta Description systematisch testen",
+    "path": "/wissen/seo/title-und-meta-description-systematisch-testen/",
+    "reference": "https://developers.google.com/search/docs/appearance/title-link",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Titellink-/Snippet-Erzeugung und Definition beobachteter Impressionen; eigene Vergleichs- und Mischungseffekt-Beispiele separat nachgerechnet.",
+    "references": [
+      {
+        "url": "https://developers.google.com/search/docs/appearance/title-link",
+        "title": "Google: Titellinks in der Suche",
+        "claims": [
+          "Google bildet den Titellink aus mehreren Quellen"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/appearance/snippet",
+        "title": "Google: Snippets und Meta Descriptions",
+        "claims": [
+          "kann die Beschreibung abhängig von der Suchanfrage aus dem Seiteninhalt erzeugen."
+        ]
+      },
+      {
+        "url": "https://support.google.com/webmasters/answer/7576553",
+        "title": "Google Search Console: Leistungsbericht und Datenexport",
+        "claims": [
+          "GSC-Impressionen sind kein vollständiges Suchvolumen."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W002",
+    "title": "Robots.txt und Meta-Robots richtig unterscheiden",
+    "path": "/wissen/seo/robots-txt-und-meta-robots-richtig-unterscheiden/",
+    "reference": "https://developers.google.com/crawling/docs/robots-txt/robots-txt-spec",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Geltungsbereich, Gruppen- und Pfadentscheidung, kodierte Zeichen und Abrufbarkeit von noindex; keine Live-Prüfung eines Crawlers.",
+    "references": [
+      {
+        "url": "https://developers.google.com/crawling/docs/robots-txt/robots-txt-spec",
+        "title": "Google: Auslegung der robots.txt-Spezifikation",
+        "claims": [
+          "Für Google gelten robots.txt-Regeln nur für den Host, das Protokoll und den Port ihrer Datei.",
+          "Bei Google entscheidet zunächst die spezifisch passende User-Agent-Gruppe; die allgemeine *-Gruppe wird nicht zusätzlich angehängt."
+        ]
+      },
+      {
+        "url": "https://www.rfc-editor.org/rfc/rfc9309.html",
+        "title": "IETF: RFC 9309 – Robots Exclusion Protocol",
+        "claims": [
+          "RFC 9309 beschreibt zusätzlich die Behandlung prozentkodierter Zeichen; ersetze %2F nicht pauschal durch einen trennenden Slash."
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/crawling-indexing/block-indexing",
+        "title": "Google: Indexierung mit noindex verhindern",
+        "claims": [
+          "Googlebot muss die noindex-Anweisung im HTML oder HTTP-Header abrufen können."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W003",
+    "title": "Strukturierte Daten als zusammenhängenden Graph aufbauen",
+    "path": "/wissen/seo/strukturierte-daten-als-zusammenhaengenden-graph-aufbauen/",
+    "reference": "https://developers.google.com/search/docs/appearance/structured-data/sd-policies",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Schema.org-Typenhierarchie und Googles Anforderung sichtbarer Angaben; eigene Graph- und Prüfmethodik.",
+    "references": [
+      {
+        "url": "https://schema.org/WebApplication",
+        "title": "Schema.org: WebApplication",
+        "claims": [
+          "Schema.org beschreibt WebApplication als Untertyp von SoftwareApplication."
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/appearance/structured-data/sd-policies",
+        "title": "Google: Allgemeine Richtlinien für strukturierte Daten",
+        "claims": [
+          "Googles allgemeine Richtlinien verlangen, dass ausgezeichnete Inhalte für Leser sichtbar sind."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W004",
+    "title": "Internationale Websites mit hreflang planen",
+    "path": "/wissen/seo/internationale-websites-mit-hreflang-planen/",
+    "reference": "https://developers.google.com/search/docs/specialty/international/localized-versions",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W005",
+    "title": "XML-Sitemaps für große statische Websites",
+    "path": "/wissen/seo/xml-sitemaps-fuer-grosse-statische-websites/",
+    "reference": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Sitemap-Grenzen und sachgerechte lastmod-Verwendung; eigene URL-/XML-Beispiele.",
+    "references": [
+      {
+        "url": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap",
+        "title": "Google: Sitemap erstellen und einreichen",
+        "claims": [
+          "Der Sitemap-Standard begrenzt eine einzelne Datei auf 50.000 URLs und 50 MB unkomprimiert.",
+          "Google verwendet lastmod nur, wenn das Datum zuverlässig eine wesentliche Änderung der jeweiligen Seite abbildet."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W006",
+    "title": "Canonical-Konflikte diagnostizieren",
+    "path": "/wissen/seo/canonical-konflikte-diagnostizieren/",
+    "reference": "https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Canonical-Signalstärken und Abgrenzung zu noindex; eigene Diagnose- und Entscheidungsmethode.",
+    "references": [
+      {
+        "url": "https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls",
+        "title": "Google: Kanonische URL festlegen",
+        "claims": [
+          "Google bezeichnet Weiterleitungen und rel=canonical als starke, Sitemap-Einträge als schwächere Signale für die Canonical-Auswahl.",
+          "Google empfiehlt noindex nicht als Mittel, innerhalb einer Website eine andere kanonische Variante auszuwählen."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W007",
+    "title": "Website-Migration: Weiterleitungen und Fehlerkontrolle",
+    "path": "/wissen/seo/website-migration-weiterleitungen-und-fehlerkontrolle/",
+    "reference": "https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Google-Empfehlung zur Dauer von Weiterleitungen; eigenes Umzugsinventar, keine Prüfung fremder Hostingregeln.",
+    "references": [
+      {
+        "url": "https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes",
+        "title": "Google: Website mit URL-Änderungen verschieben",
+        "claims": [
+          "Google empfiehlt bei einem URL-Umzug, dauerhafte Weiterleitungen möglichst lange und im Allgemeinen mindestens ein Jahr beizubehalten."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W008",
+    "title": "Keyword-Kannibalisierung anhand von Daten erkennen",
+    "path": "/wissen/seo/keyword-kannibalisierung-anhand-von-daten-erkennen/",
+    "reference": "https://developers.google.com/webmaster-tools/v1/searchanalytics/query",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Mehrdimensionale Search-Analytics-Abfragen; Kannibalisierungsentscheidung bleibt eine eigene redaktionelle Untersuchung.",
+    "references": [
+      {
+        "url": "https://developers.google.com/webmaster-tools/v1/searchanalytics/query",
+        "title": "Google Search Console API: Search Analytics query",
+        "claims": [
+          "Die Search-Analytics-API kann mehrere Dimensionen zu einem Zeilenschlüssel kombinieren."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W009",
+    "title": "SEO und GEO: Wo die Methoden wirklich auseinandergehen",
+    "path": "/wissen/geo-ki/seo-und-geo-wo-die-methoden-wirklich-auseinandergehen/",
+    "reference": "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Aktuelle Google-Teilnahmevoraussetzungen, Teilnahme-Einstellung und Generative-AI-Impressionsbericht; eigene Messreihen getrennt.",
+    "references": [
+      {
+        "url": "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide",
+        "title": "Google: Generative Suchfunktionen und Website-Optimierung",
+        "claims": [
+          "Für Google nennt die aktuelle Anleitung Indexierbarkeit, Snippetfähigkeit und die Aufnahme der Property in die generativen Suchfunktionen als Voraussetzungen.",
+          "Google verlangt für generative Suchfunktionen kein spezielles schema.org-Markup."
+        ]
+      },
+      {
+        "url": "https://support.google.com/webmasters/answer/16908024",
+        "title": "Google Search Console: Teilnahme an generativen Suchfunktionen",
+        "claims": [
+          "Die Search-Console-Einstellung „Search generative AI“ kann Aufnahme, Ausschluss oder Vererbung aus einer übergeordneten Property festlegen."
+        ]
+      },
+      {
+        "url": "https://support.google.com/webmasters/answer/16984139",
+        "title": "Google Search Console: Generative-AI-Leistungsbericht für Search",
+        "claims": [
+          "Der eigene Generative-AI-Leistungsbericht in Search Console zeigt Impressionen aus AI Overviews und AI Mode.",
+          "Diese Daten sind auch im Web-Gesamtbericht enthalten."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W010",
+    "title": "Reproduzierbares Messverfahren für KI-Sichtbarkeit",
+    "path": "/wissen/geo-ki/reproduzierbares-messverfahren-fuer-ki-sichtbarkeit/",
+    "reference": "https://support.google.com/webmasters/answer/16984139",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Variabilität generativer Ausgaben und Existenz des Google-Impressionsberichts; eigener Versuchsplan und eigene Nenner, keine Repräsentativitätsprüfung.",
+    "references": [
+      {
+        "url": "https://developers.openai.com/api/docs/guides/evaluation-best-practices",
+        "title": "OpenAI: Best Practices für Evaluationsverfahren",
+        "claims": [
+          "Generative Antworten können bei identischen Eingaben variieren."
+        ]
+      },
+      {
+        "url": "https://support.google.com/webmasters/answer/16984139",
+        "title": "Google Search Console: Generative-AI-Leistungsbericht für Search",
+        "claims": [
+          "Für eine eigene Google-Property gibt es zusätzlich den Generative-AI-Leistungsbericht mit Google-Impressionen."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W011",
+    "title": "Quellen in KI-Antworten untersuchen",
+    "path": "/wissen/geo-ki/quellen-in-ki-antworten-untersuchen/",
+    "reference": "https://developers.google.com/search/docs/fundamentals/gen-ai-attribution-factuality",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Von Google beschriebene Quellenzuordnung und Feedbackweg; eigene Prüfstufen, keine Freigabe konkreter KI-Antworten.",
+    "references": [
+      {
+        "url": "https://developers.google.com/search/docs/fundamentals/gen-ai-attribution-factuality",
+        "title": "Google: Quellenzuordnung und Faktentreue generativer Suchantworten",
+        "claims": [
+          "Google beschreibt bei seinen generativen Suchfunktionen die Verknüpfung von Antwortaussagen mit stützenden Seiten und nennt einen Feedbackweg bei falscher Zuordnung."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W012",
+    "title": "Entitäten im Web konsistent beschreiben",
+    "path": "/wissen/geo-ki/entitaeten-im-web-konsistent-beschreiben/",
+    "reference": "https://schema.org/Person",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W013",
+    "title": "KI-Crawler verstehen: Suche, Abruf und Training",
+    "path": "/wissen/geo-ki/ki-crawler-verstehen-suche-abruf-und-training/",
+    "reference": "https://developers.openai.com/api/docs/bots",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Dokumentierte OpenAI-Bot-Zwecke und Google-Teilnahme-Einstellung; keine Botbesuche oder Trainingswirkung gemessen.",
+    "references": [
+      {
+        "url": "https://developers.openai.com/api/docs/bots",
+        "title": "OpenAI: Verzeichnis der Crawler und User-Agents",
+        "claims": [
+          "Das offizielle OpenAI-Verzeichnis unterscheidet OAI-SearchBot für die Suche, GPTBot für Inhalte, die zum Modelltraining genutzt werden können, und ChatGPT-User für bestimmte nutzerinitiierte Abrufe.",
+          "OAI-SearchBot und GPTBot lassen sich unabhängig über ihre robots.txt-Gruppen steuern.",
+          "ChatGPT-User ist kein automatischer Suchcrawler; bei nutzerinitiierten Aktionen müssen robots.txt-Regeln laut Anbieter nicht anwendbar sein."
+        ]
+      },
+      {
+        "url": "https://support.google.com/webmasters/answer/16908024",
+        "title": "Google Search Console: Teilnahme an generativen Suchfunktionen",
+        "claims": [
+          "Bei Google existiert zusätzlich eine Search-Console-Einstellung zur Teilnahme an generativen Suchfunktionen. Laut Dokumentation steuert sie die Anzeige in diesen Funktionen und nicht das KI-Training."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W014",
+    "title": "Was llms.txt kann und was nicht",
+    "path": "/wissen/geo-ki/was-llms-txt-kann-und-was-nicht/",
+    "reference": "https://llmstxt.org/",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Geöffneter llms.txt-v2-Vorschlag und ausdrückliche Google-Abgrenzung; eigene Auswahl-/Pflegemethode, kein Wirkungsnachweis.",
+    "references": [
+      {
+        "url": "https://llmstxt.org/",
+        "title": "llmstxt.org: Vorschlag llms.txt v2",
+        "claims": [
+          "Die Projektseite beschreibt inzwischen Vorschlag v2. Er erlaubt eine llms.txt im Wurzelverzeichnis oder unter einem Teilpfad und empfiehlt optionale Markdown-Alternativen für Dokumentationsseiten.",
+          "Ein H1 mit Projektname ist dort der Pflichtbestandteil; weitere Abschnitte strukturieren Kontext und Links."
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide",
+        "title": "Google: Generative Suchfunktionen und Website-Optimierung",
+        "claims": [
+          "Google erklärt in seiner aktuellen Anleitung ausdrücklich, dass llms.txt und entsprechende Sonderdateien für Google Search ignoriert werden."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W015",
+    "title": "Aussagen in KI-Texten redaktionell absichern",
+    "path": "/wissen/geo-ki/aussagen-in-ki-texten-redaktionell-absichern/",
+    "reference": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W016",
+    "title": "Prompts wie Software testen und versionieren",
+    "path": "/wissen/geo-ki/prompts-wie-software-testen-und-versionieren/",
+    "reference": "https://developers.openai.com/api/docs/guides/evaluation-best-practices",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Aufgabenspezifische Evaluationskriterien und menschliche Kalibrierung; eigene Fallmatrix, keine Modell- oder Plattformausführung.",
+    "references": [
+      {
+        "url": "https://developers.openai.com/api/docs/guides/evaluation-best-practices",
+        "title": "OpenAI: Best Practices für Evaluationsverfahren",
+        "claims": [
+          "OpenAIs Evaluationsleitfaden empfiehlt aufgabenspezifische Kriterien, den Vergleich von Änderungen und die Kalibrierung automatischer Bewertungen durch menschliche Rückmeldung."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W017",
+    "title": "Ein Content-Briefing erstellen, das Autoren tatsächlich hilft",
+    "path": "/wissen/content/ein-content-briefing-erstellen-das-autoren-tatsaechlich-hilft/",
+    "reference": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W018",
+    "title": "Hochwertige Ratgeber systematisch produzieren",
+    "path": "/wissen/content/hochwertige-ratgeber-systematisch-produzieren/",
+    "reference": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W019",
+    "title": "Lesbarkeit messen, ohne Inhalte zu vereinfachen",
+    "path": "/wissen/content/lesbarkeit-messen-ohne-inhalte-zu-vereinfachen/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W020",
+    "title": "Textähnlichkeit, Duplicate Content und Plagiate unterscheiden",
+    "path": "/wissen/content/textaehnlichkeit-duplicate-content-und-plagiate-unterscheiden/",
+    "reference": "https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W021",
+    "title": "Content-Audits mit Search Console vorbereiten",
+    "path": "/wissen/content/content-audits-mit-search-console-vorbereiten/",
+    "reference": "https://support.google.com/webmasters/answer/7576553",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Ausgelassene Query-Daten in Search Console; eigenes Diagnosebeispiel und Priorisierung ohne erfundene Suchvolumina.",
+    "references": [
+      {
+        "url": "https://support.google.com/webmasters/answer/17010575",
+        "title": "Google Search Console: Abweichungen zwischen Datenansichten",
+        "claims": [
+          "Google dokumentiert, dass anonymisierte Suchanfragen in ungefilterten Diagrammsummen enthalten sein können, in Query-Tabellen aber fehlen."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W022",
+    "title": "Eine Redaktion mit Evergreen-Inhalten organisieren",
+    "path": "/wissen/content/eine-redaktion-mit-evergreen-inhalten-organisieren/",
+    "reference": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W023",
+    "title": "Quellen richtig dokumentieren und zitieren",
+    "path": "/wissen/content/quellen-richtig-dokumentieren-und-zitieren/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W024",
+    "title": "Content aktualisieren, zusammenführen oder entfernen",
+    "path": "/wissen/content/content-aktualisieren-zusammenfuehren-oder-entfernen/",
+    "reference": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W025",
+    "title": "UTM-Namenskonventionen für Teams",
+    "path": "/wissen/analytics/utm-namenskonventionen-fuer-teams/",
+    "reference": "https://support.google.com/analytics/answer/10917952",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "UTM-Bedeutung und Schreibungsunterscheidung in Google Analytics; eigene URL-Prüffälle, keine Live-Analytics-Erhebung.",
+    "references": [
+      {
+        "url": "https://support.google.com/analytics/answer/10917952",
+        "title": "Google Analytics: Kampagnenlinks mit UTM-Parametern",
+        "claims": [
+          "Google Analytics unterscheidet UTM-Werte nach Groß- und Kleinschreibung.",
+          "term ist in Google Analytics für das bezahlte Keyword vorgesehen."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W026",
+    "title": "Search-Console-Exporte richtig interpretieren",
+    "path": "/wissen/analytics/search-console-exporte-richtig-interpretieren/",
+    "reference": "https://support.google.com/webmasters/answer/7576553",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Dimensionen, Exportabdeckung, Zeitzone, Canonical-Zuordnung, Platzhalter, Generative-AI-Bericht und dokumentierte Erfassungsanomalie; keine echte Property ausgewertet.",
+    "references": [
+      {
+        "url": "https://developers.google.com/webmaster-tools/v1/searchanalytics/query",
+        "title": "Google Search Console API: Search Analytics query",
+        "claims": [
+          "Die Search-Analytics-API unterstützt mehrere Gruppierungsdimensionen.",
+          "Eine API-Abfrage garantiert ebenfalls nicht sämtliche Datenzeilen."
+        ]
+      },
+      {
+        "url": "https://support.google.com/webmasters/answer/17010575",
+        "title": "Google Search Console: Abweichungen zwischen Datenansichten",
+        "claims": [
+          "Die regulären Tagesdaten werden außerhalb der 24-Stunden-Ansicht in Pacific Time geführt.",
+          "Die Search-Console-Tabelle zeigt höchstens 1.000 Zeilen; anonymisierte Anfragen können im ungefilterten Diagramm enthalten sein und in der Tabelle fehlen."
+        ]
+      },
+      {
+        "url": "https://support.google.com/webmasters/answer/17011259",
+        "title": "Google Search Console: Dimensionen und Datengruppierung",
+        "claims": [
+          "Google ordnet den Großteil der URL-Leistungsdaten der kanonischen URL zu."
+        ]
+      },
+      {
+        "url": "https://support.google.com/webmasters/answer/7576553",
+        "title": "Google Search Console: Leistungsbericht und Datenexport",
+        "claims": [
+          "Dort als nicht verfügbar (~) oder nicht numerisch (-) markierte Werte können im CSV-Export ebenfalls als 0 erscheinen."
+        ]
+      },
+      {
+        "url": "https://support.google.com/webmasters/answer/16984139",
+        "title": "Google Search Console: Generative-AI-Leistungsbericht für Search",
+        "claims": [
+          "Der separate Generative-AI-Leistungsbericht für Google Search enthält Impressionen aus den dokumentierten KI-Funktionen."
+        ]
+      },
+      {
+        "url": "https://support.google.com/webmasters/answer/6211453",
+        "title": "Google Search Console: Bekannte Datenanomalien",
+        "claims": [
+          "Dort ist für den 9. bis 11. November 2026 ein Protokollierungsfehler bei Impressionen im Generative-AI-Bericht dokumentiert."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W027",
+    "title": "Reguläre Ausdrücke in Google Search Console",
+    "path": "/wissen/analytics/regulaere-ausdruecke-in-google-search-console/",
+    "reference": "https://support.google.com/webmasters/answer/17011165",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "RE2, Teilstring-/Schreibungsverhalten und Auswirkungen von Filtern auf Berichtssummen; eigene Testliste, kein eingeloggter GSC-Test.",
+    "references": [
+      {
+        "url": "https://support.google.com/webmasters/answer/17011165",
+        "title": "Google Search Console: Filter und Vergleiche",
+        "claims": [
+          "Die Search-Console-Filter verwenden reguläre Ausdrücke auf Basis von RE2.",
+          "Search Console ignoriert dabei standardmäßig Groß- und Kleinschreibung; mit (?-i) am Anfang wird die Suche schreibungsabhängig.",
+          "Google weist darauf hin, dass Query- und URL-Filter wegen ausgelassener oder gekürzter Daten auch Berichtssummen verändern können."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W028",
+    "title": "SEO-Traffic-Prognosen transparent berechnen",
+    "path": "/wissen/analytics/seo-traffic-prognosen-transparent-berechnen/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W029",
+    "title": "ROI von SEO fair bewerten",
+    "path": "/wissen/analytics/roi-von-seo-fair-bewerten/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W030",
+    "title": "Marketing-KPIs richtig definieren",
+    "path": "/wissen/analytics/marketing-kpis-richtig-definieren/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W031",
+    "title": "A/B-Tests auswerten: typische Statistikfehler",
+    "path": "/wissen/analytics/a-b-tests-auswerten-typische-statistikfehler/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W032",
+    "title": "KI-Traffic in Analytics erkennen und begrenzen",
+    "path": "/wissen/analytics/ki-traffic-in-analytics-erkennen-und-begrenzen/",
+    "reference": "https://www.w3.org/TR/referrer-policy/",
+    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "review": "offen",
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Explizite Referrer-Policies no-referrer und origin; eigene Host-/Nennerbeispiele, keine Anbieteranteile oder GA4-Daten gemessen.",
+    "references": [
+      {
+        "url": "https://www.w3.org/TR/referrer-policy/",
+        "title": "W3C: Referrer Policy (Candidate Recommendation 2017)",
+        "claims": [
+          "In der Referrer-Policy-Spezifikation bedeutet no-referrer, dass die Herkunftsinformation nicht mitgesendet wird.",
+          "Bei der Policy origin wird nur der Ursprung und nicht der gesamte Pfad übertragen."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "W033",
+    "title": "JSON verstehen und typische Syntaxfehler beheben",
+    "path": "/wissen/entwicklung/json-verstehen-und-typische-syntaxfehler-beheben/",
+    "reference": "https://www.rfc-editor.org/rfc/rfc8259",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W034",
+    "title": "CSV- und JSON-Daten sicher umwandeln",
+    "path": "/wissen/entwicklung/csv-und-json-daten-sicher-umwandeln/",
+    "reference": "https://www.rfc-editor.org/rfc/rfc4180",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W035",
+    "title": "RegEx lernen mit reproduzierbaren Testfällen",
+    "path": "/wissen/entwicklung/regex-lernen-mit-reproduzierbaren-testfaellen/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W036",
+    "title": "Markdown für technische Dokumentation nutzen",
+    "path": "/wissen/entwicklung/markdown-fuer-technische-dokumentation-nutzen/",
+    "reference": "https://commonmark.org/",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W037",
+    "title": "JSON-Daten strukturell statt als Text vergleichen",
+    "path": "/wissen/entwicklung/json-daten-strukturell-statt-als-text-vergleichen/",
+    "reference": "https://www.rfc-editor.org/rfc/rfc6901",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W038",
+    "title": "CSV-Datenqualität mit überprüfbaren Regeln verbessern",
+    "path": "/wissen/entwicklung/csv-datenqualitaet-mit-ueberpruefbaren-regeln-verbessern/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W039",
+    "title": "URL-Aufbau, Parameter und Encoding verstehen",
+    "path": "/wissen/entwicklung/url-aufbau-parameter-und-encoding-verstehen/",
+    "reference": "https://url.spec.whatwg.org/",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W040",
+    "title": "Browsertools entwickeln, die ohne Backend funktionieren",
+    "path": "/wissen/entwicklung/browsertools-entwickeln-die-ohne-backend-funktionieren/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/API/File_API",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W041",
+    "title": "WCAG-Farbkontraste richtig berechnen",
+    "path": "/wissen/design/wcag-farbkontraste-richtig-berechnen/",
+    "reference": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W042",
+    "title": "CSS-Farbverläufe visuell gestalten",
+    "path": "/wissen/design/css-farbverlaeufe-visuell-gestalten/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/CSS/gradient",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W043",
+    "title": "Eine konsistente UI-Farbpalette entwickeln",
+    "path": "/wissen/design/eine-konsistente-ui-farbpalette-entwickeln/",
+    "reference": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W044",
+    "title": "Responsive Typografie mit CSS clamp()",
+    "path": "/wissen/design/responsive-typografie-mit-css-clamp/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/CSS/clamp",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W045",
+    "title": "CSS Grid und Flexbox sinnvoll kombinieren",
+    "path": "/wissen/design/css-grid-und-flexbox-sinnvoll-kombinieren/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W046",
+    "title": "Design Tokens für konsistente Websites",
+    "path": "/wissen/design/design-tokens-fuer-konsistente-websites/",
+    "reference": "https://www.w3.org/TR/css-variables-1/",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W047",
+    "title": "Tastaturbedienung und sichtbare Fokuszustände",
+    "path": "/wissen/design/tastaturbedienung-und-sichtbare-fokuszustaende/",
+    "reference": "https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W048",
+    "title": "Animationen mit Rücksicht auf reduced motion",
+    "path": "/wissen/design/animationen-mit-ruecksicht-auf-reduced-motion/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W049",
+    "title": "Bilder fürs Web komprimieren: Qualitätsvergleich",
+    "path": "/wissen/medien/bilder-fuers-web-komprimieren-qualitaetsvergleich/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W050",
+    "title": "JPEG, PNG, WebP und AVIF vergleichen",
+    "path": "/wissen/medien/jpeg-png-webp-und-avif-vergleichen/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W051",
+    "title": "Responsive Bilder mit srcset und sizes",
+    "path": "/wissen/medien/responsive-bilder-mit-srcset-und-sizes/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W052",
+    "title": "Favicons korrekt in moderne Websites integrieren",
+    "path": "/wissen/medien/favicons-korrekt-in-moderne-websites-integrieren/",
+    "reference": "https://developers.google.com/search/docs/appearance/favicon-in-search",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W053",
+    "title": "Social-Preview-Bilder richtig gestalten",
+    "path": "/wissen/medien/social-preview-bilder-richtig-gestalten/",
+    "reference": "https://ogp.me/",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W054",
+    "title": "Statische QR-Codes ohne Tracking einsetzen",
+    "path": "/wissen/medien/statische-qr-codes-ohne-tracking-einsetzen/",
+    "reference": "https://www.qrcode.com/en/about/",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W055",
+    "title": "SVG-Dateien optimieren und sicher verwenden",
+    "path": "/wissen/medien/svg-dateien-optimieren-und-sicher-verwenden/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/SVG",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W056",
+    "title": "Sprite-Sheets für 2D-Spiele strukturieren",
+    "path": "/wissen/medien/sprite-sheets-fuer-2d-spiele-strukturieren/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W057",
+    "title": "Levelmechaniken als wiederverwendbare Designmuster",
+    "path": "/wissen/game-development/levelmechaniken-als-wiederverwendbare-designmuster/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W058",
+    "title": "Ein 2D-Level mit guter Lernkurve entwerfen",
+    "path": "/wissen/game-development/ein-2d-level-mit-guter-lernkurve-entwerfen/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W059",
+    "title": "Tilemaps, Kollisionen und Layer planen",
+    "path": "/wissen/game-development/tilemaps-kollisionen-und-layer-planen/",
+    "reference": "https://doc.mapeditor.org/en/stable/reference/json-map-format/",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W060",
+    "title": "Sprungphysik in Platformern abstimmen",
+    "path": "/wissen/game-development/sprungphysik-in-platformern-abstimmen/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W061",
+    "title": "Spielbalance anhand von Simulationen überprüfen",
+    "path": "/wissen/game-development/spielbalance-anhand-von-simulationen-ueberpruefen/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W062",
+    "title": "Loot-Wahrscheinlichkeiten ohne irreführende Modelle",
+    "path": "/wissen/game-development/loot-wahrscheinlichkeiten-ohne-irrefuehrende-modelle/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W063",
+    "title": "A*-Wegfindung verständlich erklärt",
+    "path": "/wissen/game-development/a-wegfindung-verstaendlich-erklaert/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W064",
+    "title": "Prozedurale Karten mit reproduzierbaren Seeds",
+    "path": "/wissen/game-development/prozedurale-karten-mit-reproduzierbaren-seeds/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W065",
+    "title": "Web Audio: Synthese direkt im Browser",
+    "path": "/wissen/musik-kreativitaet/web-audio-synthese-direkt-im-browser/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W066",
+    "title": "Einen Step-Sequencer ohne Timing-Drift bauen",
+    "path": "/wissen/musik-kreativitaet/einen-step-sequencer-ohne-timing-drift-bauen/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W067",
+    "title": "Drum-Sounds synthetisieren statt Samples kopieren",
+    "path": "/wissen/musik-kreativitaet/drum-sounds-synthetisieren-statt-samples-kopieren/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W068",
+    "title": "Tempo aus Tap-Intervallen berechnen",
+    "path": "/wissen/musik-kreativitaet/tempo-aus-tap-intervallen-berechnen/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/API/Performance/now",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W069",
+    "title": "Akkorde und Tonleitern visuell verstehen",
+    "path": "/wissen/musik-kreativitaet/akkorde-und-tonleitern-visuell-verstehen/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W070",
+    "title": "ADSR-Hüllkurven: Wirkung und Grenzen",
+    "path": "/wissen/musik-kreativitaet/adsr-huellkurven-wirkung-und-grenzen/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/API/AudioParam",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W071",
+    "title": "Generative Line Art mit Seed und Morphing",
+    "path": "/wissen/musik-kreativitaet/generative-line-art-mit-seed-und-morphing/",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement/getPointAtLength",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W072",
+    "title": "Interaktive Geschichten ohne Sackgassen entwerfen",
+    "path": "/wissen/musik-kreativitaet/interaktive-geschichten-ohne-sackgassen-entwerfen/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W073",
+    "title": "Relaunch-Qualität von Planung bis Nachkontrolle",
+    "path": "/wissen/forschung-qualitaet/relaunch-qualitaet-von-planung-bis-nachkontrolle/",
+    "reference": "https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W074",
+    "title": "Testfälle für Browsertools systematisch schreiben",
+    "path": "/wissen/forschung-qualitaet/testfaelle-fuer-browsertools-systematisch-schreiben/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W075",
+    "title": "Manuelle Barrierefreiheitstests sinnvoll dokumentieren",
+    "path": "/wissen/forschung-qualitaet/manuelle-barrierefreiheitstests-sinnvoll-dokumentieren/",
+    "reference": "https://www.w3.org/WAI/test-evaluate/",
+    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W076",
+    "title": "Entscheidungsmatrizen ohne Scheingenauigkeit",
+    "path": "/wissen/forschung-qualitaet/entscheidungsmatrizen-ohne-scheingenauigkeit/",
+    "reference": "",
+    "reference_status": "Eigene Methodik/Rechenbeispiel; Fachreview offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W077",
+    "title": "Ein belastbares Web-Experiment planen",
+    "path": "/wissen/forschung-qualitaet/ein-belastbares-web-experiment-planen/",
+    "reference": "https://www.itl.nist.gov/div898/handbook/",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W078",
+    "title": "Versionshistorie für öffentliche Browsertools",
+    "path": "/wissen/forschung-qualitaet/versionshistorie-fuer-oeffentliche-browsertools/",
+    "reference": "https://semver.org/",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W079",
+    "title": "Eine hilfreiche Open-Source-README schreiben",
+    "path": "/wissen/forschung-qualitaet/eine-hilfreiche-open-source-readme-schreiben/",
+    "reference": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  },
+  {
+    "id": "W080",
+    "title": "Datensätze mit Data Dictionaries beschreiben",
+    "path": "/wissen/forschung-qualitaet/datensaetze-mit-data-dictionaries-beschreiben/",
+    "reference": "https://www.w3.org/TR/vocab-dcat-3/",
+    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "review": "offen",
+    "search_validation": "offen"
+  }
+]
