@@ -96,14 +96,17 @@ jobs:
           python "$QA_REPOSITORY/.github/digital-labs/qa/browser_gate.py"
           --root "$QA_PUBLIC"
           --report "$QA_REPORTS/browser.json"
-      - name: Preserve authoritative metadata for this checked artifact
+      - name: Preserve metadata and package the checked Pages artifact
+        env:
+          QA_ARCHIVE: ${{ runner.temp }}/digital-labs-pages-package/artifact.tar
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PYCODE'
           # BEGIN SOURCE_METADATA_SAVE
-          import hashlib, json, os, shutil, sys
+          import hashlib, io, json, os, shutil, sys, tarfile, tempfile
           from pathlib import Path
+          from install import safe_path
           sys.path.insert(0, str(Path('integration').resolve()))
           from pages import HASH, checked_file, load_manifest
           reports = Path(os.environ['QA_REPORTS'])
@@ -120,14 +123,35 @@ jobs:
               raise ValueError('No matching successful native browser report')
           if not isinstance(hashes, dict) or set(hashes) != expected:
               raise ValueError('Staging hashes do not exactly cover the approved public files')
-          for name, digest in hashes.items():
-              if not isinstance(digest, str) or not HASH.fullmatch(digest):
-                  raise ValueError('Invalid staging hash: ' + name)
-              if name in manifest['files'] and manifest['files'][name] != digest:
-                  raise ValueError('Release hash differs from staging: ' + name)
-              if hashlib.sha256(checked_file(public, name).read_bytes()).hexdigest() != digest:
-                  raise ValueError('Public artifact changed after validation: ' + name)
+          # upload-pages-artifact@v4 excludes every dotfile, including the
+          # approved .nojekyll marker. Package the exact checked paths instead.
+          # This runs on pull requests too; only the later upload needs main.
+          archive_path = safe_path(Path(os.environ['QA_ARCHIVE']))
+          if archive_path.exists():
+              raise ValueError('Pages archive destination already exists')
+          archive_path.parent.mkdir(parents=True, exist_ok=True)
+          with tempfile.TemporaryDirectory(prefix='.labs-pages-package-', dir=archive_path.parent) as temporary:
+              temporary_archive = Path(temporary) / 'artifact.tar'
+              with tarfile.open(temporary_archive, 'w') as archive:
+                  for name, digest in sorted(hashes.items()):
+                      if not isinstance(digest, str) or not HASH.fullmatch(digest):
+                          raise ValueError('Invalid staging hash: ' + name)
+                      if name in manifest['files'] and manifest['files'][name] != digest:
+                          raise ValueError('Release hash differs from staging: ' + name)
+                      raw = checked_file(public, name).read_bytes()
+                      if len(raw) > 16 * 1024 * 1024 or hashlib.sha256(raw).hexdigest() != digest:
+                          raise ValueError('Public artifact changed after validation or exceeds the archive limit: ' + name)
+                      member = tarfile.TarInfo(name)
+                      member.size = len(raw)
+                      member.mode = 0o644
+                      archive.addfile(member, io.BytesIO(raw))
+              if archive_path.exists() or archive_path.is_symlink():
+                  raise ValueError('Pages archive destination changed during packaging')
+              temporary_archive.rename(archive_path)
           shutil.copy2(manifest_path, reports / 'deployment.json')
+          with archive_path.open('rb') as stream:
+              archive_digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+          print(json.dumps({'packagedFiles': len(hashes), 'archiveSHA256': archive_digest}))
           # END SOURCE_METADATA_SAVE
           PYCODE
       - name: Upload authoritative deployment metadata
@@ -169,9 +193,12 @@ jobs:
           PYCODE
       - name: Nur die geprüften Website-Dateien hochladen
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'MatthiasBoehm247/matthiasboehm247.github.io'
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
-          path: ${{ runner.temp }}/digital-labs-source-public
+          name: github-pages
+          path: ${{ runner.temp }}/digital-labs-pages-package/artifact.tar
+          if-no-files-found: error
+          retention-days: 1
 
   deploy:
     name: Auf GitHub Pages veröffentlichen
