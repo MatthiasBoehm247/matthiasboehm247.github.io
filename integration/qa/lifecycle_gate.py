@@ -338,26 +338,43 @@ def check_health(health, *, allowed_aborted_url=None):
 async def navigate_pending(page, server, origin, case, route, document, *, start_job=False, allow_completed=False):
     # Snapshot the real pending job immediately before native history navigation
     # in the same JS task. No application state or browser API is substituted.
-    started = await page.evaluate("""startJob => {
-      if (startJob) document.querySelector('#tool-form').requestSubmit();
-      const status = document.querySelector('#tool-status');
-      const snapshot = {status: status.textContent, kind: status.dataset.kind,
-        result: document.querySelector('#result-output').value,
-        downloadDisabled: document.querySelector('#download-result').disabled};
-      window.__labsNativeProbe.observeNavigation();
-      history.back();
-      return snapshot;
-    }""", start_job)
-    assert started == {'status': 'Verarbeitung …', 'kind': '', 'result': '', 'downloadDisabled': True}, \
-        f'Job was not pending immediately before native navigation: {started}'
-    await page.wait_for_url(origin + '/__labs_qa__/away')
+    from playwright.async_api import Error as PlaywrightError
+    interrupted = False
+    try:
+        started = await page.evaluate("""startJob => {
+          if (startJob) document.querySelector('#tool-form').requestSubmit();
+          const status = document.querySelector('#tool-status');
+          const snapshot = {status: status.textContent, kind: status.dataset.kind,
+            result: document.querySelector('#result-output').value,
+            downloadDisabled: document.querySelector('#download-result').disabled};
+          window.__labsNativeProbe.observeNavigation();
+          history.back();
+          return snapshot;
+        }""", start_job)
+    except PlaywrightError as exc:
+        # Chromium can destroy this evaluator after its original navigation
+        # marker was sent, before the return value reaches the driver. Only this
+        # exact transport failure may use the independently received marker.
+        if str(exc) != 'Page.evaluate: Execution context was destroyed, most likely because of a navigation.':
+            raise
+        interrupted = True
+    pending = {'status': 'Verarbeitung …', 'kind': '', 'result': '', 'downloadDisabled': True}
+    if not interrupted:
+        assert started == pending, f'Job was not pending immediately before native navigation: {started}'
+    await page.wait_for_url(origin + '/__labs_qa__/away', wait_until='load')
     requested = await event_for(server, case, route, 'navigation-requested', document=document)
     leaving = await event_for(server, case, route, 'pagehide', document=document)
-    assert leaving['trusted'] is True and requested['sequence'] < leaving['sequence']
+    assert all(row.get('case') == case and row.get('path') == route and row.get('document') == document
+        for row in (requested, leaving)), 'Native navigation observations belong to a different case, route or document'
+    observed = {'status': requested.get('status'), 'kind': requested.get('statusKind'),
+        'result': requested.get('result'), 'downloadDisabled': requested.get('downloadDisabled')}
+    assert observed == pending, f'Original navigation marker did not observe a pending job: {observed}'
+    assert leaving['trusted'] is True and requested['sequence'] < leaving['sequence'], \
+        'Native pagehide was not trusted or did not follow the original navigation marker'
     if not (allow_completed and leaving['statusKind'] == 'success'):
         assert leaving['result'] == '' and leaving['downloadDisabled'] is True, \
             f'Navigating away enabled a stale result or export: {leaving}'
-    return requested, leaving
+    return requested, leaving, interrupted
 
 
 def cancellation_variant(server, case, route, requested, leaving, native_error):
@@ -488,7 +505,7 @@ async def pending_worker(browser, server, origin, routes, fixtures, exports):
         assert server.worker_requested.is_set(), 'Real module-worker request was not observed'
         assert await page.locator('#tool-status').inner_text() == 'Verarbeitung …'
         document = await page.evaluate('window.__labsNativeProbe.id')
-        requested, leaving = await navigate_pending(page, server, origin, case, route, document)
+        requested, leaving, interrupted = await navigate_pending(page, server, origin, case, route, document)
         variant = cancellation_variant(server, case, route, requested, leaving, 'Isolierte Berechnung fehlgeschlagen.')
         server.hold_worker = False
         server.worker_release.set()
@@ -497,6 +514,7 @@ async def pending_worker(browser, server, origin, routes, fixtures, exports):
             after_sequence=leaving['sequence'] if returned_id == document else 0)
         detail = navigation_detail(server, case, route, leaving, returned)
         detail['cancellationVariant'] = variant
+        detail['evaluationInterruptedByNavigation'] = interrupted
         detail['pendingImmediatelyBeforeNavigation'] = requested
         if detail['bfcacheUsed']:
             assert await page.locator('#result-output').input_value() == ''
@@ -628,7 +646,7 @@ async def pending_image(browser, server, origin, routes, fixtures, exports):
         await page.locator('#field-width').fill('4096')
         await page.locator('#field-format').select_option('image/png')
         document = await page.evaluate('window.__labsNativeProbe.id')
-        requested, leaving = await navigate_pending(page, server, origin, case, route, document,
+        requested, leaving, interrupted = await navigate_pending(page, server, origin, case, route, document,
             start_job=True, allow_completed=True)
         if leaving['statusKind'] == 'success':
             variant = completed_image_before_hide(server, case, route, requested, leaving, len(input_bytes))
@@ -642,6 +660,7 @@ async def pending_image(browser, server, origin, routes, fixtures, exports):
             after_sequence=leaving['sequence'] if returned_id == document else 0)
         detail = navigation_detail(server, case, route, leaving, returned)
         detail['cancellationVariant'] = variant
+        detail['evaluationInterruptedByNavigation'] = interrupted
         detail['pendingImmediatelyBeforeNavigation'] = requested
         detail['imageInputSHA256'] = input_hash
         if detail['bfcacheUsed'] and variant == 'COMPLETED_BEFORE_PAGEHIDE':
