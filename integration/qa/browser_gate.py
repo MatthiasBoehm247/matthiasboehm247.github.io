@@ -25,6 +25,7 @@ import re
 import sys
 import tempfile
 import threading
+import traceback
 from urllib.parse import urlsplit
 
 from fixtures import generate, read_png
@@ -44,6 +45,10 @@ AUDIO_CASES = {identifier + '-standard' for identifier in AUDIO} | {
     'T099-vierklang', 'T100-sustain-null',
 }
 EXPECTED_CASES = {f'T{number:03}' for number in range(1, 111)} | LEARNING | {'directory', 'workspace', 'workspace-projects'} | {'audio:' + name for name in AUDIO_CASES}
+TILEMAP_SNAPSHOT_CASES = (
+    ('edited-grid-restore', 'Bearbeitete Zellen speichern, nach anderen Eingaben laden und exakt exportieren'),
+    ('missing-seed-default', 'Projektstand ohne Seed-Feld mit Standardwert und erhaltenem Raster laden'),
+)
 
 # Copied byte-equivalent as parsed data from tests/tools-v110-native-fixtures.json.
 # Keeping these inputs inline makes the installed gate self-contained.
@@ -373,6 +378,123 @@ async def sitemap_xml_cases(page, result):
     assert result['executed'] == result['passed'] == len(SITEMAP_XML_CASES)
 
 
+async def tilemap_snapshot_cases(page, origin, route, fixtures, exports, result):
+    """Use real project UI/imports; never inject DOM state or localStorage values."""
+    async def set_fields(values):
+        for key, value in values.items():
+            await page.locator('#field-' + key).fill(value)
+
+    async def open_project(name):
+        await page.goto(origin + route, wait_until='domcontentloaded')
+        await ready(page)
+        await page.get_by_text('Mit Projekt arbeiten', exact=True).click()
+        await page.locator('#labs-project-select').select_option(label=name)
+
+    async def toggle(x, y):
+        await page.get_by_role('spinbutton', name='Spalte (ab 0)', exact=True).fill(str(x))
+        await page.get_by_role('spinbutton', name='Zeile (ab 0)', exact=True).fill(str(y))
+        await page.get_by_role('button', name='Kachel umschalten', exact=True).click()
+
+    async def assert_restored(values, text):
+        actual = {key: await page.locator('#field-' + key).input_value() for key in values}
+        assert actual == values, f'Restored tilemap fields differ: {actual!r} != {values!r}'
+        assert await page.locator('#result-output').input_value() == text, 'Restored tilemap must preserve the exact hand-edited JSON'
+        assert await page.locator('#tool-status').get_attribute('data-kind') == 'success', 'Restored tilemap must be a current successful result'
+        assert 'Bearbeitetes Raster wiederhergestellt.' in await page.locator('#tool-status').inner_text(), 'Tilemap load must confirm restoration instead of requesting regeneration'
+        assert await page.locator('#download-result').is_enabled(), 'Restored tilemap download must be enabled'
+        assert await page.locator('#copy-result').is_enabled(), 'Restored tilemap copy must be enabled'
+        assert await page.locator('#tool-preview canvas').is_visible(), 'Restored tilemap must render its editable preview'
+
+    first, second = result['cases']
+    first['status'] = 'RUNNING'
+    result['executed'] += 1
+    try:
+        default_seed = await page.locator('#field-seed').get_attribute('value')
+        assert isinstance(default_seed, str), 'Tilemap seed must expose its HTML reset default'
+        project_name = 'CI Tilemap bearbeitet'
+        await page.goto(origin + '/arbeitsbereich/', wait_until='domcontentloaded')
+        await page.locator('#labs-project-name').fill(project_name)
+        await page.get_by_role('button', name='Projekt anlegen', exact=True).click()
+        await page.wait_for_function("(name) => [...document.querySelectorAll('.workspace-project h3')].some(el=>el.textContent.startsWith(name))", arg=project_name)
+        await open_project(project_name)
+        saved_fields = {'width': '10', 'height': '6', 'seed': 'ci-tilemap-saved'}
+        await set_fields(saved_fields)
+        await submit(page)
+        expected = json.loads(await page.locator('#result-output').input_value())
+        assert (expected['width'], expected['height']) == (10, 6), 'Tilemap must use the selected nondefault dimensions'
+        cells = [(0, 0), (9, 5)]
+        for x, y in cells:
+            await toggle(x, y)
+            expected['tiles'][y][x] = 1 - expected['tiles'][y][x]
+            assert json.loads(await page.locator('#result-output').input_value()) == expected, f'Tile edit at ({x}, {y}) must change exactly that cell'
+        saved_text = await page.locator('#result-output').input_value()
+        await page.get_by_role('button', name='Stand speichern', exact=True).click()
+        await page.wait_for_function("() => document.querySelector('.workspace-status')?.textContent === 'Stand gespeichert.'")
+
+        await set_fields({'width': '7', 'height': '5', 'seed': 'ci-tilemap-other'})
+        assert await page.locator('#download-result').is_disabled(), 'Changing tilemap inputs must invalidate the previous export'
+        assert await page.locator('#result-output').input_value() == '', 'Changing tilemap inputs must clear the previous result'
+        await submit(page)
+        assert json.loads(await page.locator('#result-output').input_value()) != expected, 'Replacement inputs must produce a different map before restoration'
+        await page.get_by_role('button', name='Stand laden', exact=True).click()
+        await assert_restored(saved_fields, saved_text)
+        restored_path = exports / 'T087-restored.json'
+        await download(page, page.locator('#download-result'), restored_path)
+        assert restored_path.read_text(encoding='utf-8') == saved_text, 'Real restored tilemap download must equal the saved hand-edited JSON'
+
+        # The recreated preview must retain its own live editing handlers.
+        await toggle(0, 0)
+        edited_again = copy.deepcopy(expected)
+        edited_again['tiles'][0][0] = 1 - edited_again['tiles'][0][0]
+        assert json.loads(await page.locator('#result-output').input_value()) == edited_again, 'Restored tilemap preview must remain editable'
+        await page.get_by_role('button', name='Stand laden', exact=True).click()
+        await assert_restored(saved_fields, saved_text)
+
+        project_path = exports / 'T087-project.json'
+        await download(page, page.get_by_role('button', name='Stand als Datei sichern', exact=True), project_path)
+        project_payload = json.loads(project_path.read_text(encoding='utf-8'))
+        assert project_payload['format'] == 'digital-labs-project' and project_payload['version'] == 1, 'Tilemap project export must use the supported project format'
+        assert len(project_payload['project']['snapshots']) == 1, 'Tilemap project export must contain one snapshot'
+        snapshot = project_payload['project']['snapshots'][0]
+        assert snapshot['tool'] == 'T087' and snapshot['values'] == saved_fields and snapshot['result'] == saved_text, 'Tilemap project export must retain all saved fields and edited cells'
+        first.update(status='PASS', editedCells=cells, dimensions=[10, 6], exportBytes=restored_path.stat().st_size)
+        result['passed'] += 1
+    except Exception as exc:
+        first.update(status='FAIL', error=str(exc) or type(exc).__name__, errorType=type(exc).__name__, traceback=traceback.format_exc())
+        raise AssertionError(f"T087 snapshot subcase {first['key']}: {exc}") from exc
+
+    second['status'] = 'RUNNING'
+    result['executed'] += 1
+    try:
+        # Simulate a supported older project via a real exported file, not a
+        # storage edit. Only the omitted input and synthetic project name change.
+        legacy = copy.deepcopy(project_payload)
+        legacy_name = 'CI Tilemap ohne Seed'
+        legacy['project']['name'] = legacy_name
+        del legacy['project']['snapshots'][0]['values']['seed']
+        legacy_path = fixtures / 'T087-project-without-seed.json'
+        legacy_path.write_text(json.dumps(legacy, ensure_ascii=False), encoding='utf-8')
+        await page.goto(origin + '/arbeitsbereich/', wait_until='domcontentloaded')
+        await page.locator('#labs-project-import').set_input_files(str(legacy_path))
+        await page.wait_for_function("() => document.querySelector('.workspace-status')?.textContent.startsWith('Projekt als Kopie importiert.')")
+        assert await page.locator('.workspace-project').count() == 2, 'Importing the older tilemap file must create one separate project copy'
+        await open_project(legacy_name)
+        foreign_seed = 'ci-seed-must-not-survive-loading'
+        assert foreign_seed != default_seed, 'Missing-seed check must start from a nondefault seed'
+        await set_fields({'width': '7', 'height': '5', 'seed': foreign_seed})
+        await submit(page)
+        await page.get_by_role('button', name='Stand laden', exact=True).click()
+        await assert_restored({**saved_fields, 'seed': default_seed}, saved_text)
+        legacy_export = exports / 'T087-restored-without-seed.json'
+        await download(page, page.locator('#download-result'), legacy_export)
+        assert legacy_export.read_text(encoding='utf-8') == saved_text, 'Loading an omitted seed must preserve every hand-edited tile in the real download'
+        second.update(status='PASS', restoredDefaultSeed=default_seed, exportBytes=legacy_export.stat().st_size)
+        result['passed'] += 1
+    except Exception as exc:
+        second.update(status='FAIL', error=str(exc) or type(exc).__name__, errorType=type(exc).__name__, traceback=traceback.format_exc())
+        raise AssertionError(f"T087 snapshot subcase {second['key']}: {exc}") from exc
+
+
 async def tools_gate(browser, catalog, origin, fixtures, exports, record):
     semaphore = asyncio.Semaphore(3)
     async def one(tool):
@@ -388,6 +510,11 @@ async def tools_gate(browser, catalog, origin, fixtures, exports, record):
                 detail['sitemapXml'] = {
                     'expected': len(SITEMAP_XML_CASES), 'executed': 0, 'passed': 0,
                     'cases': [{'key': case['key'], 'name': case['name'], 'status': 'NOT_RUN'} for case in SITEMAP_XML_CASES],
+                }
+            if identifier == 'T087':
+                detail['tilemapSnapshots'] = {
+                    'expected': len(TILEMAP_SNAPSHOT_CASES), 'executed': 0, 'passed': 0,
+                    'cases': [{'key': key, 'name': name, 'status': 'NOT_RUN'} for key, name in TILEMAP_SNAPSHOT_CASES],
                 }
             health = PageHealth(page, origin)
             try:
@@ -416,6 +543,10 @@ async def tools_gate(browser, catalog, origin, fixtures, exports, record):
                     detail['audioScope'] = 'Real Web Audio start/stop status; no human hearing judgement'
                 if identifier == 'T009':
                     await sitemap_xml_cases(page, detail['sitemapXml'])
+                if identifier == 'T087':
+                    snapshots = detail['tilemapSnapshots']
+                    await tilemap_snapshot_cases(page, origin, tool['path'], fixtures, exports, snapshots)
+                    assert snapshots['executed'] == snapshots['passed'] == len(TILEMAP_SNAPSHOT_CASES) and all(case['status'] == 'PASS' for case in snapshots['cases']), 'Both native tilemap snapshot subcases must execute and pass'
                 await responsive(page)
                 if identifier in MEDIA:
                     await negative_media(page, identifier, fixtures)
@@ -476,7 +607,7 @@ async def workspace_gate(browser, origin, route, fixtures, exports, record):
     async def open_preview(path):
         await page.locator('#labs-backup-import').set_input_files(str(path))
         await page.locator('.backup-preview').wait_for(state='visible')
-        assert await page.get_by_role('heading', name='Sicherung prüfen', exact=True).is_visible()
+        assert await page.get_by_role('heading', name='Sicherung prüfen', exact=True).is_visible(), 'Backup preview must show its review heading'
     async def apply_selection():
         await page.get_by_role('button', name='Auswahl importieren', exact=True).click()
         await page.locator('.backup-preview').wait_for(state='hidden')
@@ -504,20 +635,26 @@ async def workspace_gate(browser, origin, route, fixtures, exports, record):
         await page.wait_for_function("() => document.documentElement.dataset.theme === 'dark'")
         before = await raw_state()
         original = json.loads(before)
-        assert len(original['projects']) == 2 and original['theme'] == 'dark'
-        assert original['favorites'] == [route] and original['track'] is False
+        assert len(original['projects']) == 2 and original['theme'] == 'dark', 'Workspace setup must preserve both projects and the chosen dark theme'
+        assert original['favorites'] == [route] and original['track'] is False, 'Workspace setup must preserve the favorite without enabling history'
+        assert isinstance(original.get('generation'), str) and original['generation'], 'Fresh local workspace must have a lifecycle generation'
         project_a = next(project for project in original['projects'] if project['name'] == 'CI Projekt A')
-        assert len(project_a['snapshots']) == 1
-        assert project_a['snapshots'][0]['tool'] == 'T049' and project_a['snapshots'][0]['values']['text'] == tool_input
+        assert len(project_a['snapshots']) == 1, 'Saving the form must create exactly one project snapshot'
+        assert project_a['snapshots'][0]['tool'] == 'T049' and project_a['snapshots'][0]['values']['text'] == tool_input, 'Saved snapshot must preserve the tool and exact Unicode input'
 
         backup_path = exports / 'workspace-backup.json'
         await download(page, page.get_by_role('button', name='Alles als Sicherung exportieren', exact=True), backup_path)
         payload = json.loads(backup_path.read_text(encoding='utf-8'))
-        assert payload['format'] == 'digital-labs-workspace' and payload['version'] == 1
-        assert payload['workspace'] == original and payload['exportedAt']
+        assert payload['format'] == 'digital-labs-workspace' and payload['version'] == 1, 'Full backup must use the supported workspace envelope'
+        assert 'generation' not in payload['workspace'], 'Full backup must not export the local workspace generation'
+        # The local lifecycle marker is intentionally not portable. Every other
+        # field, including all nested project/snapshot data, must match exactly.
+        portable_original = {key: value for key, value in original.items() if key != 'generation'}
+        assert payload['workspace'] == portable_original, 'Full backup must preserve all portable workspace data exactly'
+        assert payload.get('exportedAt'), 'Full backup must include an export timestamp'
         await open_preview(backup_path)
-        assert await page.locator('.backup-preview fieldset input[type=checkbox]').count() == 2
-        assert not await page.locator('#labs-backup-settings').is_checked()
+        assert await page.locator('.backup-preview fieldset input[type=checkbox]').count() == 2, 'Backup preview must list both exported projects'
+        assert not await page.locator('#labs-backup-settings').is_checked(), 'Backup preview must not opt into preference replacement'
         assert await raw_state() == before, 'Preview must not write local data'
         await apply_selection()
         assert await raw_state() == before, 'Identical reimport must not duplicate projects or overwrite preferences'
@@ -532,17 +669,17 @@ async def workspace_gate(browser, origin, route, fixtures, exports, record):
         incoming_path.write_text(json.dumps(incoming, ensure_ascii=False), encoding='utf-8')
         await open_preview(incoming_path)
         await page.locator('#labs-backup-project-2').uncheck()
-        assert not await page.locator('#labs-backup-settings').is_checked()
-        assert await raw_state() == before
+        assert not await page.locator('#labs-backup-settings').is_checked(), 'Selected-copy preview must not opt into preference replacement'
+        assert await raw_state() == before, 'Selecting incoming projects must not write before confirmation'
         await apply_selection()
         merged_raw = await raw_state()
         merged = json.loads(merged_raw)
-        assert len(merged['projects']) == 3
+        assert len(merged['projects']) == 3, 'Selected import must add exactly one new project'
         assert merged['projects'][:2] == original['projects'], 'Existing projects must be preserved exactly'
         added = merged['projects'][2]
-        assert added['name'] == selected['name'] and added['id'] != selected['id']
-        assert added['id'] not in {project['id'] for project in original['projects']}
-        assert added['snapshots'] == selected['snapshots']
+        assert added['name'] == selected['name'] and added['id'] != selected['id'], 'Imported copy must retain its name and receive a fresh ID'
+        assert added['id'] not in {project['id'] for project in original['projects']}, 'Imported copy ID must not collide with existing projects'
+        assert added['snapshots'] == selected['snapshots'], 'Imported copy must preserve all snapshot data exactly'
         for key in ['theme', 'track', 'favorites', 'recent', 'active']:
             assert merged[key] == original[key], ('Unexpected preference replacement', key)
         await open_preview(incoming_path)
@@ -553,16 +690,16 @@ async def workspace_gate(browser, origin, route, fixtures, exports, record):
         legacy_path = fixtures / 'workspace-legacy.json'
         legacy_path.write_text(json.dumps(original, ensure_ascii=False), encoding='utf-8')
         await open_preview(legacy_path)
-        assert 'Bisherige Speicherdatei erkannt' in await page.locator('.backup-preview').inner_text()
+        assert 'Bisherige Speicherdatei erkannt' in await page.locator('.backup-preview').inner_text(), 'Raw legacy workspace must be identified in preview'
         await page.get_by_role('button', name='Import abbrechen', exact=True).click()
         await page.locator('.backup-preview').wait_for(state='hidden')
-        assert await raw_state() == merged_raw
+        assert await raw_state() == merged_raw, 'Cancelling a legacy import must preserve the workspace'
         invalid_path = fixtures / 'workspace-invalid.json'
         invalid_path.write_text('{invalid', encoding='utf-8')
         await page.locator('#labs-backup-import').set_input_files(str(invalid_path))
         await page.wait_for_function("() => document.querySelector('.workspace-status')?.textContent.includes('kein gültiges JSON')")
-        assert await raw_state() == merged_raw
-        assert not await page.locator('.backup-preview').is_visible()
+        assert await raw_state() == merged_raw, 'Invalid backup input must preserve the workspace'
+        assert not await page.locator('.backup-preview').is_visible(), 'Invalid backup input must not leave an actionable preview'
         await responsive(page)
 
         await page.goto(origin + route, wait_until='domcontentloaded')
@@ -571,26 +708,26 @@ async def workspace_gate(browser, origin, route, fixtures, exports, record):
         await page.locator('#labs-project-select').select_option('')
         emergency_text = '{"rettung":"Ohne aktives Projekt, noch nicht neu berechnet"}'
         await page.locator('#field-text').fill(emergency_text)
-        assert await page.locator('#download-result').is_disabled()
+        assert await page.locator('#download-result').is_disabled(), 'Editing the form must disable download of the previous tool result'
         rescue_before = await raw_state()
         rescue_path = exports / 'workspace-direct-project.json'
         await download(page, page.get_by_role('button', name='Stand als Datei sichern', exact=True), rescue_path)
         rescue = json.loads(rescue_path.read_text(encoding='utf-8'))
-        assert rescue['format'] == 'digital-labs-project' and rescue['version'] == 1
-        assert len(rescue['project']['snapshots']) == 1
+        assert rescue['format'] == 'digital-labs-project' and rescue['version'] == 1, 'Direct form backup must use the supported project envelope'
+        assert len(rescue['project']['snapshots']) == 1, 'Direct form backup must contain exactly one snapshot'
         snapshot = rescue['project']['snapshots'][0]
-        assert snapshot['tool'] == 'T049' and snapshot['values']['text'] == emergency_text and snapshot['result'] == ''
+        assert snapshot['tool'] == 'T049' and snapshot['values']['text'] == emergency_text and snapshot['result'] == '', 'Direct form backup must preserve the unsaved input without a stale result'
         assert await raw_state() == rescue_before, 'Direct form export must not write local storage'
         await page.goto(origin + '/arbeitsbereich/', wait_until='domcontentloaded')
         await page.locator('#labs-project-import').set_input_files(str(rescue_path))
         await page.wait_for_function("() => document.querySelector('.workspace-status')?.textContent.startsWith('Projekt als Kopie importiert.')")
         restored = json.loads(await raw_state())
-        assert len(restored['projects']) == 4
-        assert restored['projects'][-1]['snapshots'][0]['values']['text'] == emergency_text
+        assert len(restored['projects']) == 4, 'Reimporting the direct form backup must add one project copy'
+        assert restored['projects'][-1]['snapshots'][0]['values']['text'] == emergency_text, 'Reimported direct form backup must preserve the exact unsaved input'
         health.check()
         record('workspace', 'PASS', {'checks':['UI project creation and snapshot', 'real full-backup download', 'preview without writes', 'idempotent reimport', 'selected new copies', 'new IDs', 'preserved original projects and preferences', 'legacy preview/cancel', 'invalid file preservation', 'responsive widths', 'direct unsaved form export', 'real project reimport'], 'exportBytes':backup_path.stat().st_size})
     except Exception as exc:
-        record('workspace', 'FAIL', {'error':str(exc), **health.details()})
+        record('workspace', 'FAIL', {'error':str(exc) or type(exc).__name__, 'errorType':type(exc).__name__, 'traceback':traceback.format_exc(), **health.details()})
     finally:
         await context.close()
 
@@ -956,8 +1093,8 @@ def main(argv=None):
         'checkedAt': datetime.now(timezone.utc).isoformat(), 'expectedCases': len(EXPECTED_CASES), 'cases': len(results), 'passed': passed,
         'browser': 'Playwright Chromium', 'widths': list(WIDTHS), 'themes': ['light', 'dark'],
         'environment': environment,
-        'expectedSubcases': {'T009': len(SITEMAP_XML_CASES)},
-        'scope': '110 real tool examples/exports including 16 named native DOMParser XML subcases within T009, nine file/media tools, invalid media, 12 learning models with CSV/JSON exports, directory, workspace backup/download/selected merge/restore, project rename/copy/search/remove/undo across tabs and responsive widths in light/dark; fourteen native OfflineAudioContext renders using the production graph (signal, silence, peak, tail and a sine-frequency check). No human hearing, physical-device or search-indexing certification.',
+        'expectedSubcases': {'T009': len(SITEMAP_XML_CASES), 'T087': len(TILEMAP_SNAPSHOT_CASES)},
+        'scope': '110 real tool examples/exports including 16 named native DOMParser XML subcases within T009 and two native saved-tilemap restore/default-field/export subcases within T087, nine file/media tools, invalid media, 12 learning models with CSV/JSON exports, directory, workspace backup/download/selected merge/restore, project rename/copy/search/remove/undo across tabs and responsive widths in light/dark; fourteen native OfflineAudioContext renders using the production graph (signal, silence, peak, tail and a sine-frequency check). No human hearing, physical-device or search-indexing certification.',
         'results': results,
         'coverage': coverage,
     }

@@ -3,9 +3,9 @@ name: Digital Labs Source prüfen und veröffentlichen
 # This public workflow needs only audited website build inputs and synthetic
 # integration/qa media generators. It never reads tests/, historical fixtures,
 # planning documents or local QA reports from the checkout.
-# The 50 source/unit suites are verified locally and remain in the private full
+# The 51 source/unit suites are verified locally and remain in the private full
 # download. This workflow builds, stages and runs 139 native browser cases;
-# it does not claim that the 50 local suites were executed remotely.
+# it does not claim that the 51 local suites were executed remotely.
 
 on:
   pull_request:
