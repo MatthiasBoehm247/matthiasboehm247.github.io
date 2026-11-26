@@ -44,6 +44,7 @@ EXPECTED_CASES = {
 }
 ACTION_TIMEOUT_MS = 30000
 CASE_TIMEOUT_SECONDS = 150
+FOCUS_SETTLE_MS = 2000
 WARMUP_RUNS = 1
 MEASURED_RUNS = 3
 WORKLOAD_ROWS = 10000
@@ -133,12 +134,32 @@ async def tab_to(page, selector, *, limit=80):
 
 
 async def visible_focus(page, selector):
+    from playwright.async_api import TimeoutError as BrowserTimeout
+    initial = await page.evaluate(FOCUS, selector)
+    started = time.perf_counter()
+    # Native focus scrolling can settle after the Tab event has returned (WebKit).
+    # Observe the same visibility requirements without moving focus or scrolling.
+    predicate = f"""selector => {{
+      const value = ({FOCUS})(selector);
+      return value.matched && value.focusVisible && value.outlineWidth >= 1
+        && !['none', 'hidden'].includes(value.outlineStyle)
+        && !['transparent', 'rgba(0,0,0,0)'].includes(value.outlineColor.replaceAll(' ', ''))
+        && value.display !== 'none' && value.visibility === 'visible' && value.opacity > 0
+        && value.intersectsViewport && value.unobscured;
+    }}"""
+    try:
+        await page.wait_for_function(predicate, arg=selector, polling='raf', timeout=FOCUS_SETTLE_MS)
+    except BrowserTimeout as exc:
+        final = await page.evaluate(FOCUS, selector)
+        raise AssertionError(f'Native keyboard focus did not become visible within {FOCUS_SETTLE_MS}ms; initial={initial}; final={final}') from exc
     value = await page.evaluate(FOCUS, selector)
     assert value['matched'], f'Unexpected active element: {value}'
     assert value['focusVisible'] and value['outlineStyle'] not in {'none', 'hidden'} \
         and value['outlineWidth'] >= 1 and value['outlineColor'].replace(' ', '') not in {'transparent', 'rgba(0,0,0,0)'}, f'No visible focus outline: {value}'
     assert value['display'] != 'none' and value['visibility'] == 'visible' and value['opacity'] > 0, value
     assert value['intersectsViewport'] and value['unobscured'], f'Focused control is outside or obscured: {value}'
+    value.update(nativeFocusSettleMs=round((time.perf_counter() - started) * 1000, 3),
+        initialViewportIntersection=initial.get('intersectsViewport'), initialTop=initial.get('top'), initialBottom=initial.get('bottom'))
     return value
 
 
@@ -299,21 +320,54 @@ def verify_workload(name, text):
         assert row == expected, f'Unexpected {name} reference row {index}: {row}'
 
 
+async def load_workload_field(page, field, value, fixture_path):
+    """Use the existing file chooser and UTF-8 importer for bulk text inputs.
+
+    PR5 showed Chromium/WebKit timing out in automation fill() before production
+    calculation. The workload remains identical; no value setter, forced action,
+    mocked File API or skipped input validation is used here.
+    """
+    control = page.locator('#field-' + field)
+    started = time.perf_counter()
+    if await control.evaluate('(element) => element.tagName') == 'TEXTAREA':
+        raw = value.encode('utf-8')
+        fixture_path.parent.mkdir(exist_ok=True)
+        fixture_path.write_bytes(raw)
+        import_box = page.locator(f'#field-{field} + .pro-import')
+        async with page.expect_file_chooser(timeout=ACTION_TIMEOUT_MS) as pending:
+            await import_box.get_by_role('button', name='Textdatei laden', exact=True).click()
+        chooser = await pending.value
+        await chooser.set_files(str(fixture_path))
+        await page.wait_for_function("selector => Boolean(document.querySelector(selector)?.textContent.trim())",
+            arg=f'#field-{field} + .pro-import [role="status"]', timeout=ACTION_TIMEOUT_MS)
+        message = await import_box.locator('[role="status"]').inner_text()
+        assert message == 'Text lokal geladen.', f'Actual local file import failed: {message}'
+        method = 'Native file chooser and existing production UTF-8 text import'
+    else:
+        await control.fill(value)
+        raw = value.encode('utf-8')
+        method = 'Small numeric control through ordinary browser fill'
+    actual = await control.input_value()
+    assert actual == value, f'Actual browser input differs from the complete {field} fixture'
+    return {'method': method, 'utf8Bytes': len(raw), 'sha256': sha256(actual.encode('utf-8')),
+        'exactInputMatch': True, 'preparationHarnessMs': round((time.perf_counter() - started) * 1000, 3)}
+
+
 async def workload_case(browser, origin, routes, viewport, exports, name, fixture):
     context, page, health, workers = await new_page(browser, viewport, origin)
     try:
         await page.goto(origin + routes[fixture['tool']], wait_until='domcontentloaded')
         await ready(page)
         await page.locator('.pro-import').first.wait_for(state='visible')
-        limits = {}
+        limits, input_loading = {}, {}
         for field, value in fixture['fields'].items():
             control = page.locator('#field-' + field)
             maximum = await control.get_attribute('maxlength')
             if maximum is not None:
                 limits[field] = int(maximum)
                 assert len(value) <= int(maximum), f'Synthetic fixture exceeds the real {field} input limit'
-            await control.fill(value)
-            assert await control.input_value() == value, f'Browser input truncated {field}'
+            input_loading[field] = await load_workload_field(page, field, value,
+                exports.parent / 'fixtures' / f'{name}-{viewport}-{field}.txt')
         assert await page.locator('#download-result').is_disabled(), 'Input edit did not invalidate the old result'
         samples = []
         digest = None
@@ -352,7 +406,8 @@ async def workload_case(browser, origin, routes, viewport, exports, name, fixtur
         return {'tool': fixture['tool'], 'recordsPerInput': fixture['recordsPerInput'],
             'inputUTF16Units': {key: len(value.encode('utf-16-le')) // 2 for key, value in fixture['fields'].items()},
             'inputSHA256': {key: sha256(value.encode()) for key, value in fixture['fields'].items()},
-            'actualInputMaxlength': limits, 'executionPath': 'Production UI on the browser main thread; no Worker observed',
+            'actualInputMaxlength': limits, 'inputLoading': input_loading,
+            'executionPath': 'Production UI on the browser main thread; no Worker observed',
             'outputRecords': WORKLOAD_ROWS, 'outputUTF8Bytes': len(data), 'outputSHA256': digest,
             'warmupRuns': WARMUP_RUNS, 'measuredRuns': MEASURED_RUNS, 'samples': samples,
             'submitToTwoFrameOpportunitiesMs': {'min': min(values), 'median': statistics.median(values), 'max': max(values)},
@@ -444,7 +499,10 @@ def main(argv=None):
     results = []
     def record(identifier, status, detail):
         results.append({'id': identifier, 'status': status, **detail})
-        print(status + ' ' + identifier + (': ' + detail.get('error', '') if status != 'PASS' else ''), flush=True)
+        # Keep full failure evidence in JSON; large fixture arguments need not be
+        # repeated in the console log as well.
+        error = detail.get('error', '').splitlines()
+        print(status + ' ' + identifier + (': ' + error[0] if status != 'PASS' and error else ''), flush=True)
     try:
         playwright_version = package_version('playwright')
     except PackageNotFoundError:
@@ -471,7 +529,8 @@ def main(argv=None):
         'checkedAt': datetime.now(timezone.utc).isoformat(), 'expectedCases': len(EXPECTED_CASES),
         'cases': len(results), 'passed': passed, 'browser': 'Playwright ' + BROWSERS[args.browser],
         'environment': environment, 'viewports': VIEWPORTS, 'coverage': coverage,
-        'functionalTimeouts': {'actionMilliseconds': ACTION_TIMEOUT_MS, 'caseSeconds': CASE_TIMEOUT_SECONDS},
+        'functionalTimeouts': {'actionMilliseconds': ACTION_TIMEOUT_MS, 'caseSeconds': CASE_TIMEOUT_SECONDS,
+            'nativeFocusSettleMilliseconds': FOCUS_SETTLE_MS},
         'scope': 'Ten native cases: directory search/link and Worker-tool keyboard/result/export flows at two viewports, plus three 10000-row workload/DOM/full-download checks at both viewports. Browser APIs and application functions are not mocked.',
         'measurement': {'warmupRuns': WARMUP_RUNS, 'measuredRuns': MEASURED_RUNS,
             'browserClock': 'performance.now at trusted submit capture, status MutationObserver, then two requestAnimationFrame opportunities. Includes production computation, result assignment and GSC panel updates. Excludes input fixture loading and oracle assertions.',
@@ -482,6 +541,7 @@ def main(argv=None):
             'Animation-frame opportunities are not a pixel-paint timestamp. CSS focus, viewport intersection and hit testing do not certify all focus contrast, every widget or screenreader output.',
             '390 CSS pixels is a narrow desktop-engine viewport, not a physical phone, touch or Safari/iOS certification.',
             'Fixtures remain within the actual 500000-character text fields. The GSC renderer intentionally paginates 25 rows while the exported JSON contains all 10000 records.',
+            'Bulk workload preparation uses the existing local UTF-8 file chooser/import with exact field-content checks. Bulk keyboard/paste throughput is not measured.',
             'The three data tools currently execute on the main thread; the separate T051 flow proves an actual native production Worker.',
             'Only the selected browser engine actually runs; missing engines, failed startup, omitted cases or functional timeouts are FAIL, never substituted by another engine.',
         ], 'results': results}

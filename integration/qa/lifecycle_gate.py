@@ -15,6 +15,7 @@ from collections import Counter
 import contextlib
 from datetime import datetime, timezone
 import functools
+import hashlib
 import http.server
 from importlib.metadata import PackageNotFoundError, version as package_version
 import json
@@ -48,7 +49,7 @@ OBSERVER = r"""(() => {
   function record(kind, event, extra = {}) {
     if (!/^https?:$/.test(location.protocol)) return;
     const row = {
-      case: CASE_ID, document: probe.id, path: location.pathname, kind,
+      case: CASE_ID, document: probe.id, sequence: probe.events.length + 1, path: location.pathname, kind,
       trusted: event ? event.isTrusted : null,
       persisted: event && 'persisted' in event ? event.persisted : null,
       time: performance.timeOrigin + performance.now(), afterPagehide: probe.hidden,
@@ -61,6 +62,7 @@ OBSERVER = r"""(() => {
     probe.events.push(row);
     navigator.sendBeacon('/__labs_qa__/events', new Blob([JSON.stringify(row)], {type: 'text/plain'}));
   }
+  probe.observeNavigation = () => record('navigation-requested', null);
   document.addEventListener('DOMContentLoaded', () => {
     // The application modules install their pagehide listeners before DOM ready;
     // our snapshot therefore observes the state after their cancellation handler.
@@ -70,6 +72,9 @@ OBSERVER = r"""(() => {
       const link = event.target.closest?.('a[download]');
       if (link) record('download-click', event, {filename: link.download});
     }, true);
+    const status = document.querySelector('#tool-status');
+    if (status) new MutationObserver(() => record('status-change', null))
+      .observe(status, {childList: true, attributes: true, attributeFilter: ['data-kind']});
   }, {once: true});
 })();"""
 
@@ -81,6 +86,9 @@ class NativeServer(http.server.ThreadingHTTPServer):
         super().__init__(('127.0.0.1', 0), functools.partial(NativeHandler, directory=str(root)))
         self.observations = []
         self.observation_lock = threading.Lock()
+        self.beacon_aborts = []
+        self.failed_requests = []
+        self.javascript_errors = []
         self.worker_requested = threading.Event()
         self.worker_release = threading.Event()
         self.hold_worker = False
@@ -166,32 +174,100 @@ def serve_native(root):
         thread.join(timeout=5)
 
 
+def sequence_prefix(rows, last):
+    assert type(last) is int and 0 < last <= 4096, 'Invalid observer sequence boundary'
+    found = {}
+    for row in rows:
+        number = row.get('sequence')
+        assert type(number) is int and number > 0, 'Missing or invalid observer sequence'
+        if number > last:
+            continue
+        assert number not in found or found[number] == row, f'Conflicting observer sequence {number}'
+        found[number] = row
+    if set(found) != set(range(1, last + 1)):
+        return None
+    return [found[number] for number in range(1, last + 1)]
+
+
+async def observations_through(server, case, path, event):
+    # Parallel beacon POSTs need not arrive in sequence order. Wait for the
+    # complete original prefix before classifying the native event; never infer
+    # a missing status transition from a later pagehide snapshot.
+    for _ in range(250):
+        rows = [row for row in server.events(case, path) if row['document'] == event['document']]
+        if sequence_prefix(rows, event['sequence']) is not None:
+            return
+        await asyncio.sleep(.02)
+    received = sorted({row['sequence'] for row in rows})
+    raise AssertionError(f'Incomplete native observer sequence through {event["sequence"]}: received {received}')
+
+
 async def event_for(server, case, path, kind, *, document=None):
     for _ in range(250):
         rows = [row for row in server.events(case, path) if row['kind'] == kind
                 and (document is None or row['document'] == document)]
         if rows:
-            return rows[-1]
+            event = rows[-1]
+            if kind == 'pagehide':
+                await observations_through(server, case, path, event)
+            return event
         await asyncio.sleep(.02)
     raise AssertionError(f'No observed native {kind} event for {case}: {server.events(case, path)}')
 
 
-async def observed_page(browser, origin, case):
+class NativeHealth(PageHealth):
+    """Keep the harness's received beacon data separate from product requests."""
+    def __init__(self, page, server, origin, case):
+        self.server, self.case = server, case
+        self.beacon_url = origin + '/__labs_qa__/events'
+        super().__init__(page, origin)
+        page.on('pageerror', lambda error: server.javascript_errors.append(
+            {'case': case, 'message': str(error), 'stack': error.stack, 'page': page.url}))
+
+    def failed(self, request):
+        super().failed(request)
+        self.server.failed_requests.append({'case': self.case, 'url': request.url,
+            'failure': request.failure, 'method': request.method})
+        if request.url == self.beacon_url and request.method == 'POST':
+            try:
+                body = json.loads(request.post_data or '')
+            except (ValueError, TypeError):
+                return
+            if isinstance(body, dict) and body.get('case') == self.case:
+                self.failed_requests[-1]['qaBeaconPayload'] = body
+
+
+async def observed_page(browser, server, origin, case):
     context = await browser.new_context(viewport={'width': 1280, 'height': 900},
         accept_downloads=True, locale='de-DE', reduced_motion='reduce')
     context.set_default_timeout(15000)
     await context.add_init_script(OBSERVER.replace('CASE_ID', json.dumps(case)))
     page = await context.new_page()
-    return context, page, PageHealth(page, origin)
+    return context, page, NativeHealth(page, server, origin, case)
 
 
 def check_health(health, *, allowed_aborted_url=None):
     details = health.details()
     expected = []
     failed = []
+    received_beacons = None
     for item in details['failedRequests']:
-        if item['url'] == allowed_aborted_url and any(code in (item.get('failure') or '').lower()
-                for code in ('abort', 'cancel', 'binding_aborted')):
+        aborted = any(code in (item.get('failure') or '').lower()
+                      for code in ('abort', 'cancel', 'binding_aborted'))
+        beacon = item.get('qaBeaconPayload')
+        if beacon is not None and received_beacons is None:
+            received_beacons = Counter(json.dumps(row, sort_keys=True) for row in health.server.events(health.case))
+        signature = json.dumps(beacon, sort_keys=True) if beacon is not None else None
+        if aborted and beacon is not None and received_beacons[signature] > 0:
+            # Chromium may report an aborted response after the server received
+            # a sendBeacon body. Accept only that exact received harness event;
+            # lost observations and every product dependency remain failures.
+            record = {'case': health.case, 'url': item['url'], 'failure': item['failure'],
+                      'event': {key: beacon[key] for key in ('document', 'sequence', 'path', 'kind', 'time')}}
+            received_beacons[signature] -= 1
+            if record not in health.server.beacon_aborts:
+                health.server.beacon_aborts.append(record)
+        elif item['url'] == allowed_aborted_url and aborted:
             expected.append(item)
         else:
             failed.append(item)
@@ -199,6 +275,48 @@ def check_health(health, *, allowed_aborted_url=None):
     if any(failures.values()):
         raise AssertionError('Unexpected browser/dependency error: ' + json.dumps(failures, ensure_ascii=False))
     return expected
+
+
+async def navigate_pending(page, server, origin, case, route, document, *, start_job=False):
+    # Snapshot the real pending job immediately before native history navigation
+    # in the same JS task. No application state or browser API is substituted.
+    started = await page.evaluate("""startJob => {
+      if (startJob) document.querySelector('#tool-form').requestSubmit();
+      const status = document.querySelector('#tool-status');
+      const snapshot = {status: status.textContent, kind: status.dataset.kind,
+        result: document.querySelector('#result-output').value,
+        downloadDisabled: document.querySelector('#download-result').disabled};
+      window.__labsNativeProbe.observeNavigation();
+      history.back();
+      return snapshot;
+    }""", start_job)
+    assert started == {'status': 'Verarbeitung …', 'kind': '', 'result': '', 'downloadDisabled': True}, \
+        f'Job was not pending immediately before native navigation: {started}'
+    await page.wait_for_url(origin + '/__labs_qa__/away')
+    requested = await event_for(server, case, route, 'navigation-requested', document=document)
+    leaving = await event_for(server, case, route, 'pagehide', document=document)
+    assert leaving['trusted'] is True and requested['sequence'] < leaving['sequence']
+    assert leaving['result'] == '' and leaving['downloadDisabled'] is True, \
+        f'Navigating away enabled a stale result or export: {leaving}'
+    return requested, leaving
+
+
+def cancellation_variant(server, case, route, requested, leaving, native_error):
+    if 'beim Verlassen' in leaving['status'] and leaving['statusKind'] == '':
+        return 'APPLICATION_PAGEHIDE'
+    assert leaving['status'] == native_error and leaving['statusKind'] == 'error', \
+        f'Unexpected failure while navigating: {leaving}'
+    transitions = sorted((row for row in server.events(case, route)
+                          if row['document'] == leaving['document'] and row['kind'] == 'status-change'
+                          and requested['sequence'] < row['sequence'] < leaving['sequence']), key=lambda row: row['sequence'])
+    states = [(row['statusKind'], row['status']) for row in transitions]
+    error_state = ('error', native_error)
+    first_error = states.index(error_state) if error_state in states else len(states)
+    assert first_error < len(states) and all(state == ('', 'Verarbeitung …') for state in states[:first_error]) \
+        and all(state == error_state for state in states[first_error:]) \
+        and all(row['result'] == '' and row['downloadDisabled'] is True for row in transitions), \
+        f'Native abort was not observed strictly after navigation began: {transitions}'
+    return 'NATIVE_ABORT_BEFORE_PAGEHIDE'
 
 
 async def open_from_away(page, origin, route):
@@ -230,7 +348,7 @@ def navigation_detail(server, case, route, leaving, returned):
 
 async def completed_result(browser, server, origin, routes, fixtures, exports):
     case, route = 'navigation-completed-result', routes['T049']
-    context, page, health = await observed_page(browser, origin, case)
+    context, page, health = await observed_page(browser, server, origin, case)
     try:
         await open_from_away(page, origin, route)
         await ready(page)
@@ -263,7 +381,7 @@ async def completed_result(browser, server, origin, routes, fixtures, exports):
 
 async def pending_worker(browser, server, origin, routes, fixtures, exports):
     case, route = 'navigation-pending-worker', routes['T051']
-    context, page, health = await observed_page(browser, origin, case)
+    context, page, health = await observed_page(browser, server, origin, case)
     server.worker_requested.clear()
     server.worker_release.clear()
     server.hold_worker = True
@@ -276,14 +394,15 @@ async def pending_worker(browser, server, origin, routes, fixtures, exports):
         assert server.worker_requested.is_set(), 'Real module-worker request was not observed'
         assert await page.locator('#tool-status').inner_text() == 'Verarbeitung …'
         document = await page.evaluate('window.__labsNativeProbe.id')
-        await page.go_back(wait_until='domcontentloaded')
-        leaving = await event_for(server, case, route, 'pagehide', document=document)
-        assert 'beim Verlassen' in leaving['status'] and leaving['result'] == '' and leaving['downloadDisabled'] is True, 'Pending worker was not invalidated by native pagehide'
+        requested, leaving = await navigate_pending(page, server, origin, case, route, document)
+        variant = cancellation_variant(server, case, route, requested, leaving, 'Isolierte Berechnung fehlgeschlagen.')
         server.hold_worker = False
         server.worker_release.set()
         returned_id = await return_forward(page, origin, route)
         returned = await event_for(server, case, route, 'pageshow', document=returned_id)
         detail = navigation_detail(server, case, route, leaving, returned)
+        detail['cancellationVariant'] = variant
+        detail['pendingImmediatelyBeforeNavigation'] = requested
         if detail['bfcacheUsed']:
             assert await page.locator('#result-output').input_value() == ''
             assert await page.locator('#download-result').is_disabled()
@@ -291,6 +410,9 @@ async def pending_worker(browser, server, origin, routes, fixtures, exports):
         assert (await page.locator('#result-output').input_value()).strip()
         detail['newCalculationAfterReturn'] = 'PASS'
         detail['cancelledNetworkRequests'] = check_health(health, allowed_aborted_url=origin + '/assets/labs/worker.mjs')
+        if variant == 'NATIVE_ABORT_BEFORE_PAGEHIDE':
+            assert detail['cancelledNetworkRequests'], \
+                'Native worker failure lacked an actual cancelled request for the delayed production worker'
         return detail
     finally:
         server.hold_worker = False
@@ -311,29 +433,43 @@ def large_png(path):
 
 async def pending_image(browser, server, origin, routes, fixtures, exports):
     case, route = 'navigation-pending-image', routes['T073']
-    context, page, health = await observed_page(browser, origin, case)
+    context, page, health = await observed_page(browser, server, origin, case)
     try:
         await open_from_away(page, origin, route)
         await page.locator('#field-file').set_input_files(str(fixtures / 'large-native.png'))
         await page.locator('#field-width').fill('4096')
         await page.locator('#field-format').select_option('image/png')
         document = await page.evaluate('window.__labsNativeProbe.id')
-        # Native form submission starts the unmodified decoder; native history
-        # navigation follows in the same task to exercise the actual race.
-        started = await page.evaluate("""() => {
-          document.querySelector('#tool-form').requestSubmit();
-          const running = document.querySelector('#tool-status').textContent;
-          history.back(); return running;
-        }""")
-        assert started == 'Verarbeitung …', 'Native image job did not enter pending state'
-        await page.wait_for_url(origin + '/__labs_qa__/away')
-        leaving = await event_for(server, case, route, 'pagehide', document=document)
-        assert 'beim Verlassen' in leaving['status'] and leaving['result'] == '' and leaving['downloadDisabled'] is True, 'Native image processing was not pending/cancelled at pagehide; do not claim this race was covered'
+        requested, leaving = await navigate_pending(page, server, origin, case, route, document, start_job=True)
+        variant = cancellation_variant(server, case, route, requested, leaving,
+            'Die Bilddatei kann nicht gelesen werden. Bitte eine intakte PNG-, JPEG- oder WebP-Datei wählen.')
         returned_id = await return_forward(page, origin, route)
         returned = await event_for(server, case, route, 'pageshow', document=returned_id)
         detail = navigation_detail(server, case, route, leaving, returned)
+        detail['cancellationVariant'] = variant
+        detail['pendingImmediatelyBeforeNavigation'] = requested
         assert await page.locator('#result-output').input_value() == ''
         assert await page.locator('#download-result').is_disabled()
+        # The identical large file and parameters must succeed without leaving
+        # the page. This distinguishes a navigation-induced native decoder abort
+        # from corrupt input, unsupported dimensions or a persistent product bug.
+        await page.locator('#field-file').set_input_files(str(fixtures / 'large-native.png'))
+        await page.locator('#field-width').fill('4096')
+        await page.locator('#field-format').select_option('image/png')
+        await submit(page)
+        metadata = json.loads(await page.locator('#result-output').input_value())
+        assert (metadata['Breite'], metadata['Höhe']) == (4096, 4800)
+        preview = await page.locator('#tool-preview canvas').evaluate("""canvas => ({
+          width: canvas.width, height: canvas.height,
+          pixel: [...canvas.getContext('2d').getImageData(4095, 4799, 1, 1).data]
+        })""")
+        assert preview == {'width': 4096, 'height': 4800, 'pixel': [40, 120, 210, 255]}, preview
+        await download(page, page.get_by_role('button', name='Bild herunterladen', exact=True), exports / 'large-image-after-return.png')
+        exported = (exports / 'large-image-after-return.png').read_bytes()
+        assert exported[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II', exported[16:24]) == (4096, 4800)
+        detail['identicalLargeImageAfterReturn'] = {
+            'status': 'PASS', 'fixtureSHA256': hashlib.sha256((fixtures / 'large-native.png').read_bytes()).hexdigest(),
+            'width': 4096, 'height': 4800, 'pixel': preview['pixel'], 'downloadBytes': len(exported)}
         await page.locator('#field-file').set_input_files(str(fixtures / 'color-grid.png'))
         await page.locator('#field-width').fill('320')
         await page.locator('#field-format').select_option('image/png')
@@ -341,7 +477,8 @@ async def pending_image(browser, server, origin, routes, fixtures, exports):
         await download(page, page.get_by_role('button', name='Bild herunterladen', exact=True), exports / 'image-after-return.png')
         image = read_png(exports / 'image-after-return.png')
         assert (image['width'], image['height']) == (320, 240)
-        detail['nativeImageCancelledAtPagehide'] = True
+        detail['nativeImageCancelledAtPagehide'] = variant == 'APPLICATION_PAGEHIDE'
+        detail['nativeImageAbortedBeforePagehide'] = variant == 'NATIVE_ABORT_BEFORE_PAGEHIDE'
         detail['newImageAndDownloadAfterReturn'] = 'PASS'
         check_health(health)
         return detail
@@ -351,7 +488,7 @@ async def pending_image(browser, server, origin, routes, fixtures, exports):
 
 async def qr_navigation(browser, server, origin, routes, fixtures, exports):
     case, route = 'navigation-qr-export', routes['T078']
-    context, page, health = await observed_page(browser, origin, case)
+    context, page, health = await observed_page(browser, server, origin, case)
     downloads = []
     page.on('download', lambda item: downloads.append(item.suggested_filename))
     try:
@@ -410,7 +547,7 @@ async def wait_workspace(page, text):
 
 async def near_limit(browser, server, origin, routes, fixtures, exports):
     case = 'storage-near-limit'
-    context, page, health = await observed_page(browser, origin, case)
+    context, page, health = await observed_page(browser, server, origin, case)
     try:
         project = {'id': 'synthetic-near-limit', 'name': 'Native Grenzdatei', 'snapshots': [
             {'tool': tool, 'route': routes[tool], 'title': 'Synthetischer Grenzfall ' + tool,
@@ -444,7 +581,7 @@ async def near_limit(browser, server, origin, routes, fixtures, exports):
 
 async def native_quota(browser, server, origin, routes, fixtures, exports):
     case = 'storage-native-quota'
-    context, page, health = await observed_page(browser, origin, case)
+    context, page, health = await observed_page(browser, server, origin, case)
     try:
         await page.goto(origin + '/arbeitsbereich/', wait_until='domcontentloaded')
         await page.locator('#labs-project-name').fill('Vor Quota erhalten')
@@ -503,7 +640,7 @@ async def native_quota(browser, server, origin, routes, fixtures, exports):
 
 async def denied_export(browser, server, origin, routes, fixtures, exports):
     case = 'storage-denied-export'
-    context, page, health = await observed_page(browser, origin, case)
+    context, page, health = await observed_page(browser, server, origin, case)
     try:
         await page.goto(origin + '/__labs_qa__/denied?route=' + routes['T049'], wait_until='domcontentloaded')
         frame = page.frame_locator('iframe')
@@ -584,11 +721,14 @@ async def run(root, temporary, record, *, browser_name='chromium', browser_execu
                 for identifier, action in cases:
                     try:
                         detail = await action(browser, server, origin, routes, fixtures, exports)
+                        detail['receivedQABeaconResponseAborts'] = [row for row in server.beacon_aborts if row['case'] == identifier]
                         record(identifier, 'PASS', detail)
                     except Exception as exc:
                         record(identifier, 'FAIL', {'error': str(exc) or type(exc).__name__,
                             'errorType': type(exc).__name__, 'traceback': traceback.format_exc(),
-                            'observedEvents': server.events(identifier)})
+                            'observedEvents': server.events(identifier),
+                            'failedRequests': [row for row in server.failed_requests if row['case'] == identifier],
+                            'javascriptErrors': [row for row in server.javascript_errors if row['case'] == identifier]})
             finally:
                 await browser.close()
             return environment
