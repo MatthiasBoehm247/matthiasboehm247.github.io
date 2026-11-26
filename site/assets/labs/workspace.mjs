@@ -1,5 +1,5 @@
 import {WORKSPACE_KEY,PROJECT_LIMIT,emptyWorkspace,parseWorkspace,routeOK,readProjectFile,serializeProject,
-  validateSnapshot,snapshotSignature,createSnapshotTracker,saveSnapshot,createWorkspaceStore} from './workspace-store.mjs';
+  validateSnapshot,snapshotSignature,createSnapshotTracker,saveSnapshot,createWorkspaceStore,storageWriteError} from './workspace-store.mjs';
 import {backupSummary,serializeBackup,readBackupFile,mergeBackup,projectFilename,projectFingerprint} from './workspace-transfer.mjs';
 import {renameProject,duplicateProject,removeProject,removeProjectSnapshot,restoreRemoved,selectProjects} from './workspace-projects.mjs';
 import {persistProjectSelection,restoreProjectSelection,projectLink,projectFromFragment,
@@ -35,6 +35,9 @@ const isTool=Boolean(tool&&routeOK(route));
 const status=element('span','','workspace-status');
 status.setAttribute('role','status');status.setAttribute('aria-live','polite');
 const report=text=>{status.textContent=text;};
+// Browsers may deny Web Locks before a write reaches localStorage. Present the
+// same actionable message as a storage access denial instead of a raw DOM error.
+const workspaceError=error=>['SecurityError','NotAllowedError'].includes(error?.name)?storageWriteError(error):error;
 const link=(url,name)=>{const node=element('a',name);node.href=url;return node;};
 const action=(label,fn)=>{
   const button=element('button',label,'secondary');button.type='button';
@@ -42,7 +45,7 @@ const action=(label,fn)=>{
   button.addEventListener('click',async()=>{
     if(pending)return;
     pending=true;button.setAttribute('aria-disabled','true');button.setAttribute('aria-busy','true');
-    try { await fn(); } catch(error) { report(error.message||'Aktion fehlgeschlagen.'); }
+    try { await fn(); } catch(error) { report(workspaceError(error).message||'Aktion fehlgeschlagen.'); }
     finally { pending=false;button.removeAttribute('aria-disabled');button.removeAttribute('aria-busy'); }
   });
   return button;
@@ -100,7 +103,7 @@ async function changeWorkspace(change,token=workspaceToken()) {
   });state=saved;workspacePresent=true;workspaceGeneration=saved.generation??null;storageError='';synchronize();return saved; }
   catch(error){
     try {state=readWorkspace();storageError='';synchronize();}catch(readError){storageError=readError.message;if(preferenceStatus)preferenceStatus.textContent=storageError;}
-    throw error;
+    throw workspaceError(error);
   }
 }
 

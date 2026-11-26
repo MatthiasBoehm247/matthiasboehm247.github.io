@@ -109,18 +109,28 @@
     "title": "XML-Sitemaps für große statische Websites",
     "path": "/wissen/seo/xml-sitemaps-fuer-grosse-statische-websites/",
     "reference": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap",
-    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "reference_status": "Genannte Primärquellen und zugeordnete Aussagen am 26.11.2026 gezielt geprüft; eigene Beispiele ausdrücklich synthetisch",
     "review": "offen",
     "search_validation": "offen",
     "checked_at": "2026-11-26",
-    "checked_scope": "Sitemap-Grenzen und sachgerechte lastmod-Verwendung; eigene URL-/XML-Beispiele.",
+    "checked_scope": "Sitemap-Protokoll, Google-Empfehlungen und werkzeugspezifische T005-Eingabegrenzen; synthetisches URL-/XML-/Duplikatbeispiel am vorhandenen Generator nachvollzogen. Keine Beispiel-URL öffentlich geprüft.",
     "references": [
       {
         "url": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap",
-        "title": "Google: Sitemap erstellen und einreichen",
+        "title": "Google Search Central: Sitemap erstellen und einreichen",
         "claims": [
-          "Der Sitemap-Standard begrenzt eine einzelne Datei auf 50.000 URLs und 50 MB unkomprimiert.",
-          "Google verwendet lastmod nur, wenn das Datum zuverlässig eine wesentliche Änderung der jeweiligen Seite abbildet."
+          "Google empfiehlt absolute URLs der gewünschten kanonischen Seiten; ein Sitemap-Eintrag garantiert keine Aufnahme.",
+          "lastmod soll eine verifizierbare wesentliche Seitenänderung wiedergeben; eine reine Copyright-Datumsänderung genügt nicht.",
+          "Google ignoriert priority und changefreq."
+        ]
+      },
+      {
+        "url": "https://www.sitemaps.org/protocol.html",
+        "title": "Sitemaps.org: XML-Protokoll, Kodierung und Größenbegrenzung",
+        "claims": [
+          "XML-Namensraum, UTF-8, loc und das getrennte Entity-/URL-Escaping sind Bestandteil des Protokolls.",
+          "Eine Sitemap umfasst höchstens 50.000 URLs und 52.428.800 unkomprimierte Bytes; loc ist kürzer als 2.048 Zeichen.",
+          "lastmod ist optional und beschreibt die verlinkte Seite; die Beschränkung auf YYYY-MM-DD stammt aus T005."
         ]
       }
     ]
@@ -443,9 +453,29 @@
     "title": "Content aktualisieren, zusammenführen oder entfernen",
     "path": "/wissen/content/content-aktualisieren-zusammenfuehren-oder-entfernen/",
     "reference": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
-    "reference_status": "Dokumentation punktuell eingesehen; Aussagenreview offen",
+    "reference_status": "Genannte Primärquellen und zugeordnete Aussagen am 26.11.2026 gezielt geprüft; eigene Beispiele ausdrücklich synthetisch",
     "review": "offen",
-    "search_validation": "offen"
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "Google-Aussagen zu nützlichen Inhalten und Trafficdiagnose; eigene T034-Heuristik, Sensitivitätsrechnung und synthetische Entscheidungen getrennt davon dokumentiert. Keine Traffic- oder Rankingprognose.",
+    "references": [
+      {
+        "url": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+        "title": "Google Search Central: Hilfreiche, verlässliche Inhalte für Menschen",
+        "claims": [
+          "Der Seitenzweck und hilfreiche Inhalte für Menschen stehen im Vordergrund.",
+          "Bloße Datumsänderungen und massenhaftes Entfernen alter Inhalte begründen keinen allgemeinen Frischebonus."
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/monitor-debug/debugging-search-traffic-drops",
+        "title": "Google Search Central: Rückgänge im Suchtraffic untersuchen",
+        "claims": [
+          "Rückgänge können unterschiedliche Ursachen haben, darunter technische Probleme, veränderte Suchergebnisse, Nachfrage und Saisonalität.",
+          "Eine Überarbeitung garantiert keine Rankingwirkung; Effekte können je nach Änderung Tage bis Monate benötigen."
+        ]
+      }
+    ]
   },
   {
     "id": "W025",
@@ -473,54 +503,62 @@
     "title": "Search-Console-Exporte richtig interpretieren",
     "path": "/wissen/analytics/search-console-exporte-richtig-interpretieren/",
     "reference": "https://support.google.com/webmasters/answer/7576553",
-    "reference_status": "Genannte Aussagen am 26.11.2026 gezielt mit Primärquellen abgeglichen; übrige Aussagen und unabhängige Fachprüfung offen",
+    "reference_status": "Genannte Primärquellen und zugeordnete Aussagen am 26.11.2026 gezielt geprüft; eigene Beispiele ausdrücklich synthetisch",
     "review": "offen",
     "search_validation": "offen",
     "checked_at": "2026-11-26",
-    "checked_scope": "Dimensionen, Exportabdeckung, Zeitzone, Canonical-Zuordnung, Platzhalter, Generative-AI-Bericht und dokumentierte Erfassungsanomalie; keine echte Property ausgewertet.",
+    "checked_scope": "Definitionen, Dimensionen, Exportabdeckung, Zeitzone, Canonical-Zuordnung und am Prüfdatum dokumentierte Berichte; synthetische T038-/W026-Rechenbeispiele mit dem vorhandenen Produktionscode abgeglichen. Keine echte Search-Console-Property ausgewertet.",
     "references": [
       {
-        "url": "https://developers.google.com/webmaster-tools/v1/searchanalytics/query",
-        "title": "Google Search Console API: Search Analytics query",
+        "url": "https://support.google.com/webmasters/answer/7576553",
+        "title": "Google Search Console: Leistungsbericht – Übersicht und Datenexport",
         "claims": [
-          "Die Search-Analytics-API unterstützt mehrere Gruppierungsdimensionen.",
-          "Eine API-Abfrage garantiert ebenfalls nicht sämtliche Datenzeilen."
-        ]
-      },
-      {
-        "url": "https://support.google.com/webmasters/answer/17010575",
-        "title": "Google Search Console: Abweichungen zwischen Datenansichten",
-        "claims": [
-          "Die regulären Tagesdaten werden außerhalb der 24-Stunden-Ansicht in Pacific Time geführt.",
-          "Die Search-Console-Tabelle zeigt höchstens 1.000 Zeilen; anonymisierte Anfragen können im ungefilterten Diagramm enthalten sein und in der Tabelle fehlen."
+          "CTR ist Klickzahl geteilt durch Impressionszahl; das Werkzeugbeispiel berechnet sie aus summierten Zählwerten."
         ]
       },
       {
         "url": "https://support.google.com/webmasters/answer/17011259",
         "title": "Google Search Console: Dimensionen und Datengruppierung",
         "claims": [
-          "Google ordnet den Großteil der URL-Leistungsdaten der kanonischen URL zu."
+          "Anonymisierte Anfragen und weitere abgeschnittene Daten können in der Tabelle fehlen.",
+          "Der Großteil der URL-Leistungsdaten wird der kanonischen URL zugeordnet."
         ]
       },
       {
-        "url": "https://support.google.com/webmasters/answer/7576553",
-        "title": "Google Search Console: Leistungsbericht und Datenexport",
+        "url": "https://support.google.com/webmasters/answer/17010575",
+        "title": "Google Search Console: Abweichungen, Zeilenlimit und Zeitzonen",
         "claims": [
-          "Dort als nicht verfügbar (~) oder nicht numerisch (-) markierte Werte können im CSV-Export ebenfalls als 0 erscheinen."
+          "Die Tabelle zeigt höchstens 1.000 Zeilen; Diagramm und Tabelle können unterschiedlich aggregieren.",
+          "Tagesansichten außerhalb der 24-Stunden-Ansicht verwenden Pacific Time."
+        ]
+      },
+      {
+        "url": "https://support.google.com/webmasters/answer/17011364",
+        "title": "Google Search Console: Aggregation, vorläufige Daten und Exportwerte",
+        "claims": [
+          "Neueste Daten können vorläufig sein.",
+          "Im Quellbericht als ~ oder - angezeigte Werte werden beim Export zu 0; ihr ursprünglicher Status ist aus der CSV-Null nicht ableitbar."
+        ]
+      },
+      {
+        "url": "https://developers.google.com/webmaster-tools/v1/searchanalytics/query",
+        "title": "Google Search Console API: Search Analytics query",
+        "claims": [
+          "Die API erlaubt mehrere Gruppierungsdimensionen und garantiert nicht sämtliche Datenzeilen; T038s Ein-Schlüssel-Grenze ist werkzeugspezifisch."
         ]
       },
       {
         "url": "https://support.google.com/webmasters/answer/16984139",
         "title": "Google Search Console: Generative-AI-Leistungsbericht für Search",
         "claims": [
-          "Der separate Generative-AI-Leistungsbericht für Google Search enthält Impressionen aus den dokumentierten KI-Funktionen."
+          "Der separate Generative-AI-Bericht für Search weist Impressionen aus; ein reiner Impressionsdatensatz liefert keine Klickbasis für T038."
         ]
       },
       {
         "url": "https://support.google.com/webmasters/answer/6211453",
         "title": "Google Search Console: Bekannte Datenanomalien",
         "claims": [
-          "Dort ist für den 9. bis 11. November 2026 ein Protokollierungsfehler bei Impressionen im Generative-AI-Bericht dokumentiert."
+          "Am Prüfdatum ist ein Protokollierungsfehler für 9.–11. November 2026 im Generative-AI-Bericht für Search dokumentiert; keine Behauptung eines Rankingverlusts."
         ]
       }
     ]
@@ -681,9 +719,42 @@
     "title": "WCAG-Farbkontraste richtig berechnen",
     "path": "/wissen/design/wcag-farbkontraste-richtig-berechnen/",
     "reference": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
-    "reference_status": "Referenz vorgeschlagen; Prüfung offen",
+    "reference_status": "Genannte Primärquellen und zugeordnete Aussagen am 26.11.2026 gezielt geprüft; eigene Beispiele ausdrücklich synthetisch",
     "review": "offen",
-    "search_validation": "offen"
+    "search_validation": "offen",
+    "checked_at": "2026-11-26",
+    "checked_scope": "WCAG 2.2, Kriterien 1.4.3/1.4.6/1.4.11 und sRGB-Luminanz; synthetische T061-/W041-Farbpaare einschließlich Rundungsgrenze am vorhandenen Modell geprüft. Kein vollständiger Barrierefreiheitsaudit.",
+    "references": [
+      {
+        "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+        "title": "W3C: WCAG 2.2 – Kontrastminimum, Textgröße und ungerundete Schwellen",
+        "claims": [
+          "AA verlangt grundsätzlich 4,5:1 bei normalem Text und 3:1 bei großem Text; groß bedeutet mindestens 18 pt beziehungsweise 14 pt fett.",
+          "Schwellen werden ungerundet verglichen; Textfarbe und Kontext werden nicht durch die Probe eines geglätteten Randpixels ersetzt."
+        ]
+      },
+      {
+        "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-enhanced.html",
+        "title": "W3C: WCAG 2.2 – Erhöhter Kontrast auf Stufe AAA",
+        "claims": [
+          "AAA verlangt grundsätzlich 7:1 für normalen Text beziehungsweise 4,5:1 für großen Text."
+        ]
+      },
+      {
+        "url": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html",
+        "title": "W3C: WCAG 2.2 – Nicht-textlicher Kontrast",
+        "claims": [
+          "1.4.11 fordert grundsätzlich 3:1 für notwendige visuelle Informationen von UI-Komponenten/Zuständen und Grafiken gegenüber angrenzenden Farben, mit den genannten Ausnahmen."
+        ]
+      },
+      {
+        "url": "https://www.w3.org/TR/WCAG22/#dfn-relative-luminance",
+        "title": "W3C Recommendation WCAG 2.2: Relative Luminanz und Kontrastdefinition",
+        "claims": [
+          "Die relative sRGB-Luminanz verwendet 0,04045 als Linearisierungsgrenze sowie die Gewichte 0,2126/0,7152/0,0722; Kontrast wird aus heller und dunkler Luminanz bestimmt."
+        ]
+      }
+    ]
   },
   {
     "id": "W042",

@@ -115,14 +115,20 @@ export function createWorkspaceStore({storage,locks}={}) {
     try { if (!storage) throw Error(); return storage.getItem(WORKSPACE_KEY); }
     catch { throw Error('Lokaler Browserspeicher ist nicht verfügbar. Es wurden keine Daten geändert.'); }
   };
-  const locked = action => {
+  const locked = async action => {
     if (!locks || typeof locks.request !== 'function')
       return Promise.reject(Error('Sicheres Speichern benötigt einen aktuellen Browser über HTTPS oder localhost. Vorhandene Projekte lassen sich weiterhin exportieren.'));
-    // ifAvailable prevents indefinite waits on another tab. The callback is synchronous.
-    return locks.request(WORKSPACE_KEY,{mode:'exclusive',ifAvailable:true},lock=>{
-      if (!lock) throw Error('Ein anderer Tab speichert gerade. Bitte die Aktion erneut ausführen.');
-      return action();
+    // Keep the transaction synchronous. Carry failures out of the native
+    // callback as values, then reject our awaited promise after lock release.
+    // This avoids browser-internal rejected callback promises for handled errors.
+    const outcome = await locks.request(WORKSPACE_KEY,{mode:'exclusive',ifAvailable:true},lock=>{
+      try {
+        if (!lock) throw Error('Ein anderer Tab speichert gerade. Bitte die Aktion erneut ausführen.');
+        return {ok:true,value:action()};
+      } catch(error) { return {ok:false,error}; }
     });
+    if (!outcome.ok) throw outcome.error;
+    return outcome.value;
   };
   return {
     read:()=>parseWorkspace(getRaw()),

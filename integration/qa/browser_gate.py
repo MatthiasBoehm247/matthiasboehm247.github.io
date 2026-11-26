@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Real Chromium gate for the staged website, intended for GitHub Actions.
+"""Native browser gate for the staged website, intended for GitHub Actions.
 
 Missing dependencies, browser startup failures and any failed case fail the gate.
 This is shipped test code, not a claim that the workflow has already run.
@@ -38,6 +38,7 @@ MEDIA = {'T073', 'T074', 'T075', 'T076', 'T077', 'T080', 'T081', 'T083', 'T084'}
 REQUIRED_FILES = MEDIA - {'T077'}
 AUDIO = {'T095', 'T096', 'T097', 'T099', 'T100'}
 WIDTHS = (320, 390, 768)
+BROWSERS = {'chromium': 'Chromium', 'firefox': 'Firefox', 'webkit': 'WebKit'}
 LEARNING = {'W026', 'W028', 'W029', 'W041', 'W044', 'W051', 'W056', 'W060', 'W062', 'W066', 'W070', 'W076'}
 AUDIO_CASES = {identifier + '-standard' for identifier in AUDIO} | {
     'T096-stille', 'T097-stille', 'T095-sine-1200Hz', 'T095-triangle-1200Hz',
@@ -997,9 +998,11 @@ def checked_browser_executable(path):
     return candidate
 
 
-async def run(root, temporary, record, *, browser_executable=None):
+async def run(root, temporary, record, *, browser_executable=None, browser_name='chromium'):
     if not __debug__:
         raise RuntimeError('Browser gate requires assertions; do not use python -O/-OO or PYTHONOPTIMIZE')
+    if browser_name not in BROWSERS:
+        raise ValueError('Unsupported browser engine: ' + str(browser_name))
     # Import at runtime so --help and fixture/unit checks need no browser dependency.
     from playwright.async_api import async_playwright
     release = json.loads((root / 'assets/labs/release.json').read_text(encoding='utf-8'))
@@ -1026,8 +1029,8 @@ async def run(root, temporary, record, *, browser_executable=None):
             options = {'headless': True}
             if browser_executable is not None:
                 options['executable_path'] = str(checked_browser_executable(browser_executable))
-            browser = await runtime.chromium.launch(**options)
-            environment = {'browserVersion': browser.version, 'releaseVersion': expected_version}
+            browser = await getattr(runtime, browser_name).launch(**options)
+            environment = {'browserEngine': browser_name, 'browserVersion': browser.version, 'releaseVersion': expected_version}
             context = await browser.new_context(viewport={'width': 1440, 'height': 1000}, accept_downloads=True, locale='de-DE', reduced_motion='reduce')
             context.set_default_timeout(15000)
             try:
@@ -1047,8 +1050,10 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, required=True, help='Already validated public staging directory')
     parser.add_argument('--report', type=Path, required=True)
+    parser.add_argument('--browser', choices=BROWSERS, default='chromium',
+                        help='Native engine; defaults to Chromium for the existing 139-case gate')
     parser.add_argument('--browser-executable', type=Path,
-                        help='Optional local Chromium executable; omitted uses the Playwright-pinned browser')
+                        help='Optional executable for the selected engine; omitted uses the Playwright-pinned browser')
     args = parser.parse_args(argv)
     results = []
     def record(identifier, status, detail):
@@ -1059,7 +1064,7 @@ def main(argv=None):
         playwright_version = package_version('playwright')
     except PackageNotFoundError:
         playwright_version = None
-    environment = {'playwrightVersion': playwright_version, 'browserVersion': None,
+    environment = {'playwrightVersion': playwright_version, 'browserEngine': args.browser, 'browserVersion': None,
                    'browserExecutable': None, 'browserLauncher': 'playwright-default', 'releaseVersion': None}
     if args.browser_executable is not None:
         environment.update(browserExecutable=str(args.browser_executable.expanduser().absolute()),
@@ -1077,11 +1082,14 @@ def main(argv=None):
             environment['releaseVersion'] = json.loads(release_path.read_text(encoding='utf-8')).get('version')
         with tempfile.TemporaryDirectory(prefix='digital-labs-browser-') as temporary:
             options = {'browser_executable': executable} if executable is not None else {}
+            if args.browser != 'chromium':
+                options['browser_name'] = args.browser
             observed = asyncio.run(run(root, Path(temporary), record, **options))
             if isinstance(observed, dict):
                 environment.update(observed)
     except Exception as exc:
-        record('setup-or-runtime', 'FAIL', {'error': str(exc)})
+        record('setup-or-runtime', 'FAIL', {'error': str(exc) or type(exc).__name__,
+                                          'errorType': type(exc).__name__, 'traceback': traceback.format_exc()})
     counts = Counter(row['id'] for row in results)
     coverage = {'missing': sorted(EXPECTED_CASES - set(counts)),
                 'unexpected': sorted(set(counts) - EXPECTED_CASES),
@@ -1091,7 +1099,7 @@ def main(argv=None):
     report = {
         'schemaVersion': 1, 'status': 'PASS' if coverage_ok and len(results) == len(EXPECTED_CASES) and passed == len(EXPECTED_CASES) else 'FAIL',
         'checkedAt': datetime.now(timezone.utc).isoformat(), 'expectedCases': len(EXPECTED_CASES), 'cases': len(results), 'passed': passed,
-        'browser': 'Playwright Chromium', 'widths': list(WIDTHS), 'themes': ['light', 'dark'],
+        'browser': 'Playwright ' + BROWSERS[args.browser], 'widths': list(WIDTHS), 'themes': ['light', 'dark'],
         'environment': environment,
         'expectedSubcases': {'T009': len(SITEMAP_XML_CASES), 'T087': len(TILEMAP_SNAPSHOT_CASES)},
         'scope': '110 real tool examples/exports including 16 named native DOMParser XML subcases within T009 and two native saved-tilemap restore/default-field/export subcases within T087, nine file/media tools, invalid media, 12 learning models with CSV/JSON exports, directory, workspace backup/download/selected merge/restore, project rename/copy/search/remove/undo across tabs and responsive widths in light/dark; fourteen native OfflineAudioContext renders using the production graph (signal, silence, peak, tail and a sine-frequency check). No human hearing, physical-device or search-indexing certification.',

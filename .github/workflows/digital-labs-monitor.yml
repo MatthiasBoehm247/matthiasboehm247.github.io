@@ -1,0 +1,93 @@
+name: Digital Labs öffentliche Kontrolle
+
+on:
+  schedule:
+    - cron: '23 6 * * *'
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Digital Labs Source prüfen und veröffentlichen']
+    types: [completed]
+  pull_request:
+    paths:
+      - '.github/workflows/digital-labs-monitor.yml'
+      - 'integration/monitor.py'
+      - 'integration/live_check.py'
+      - 'integration/qa/monitor_tests.py'
+
+permissions:
+  contents: read
+  deployments: read
+
+concurrency:
+  group: digital-labs-monitor-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  public-monitor:
+    if: >-
+      github.repository == 'MatthiasBoehm247/matthiasboehm247.github.io' &&
+      (github.event_name != 'workflow_run' ||
+       (github.event.workflow_run.head_branch == 'main' &&
+        github.event.workflow_run.event != 'pull_request' &&
+        github.event.workflow_run.conclusion == 'success'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Tatsächlich erfolgreich veröffentlichten Commit ermitteln
+        id: baseline
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python integration/monitor.py resolve --report "$RUNNER_TEMP/digital-labs-monitor-resolution.json"
+      - name: Quellen dieses veröffentlichten Commits lesen
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.baseline.outputs.sha }}
+          path: .monitor-baseline
+          persist-credentials: false
+      # Legacy 1.10.2 did not commit its generated manifest. Recreate it from
+      # the actual deployed source commit once; newer releases commit hashes.
+      - uses: actions/setup-node@v6
+        if: hashFiles('.monitor-baseline/integration/deployment.json') == ''
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Fehlendes Manifest eines älteren veröffentlichten Stands rekonstruieren
+        if: hashFiles('.monitor-baseline/integration/deployment.json') == ''
+        working-directory: .monitor-baseline
+        env:
+          LABS_FONT_DIR: /usr/share/fonts/truetype/dejavu
+        run: |
+          python -m pip install --disable-pip-version-check Pillow
+          sudo apt-get update
+          sudo apt-get install -y fonts-dejavu-core
+          python source/make_editorial_diagrams.py
+          node source/build.mjs
+          python source/make_social.py
+          python source/write_deployment_manifest.py
+      - name: Alle ausgelieferten Dateien mit der freigegebenen Version vergleichen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_COMMIT: ${{ steps.baseline.outputs.sha }}
+          DEPLOYMENT_ID: ${{ steps.baseline.outputs.deployment_id }}
+        run: >-
+          python integration/monitor.py check
+          --checkout "$GITHUB_WORKSPACE/.monitor-baseline"
+          --expected-commit "$EXPECTED_COMMIT"
+          --deployment-id "$DEPLOYMENT_ID"
+          --report "$RUNNER_TEMP/digital-labs-monitor-live.json"
+      - name: Tatsächliche Prüfberichte aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: digital-labs-public-monitor
+          path: |
+            ${{ runner.temp }}/digital-labs-monitor-resolution.json
+            ${{ runner.temp }}/digital-labs-monitor-live.json
+          if-no-files-found: ignore
+          retention-days: 90
