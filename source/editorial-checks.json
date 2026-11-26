@@ -45,9 +45,9 @@
     "Konsolidierungsentscheidung dokumentiert."
   ],
   "W024": [
-    "Suchdaten und Inhaltsnutzen gemeinsam bewertet.",
-    "Passende Zielseite oder Entfernung begründet.",
-    "Interne Links und Sitemap nach Änderung geprüft."
+    "Seitenzweck, Datenbasis und Ziel-CTR begründet; Alter und Gewicht ausdrücklich als Annahmen definiert.",
+    "Rechnung einschließlich potential/score und Rangfolge mit Gewicht 0 sowie gewähltem Gewicht nachgerechnet.",
+    "Entscheidung pro Seite mit fachlichem Befund, passender Zielseite beziehungsweise Erhalt und Kontrolltermin dokumentiert."
   ],
   "W025": [
     "Freigegebene UTM-Schreibweisen und Feldbedeutungen dokumentiert.",
@@ -270,9 +270,9 @@
     "Syntax, Schema-Vokabular und unterstützte Suchdarstellung separat geprüft."
   ],
   "W005": [
-    "Nur tatsächlich vorgesehene kanonische Zielseiten aufgenommen.",
-    "XML-Escaping und URL-Kodierung durch Rücklesen kontrolliert.",
-    "lastmod-Herkunft belegt oder Datum bewusst weggelassen."
+    "Freigegebene kanonische Zielseiten sowie deren tatsächlichen öffentlichen Status separat geprüft.",
+    "URL-Kodierung, XML-Rücklesung, Duplikate und Konfliktfälle am Kontrollbeispiel nachvollzogen.",
+    "lastmod-Herkunft belegt oder Datum weggelassen; Protokoll- und Werkzeuggrenzen getrennt kontrolliert."
   ],
   "W006": [
     "Statusfolge, Quell- und gerenderten Canonical zusammen protokolliert.",
@@ -325,9 +325,9 @@
     "Abrufbarkeit, Aktualität und Rechte geprüft."
   ],
   "W026": [
-    "Berichtsart, Dimension, Zeitraum und Zeitzone beider Dateien abgeglichen.",
-    "Fehlende Zeilen, Platzhalter und bekannte Erfassungsfehler dokumentiert.",
-    "Impressionsbericht ohne Klickdaten nicht in eine erfundene CTR umgerechnet."
+    "Property, Bericht, Dimension, Zeitraum, Filter und Zeitzone abgeglichen; Rohdateien auf Überschneidungen geprüft.",
+    "Mindestens einen Schlüssel aus Klick-/Impressionssummen nachgerechnet; Prozentpunkte und relative Änderung getrennt erklärt.",
+    "Fehlende Zeilen, Nullnenner, Exportplatzhalter und Datenabdeckung sichtbar dokumentiert; keine Klicks ergänzt."
   ],
   "W027": [
     "Exakte und enthaltene Treffer mit einer Gegenbeispielliste geprüft.",
@@ -365,9 +365,9 @@
     "IDs, Datentypen und Fehlwerte konsistent behandelt."
   ],
   "W041": [
-    "Textgröße und zutreffende Kontrastschwelle bestimmt.",
-    "Tatsächliche Farben samt Transparenz geprüft.",
-    "Fokus, Hover und weitere Kriterien separat getestet."
+    "Tatsächliches Farbpaar, Rolle, Zustand, Schriftgröße und Schriftgewicht erfasst.",
+    "21:1-/1:1-Kontrollen und den gerundeten Grenzfall nachvollzogen; ungerundete richtige Schwelle verwendet.",
+    "Transparenz, Hintergründe und relevante UI-Zustände separat geprüft; keine vollständige WCAG-Konformität aus dem Farbtest abgeleitet."
   ],
   "W054": [
     "Zielinhalt und Fehlerkorrektur verstanden.",

@@ -14,7 +14,7 @@ from urllib.parse import quote
 from urllib.error import HTTPError, URLError
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
-from pages import ORIGIN, ValidationError, check_path, checked_file, checked_report_path, load_manifest, write_report
+from pages import HASH, ORIGIN, ValidationError, check_path, checked_file, checked_report_path, load_manifest, write_report
 
 
 class NoRedirect(HTTPRedirectHandler):
@@ -71,9 +71,17 @@ def fetch_file(name, digest, timeout=20, opener=None):
         return {"file": name, "url": url, "status": "FAIL", "error": str(exc)}
 
 
-def expected_digests(manifest, root=None):
+def expected_digests(manifest, root=None, portfolio_hashes=None):
     """Pin optional portfolio files to this checkout, not merely HTTP 200."""
     digests = dict(manifest["files"])
+    if portfolio_hashes is not None:
+        if root is not None:
+            raise ValidationError("Nur eine Quelle für Portfolio-Prüfsummen ist erlaubt.")
+        if not isinstance(portfolio_hashes, dict) or set(portfolio_hashes) != set(manifest['portfolioFiles']):
+            raise ValidationError("Portfolio-Prüfsummen decken nicht genau die freigegebenen Dateien ab.")
+        if any(not isinstance(value, str) or not HASH.fullmatch(value) for value in portfolio_hashes.values()):
+            raise ValidationError("Ungültige Portfolio-Prüfsumme.")
+        digests.update(portfolio_hashes)
     if root is not None:
         root = Path(root).resolve(strict=True)
         if not root.is_dir():
@@ -87,7 +95,7 @@ def expected_digests(manifest, root=None):
     return digests
 
 
-def run_checks(manifest, *, all_files=False, root=None, timeout=20, attempts=1,
+def run_checks(manifest, *, all_files=False, root=None, portfolio_hashes=None, timeout=20, attempts=1,
                retry_delay=15, budget_seconds=300, fetcher=fetch_file, sleeper=time.sleep,
                clock=time.monotonic):
     if type(attempts) is not int or not 1 <= attempts <= 8:
@@ -98,7 +106,7 @@ def run_checks(manifest, *, all_files=False, root=None, timeout=20, attempts=1,
         raise ValidationError("Timeout muss zwischen 1 und 60 Sekunden liegen.")
     if type(budget_seconds) is not int or not 1 <= budget_seconds <= 600:
         raise ValidationError("Gesamtzeitbudget muss zwischen 1 und 600 Sekunden liegen.")
-    digests = expected_digests(manifest, root)
+    digests = expected_digests(manifest, root, portfolio_hashes)
     names = select_files(manifest, all_files)
     pending, by_name, history = list(names), {}, []
     started = clock()
@@ -130,10 +138,10 @@ def run_checks(manifest, *, all_files=False, root=None, timeout=20, attempts=1,
         "files": len(results), "requests": sum(item["requests"] for item in history),
         "passed": sum(item["status"] == "PASS" for item in results),
         "hash_checked": sum(item.get("release_hash_checked", False) for item in results),
-        "portfolio_hash_checked": root is not None, "attempts": history,
+        "portfolio_hash_checked": root is not None or portfolio_hashes is not None, "attempts": history,
         "budget_seconds": budget_seconds, "elapsed_seconds": round(clock() - started, 3),
         "scope": "Öffentliche HTTP-Statuscodes, MIME-Typen und Release-Prüfsummen. " +
-                 ("Portfolio-Dateien sind auf die Bytes des geprüften Checkouts festgelegt. " if root is not None else "Portfolio-Dateien werden nur auf HTTP-Erreichbarkeit geprüft. ") +
+                 ("Portfolio-Dateien sind auf die Bytes des geprüften Checkouts festgelegt. " if root is not None or portfolio_hashes is not None else "Portfolio-Dateien werden nur auf HTTP-Erreichbarkeit geprüft. ") +
                  "Keine Indexierungsbestätigung und kein Hör- oder Gerätetest.",
         "results": results,
     }

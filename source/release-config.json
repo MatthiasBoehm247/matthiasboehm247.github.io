@@ -1,7 +1,7 @@
 {
-  "version": "1.10.2",
-  "edition": "10.2",
-  "editorialUpdated": "2026-11-26T14:55:01Z",
+  "version": "1.11.0",
+  "edition": "11.0",
+  "editorialUpdated": "2026-11-26T18:52:10Z",
   "language": "de-DE",
-  "publicationStatus": "Paket vorhanden; Live-Veröffentlichung offen"
+  "publicationStatus": "Paketstand; Veröffentlichung durch Deployment- und Live-Bericht nachweisen"
 }
