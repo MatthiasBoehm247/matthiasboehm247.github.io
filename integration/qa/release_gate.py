@@ -24,6 +24,116 @@ LIFECYCLE = {'navigation-completed-result', 'navigation-pending-worker', 'naviga
 CORE = {f'{group}-{number:02}' for group,count in {'CSV':2,'GSC':8,'SITEMAP':5,'PRIORITY':3,'CONTRAST':4,'YAML':6,'NUMBER':4,'ENCODING':2,'SEED':5,'RATIO':1,'BUDGET':3}.items() for number in range(1,count+1)}
 # Kept independently from report data; update only with a reviewed gate change.
 USABILITY = {f'{name}-{viewport}' for name in ('directory-keyboard', 'worker-keyboard', 'gsc-10000', 'sitemap-10000', 'priority-10000') for viewport in ('desktop','narrow')}
+IMAGE_VARIANTS = {
+    'APPLICATION_PAGEHIDE': ('nativeImageCancelledAtPagehide', 'OBSERVED_AT_PAGEHIDE'),
+    'NATIVE_ABORT_BEFORE_PAGEHIDE': ('nativeImageAbortedBeforePagehide', 'OBSERVED_NATIVE_BEFORE_PAGEHIDE'),
+    'COMPLETED_BEFORE_PAGEHIDE': ('nativeImageCompletedBeforePagehide', 'NOT_OBSERVED_COMPLETED_BEFORE_PAGEHIDE'),
+}
+IMAGE_ERROR = 'Die Bilddatei kann nicht gelesen werden. Bitte eine intakte PNG-, JPEG- oder WebP-Datei wählen.'
+IMAGE_PREVIEW = {'width': 4096, 'height': 4800, 'pixel': [40, 120, 210, 255]}
+
+
+def image_navigation(row, environment, label):
+    """Require original navigation evidence; completion never counts as an abort."""
+    def require(condition, message):
+        if not condition:
+            raise ValidationError('Invalid image navigation evidence (' + label + '): ' + message)
+
+    variant = row.get('cancellationVariant')
+    require(isinstance(variant, str) and variant in IMAGE_VARIANTS, 'unknown or missing variant')
+    active_flag, coverage = IMAGE_VARIANTS[variant]
+    for flag, _ in IMAGE_VARIANTS.values():
+        require(type(row.get(flag)) is bool and row[flag] is (flag == active_flag), 'contradictory variant flags')
+    require(row.get('imageAbortCoverage') == coverage, 'contradictory abort coverage')
+    require(row.get('nativePagehide') is True and row.get('nativePageshow') is True, 'native navigation missing')
+    require(type(row.get('lateDownloads')) is int and row['lateDownloads'] == 0, 'late or unobserved downloads')
+    require(type(row.get('lateResults')) is int and row['lateResults'] == 0, 'late or unobserved image results')
+    require(row.get('newImageAndDownloadAfterReturn') == 'PASS', 'new image/export after return missing')
+
+    input_hash = row.get('imageInputSHA256')
+    require(isinstance(input_hash, str) and re.fullmatch('[a-f0-9]{64}', input_hash), 'input fingerprint missing')
+    fixture = environment.get('largeImageFixture')
+    require(isinstance(fixture, dict) and fixture.get('width') == 4096 and fixture.get('height') == 4800
+            and fixture.get('pixels') == 19660800 and type(fixture.get('bytes')) is int and fixture['bytes'] > 0,
+            'large image fixture dimensions/size missing')
+    repeated = row.get('identicalLargeImageAfterReturn')
+    require(isinstance(repeated, dict) and repeated.get('status') == 'PASS'
+            and repeated.get('fixtureSHA256') == input_hash
+            and {key: repeated.get(key) for key in IMAGE_PREVIEW} == IMAGE_PREVIEW
+            and type(repeated.get('downloadBytes')) is int and repeated['downloadBytes'] > 0,
+            'identical image/pixel/download after return missing')
+
+    requested, events = row.get('pendingImmediatelyBeforeNavigation'), row.get('events')
+    require(isinstance(requested, dict) and isinstance(events, list) and events
+            and all(isinstance(event, dict) for event in events), 'original navigation events missing')
+    document, route = requested.get('document'), requested.get('path')
+    require(isinstance(document, str) and document and isinstance(route, str)
+            and re.fullmatch('/tools/[a-z0-9-]+/[a-z0-9-]+/', route), 'document/route missing')
+    require(requested.get('kind') == 'navigation-requested' and requested.get('case') == row['id'], 'navigation marker missing')
+
+    def pending(event):
+        return (event.get('statusKind') == '' and event.get('status') == 'Verarbeitung …'
+                and event.get('result') == '' and event.get('downloadDisabled') is True
+                and 'imagePreview' in event and event['imagePreview'] is None)
+
+    require(pending(requested), 'image was not pending immediately before navigation')
+    original = [event for event in events if event.get('document') == document]
+    require(all(event.get('case') == row['id'] and event.get('path') == route
+                and type(event.get('sequence')) is int and event['sequence'] > 0 for event in original),
+            'invalid original sequence')
+    hides = [event for event in original if event.get('kind') == 'pagehide']
+    require(len(hides) == 1, 'unique original pagehide missing')
+    leaving = hides[0]
+    last = leaving['sequence']
+    require(last <= 4096 and leaving.get('trusted') is True, 'untrusted or invalid pagehide')
+    prefix = {}
+    for event in original:
+        number = event['sequence']
+        if number <= last:
+            require(number not in prefix or prefix[number] == event, 'conflicting original sequence')
+            prefix[number] = event
+    require(set(prefix) == set(range(1, last + 1)), 'incomplete original sequence through pagehide')
+    marker = requested.get('sequence')
+    require(type(marker) is int and 0 < marker < last and prefix.get(marker) == requested,
+            'navigation marker does not match original events')
+    require(any(event.get('kind') == 'pageshow' and event.get('trusted') is True
+                and event.get('case') == row['id'] and event.get('path') == route
+                and isinstance(event.get('document'), str) and event['document']
+                and (event['document'] != document or (type(event.get('sequence')) is int and event['sequence'] > last))
+                for event in events), 'native return observation missing')
+    transitions = [prefix[number] for number in range(marker + 1, last) if prefix[number].get('kind') == 'status-change']
+
+    if variant == 'COMPLETED_BEFORE_PAGEHIDE':
+        try:
+            metadata = json.loads(leaving.get('result', ''))
+        except (ValueError, TypeError):
+            metadata = None
+        require(isinstance(metadata, dict) and metadata.get('Breite') == 4096 and metadata.get('Höhe') == 4800
+                and metadata.get('Format') == 'image/png' and metadata.get('OriginalBytes') == fixture['bytes']
+                and type(metadata.get('AusgabeBytes')) is int and metadata['AusgabeBytes'] > 0
+                and leaving.get('imagePreview') == IMAGE_PREVIEW, 'completed image metadata/pixels missing')
+
+        def outcome(event):
+            return (event.get('statusKind') == 'success' and event.get('status') == 'Ergebnis erstellt.'
+                    and event.get('result') == leaving['result'] and event.get('downloadDisabled') is False
+                    and event.get('imagePreview') == IMAGE_PREVIEW)
+    else:
+        def outcome(event):
+            status = event.get('status')
+            expected_status = (event.get('statusKind') == '' and isinstance(status, str) and 'beim Verlassen' in status) \
+                if variant == 'APPLICATION_PAGEHIDE' else (event.get('statusKind') == 'error' and status == IMAGE_ERROR)
+            return (expected_status and event.get('result') == '' and event.get('downloadDisabled') is True
+                    and 'imagePreview' in event and event['imagePreview'] is None)
+
+    require(outcome(leaving), 'pagehide contradicts the reported variant')
+    observed_outcome = False
+    for event in transitions:
+        if not observed_outcome and pending(event):
+            continue
+        require(outcome(event), 'unexpected status/result/export transition')
+        observed_outcome = True
+    require(variant == 'APPLICATION_PAGEHIDE' or observed_outcome, 'original pre-pagehide outcome transition missing')
+    return {'variant': variant, 'abortObserved': variant != 'COMPLETED_BEFORE_PAGEHIDE', 'inputSHA256': input_hash}
 
 
 def read_report(directory, name):
@@ -67,6 +177,7 @@ def validate(directory, manifest_path, commit):
     reports['staging.json'] = {'sha256': digest, 'publicFiles': len(hashes)}
     native = 0
     environments = {}
+    image_evidence = {}
     for engine in ENGINES:
         for kind, ids in (('browser', BROWSER), ('lifecycle', LIFECYCLE), ('usability', USABILITY)):
             name = 'browser.json' if kind == 'browser' and engine == 'chromium' else f'{kind}-{engine}.json'
@@ -92,8 +203,16 @@ def validate(directory, manifest_path, commit):
                     keys = [row.get('key') for row in cases]
                     if len(cases) != count or len(set(keys)) != count or None in keys or any(row.get('status') != 'PASS' for row in cases):
                         raise ValidationError('Failed/duplicate browser subcase: ' + tool)
+            if kind == 'lifecycle':
+                image_case = next(row for row in report['results'] if row['id'] == 'navigation-pending-image')
+                image_evidence[engine] = image_navigation(image_case, env, name)
             reports[name] = {'sha256': digest, 'cases': len(ids)}
             native += len(ids)
+    cancelled_engines = [engine for engine in ENGINES if image_evidence[engine]['abortObserved']]
+    if not cancelled_engines:
+        raise ValidationError('No actual native image abort observed in any of the three browser engines')
+    if len({item['inputSHA256'] for item in image_evidence.values()}) != 1:
+        raise ValidationError('Native image navigation used different input bytes between browser engines')
     core, digest = read_report(directory, 'regression-core.json')
     # The independently reviewed register is authoritative; neither a report's
     # claimed count nor its expected_ids array may shrink the published suite.
@@ -114,6 +233,8 @@ def validate(directory, manifest_path, commit):
             'manifestSha256':hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
             'publicFiles':len(hashes), 'nativeCases':native, 'coreCases':43, 'monitorUnitCases':16,
             'environments':environments, 'reports':reports,
+            'imageAbortCoverage': {'requiredActualAborts': 1, 'observedActualAborts': len(cancelled_engines),
+                                   'cancelledEngines': cancelled_engines, 'engines': image_evidence},
             'scope':'Three browser engines on the same staged artifact; explicit functional, lifecycle, usability, core and monitor-unit registers. No physical-device, human-hearing, field-performance or search-indexing certification.'}
 
 
