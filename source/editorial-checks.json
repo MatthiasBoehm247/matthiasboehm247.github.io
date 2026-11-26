@@ -1,0 +1,402 @@
+{
+  "W004": [
+    "Jede Variante existiert und antwortet mit 200.",
+    "Die Matrix enthält Selbst- und Rückverweise.",
+    "Canonical und Sprachzuordnung passen zusammen."
+  ],
+  "W009": [
+    "Google-Teilnahme, technische Voraussetzungen und Bericht getrennt geprüft.",
+    "Google-Impressionen, Antwortstichprobe und Website-Sitzungen getrennt gehalten.",
+    "Wirkungsaussagen auf die tatsächlich beobachtete Messreihe begrenzt."
+  ],
+  "W012": [
+    "Stabile IDs und reale Beziehungen überprüft.",
+    "Sichtbare Angaben und Markup stimmen überein.",
+    "Nur bestätigte Identitätsprofile verlinkt."
+  ],
+  "W013": [
+    "OAI-SearchBot, GPTBot und ChatGPT-User nach dokumentiertem Zweck unterschieden.",
+    "Google-Produkteinstellung nicht mit Bot- oder Trainingssperre verwechselt.",
+    "Regelprüfung von echten Log- und Identitätsnachweisen getrennt berichtet."
+  ],
+  "W014": [
+    "Zielworkflow und Fassung des llms.txt-Vorschlags ausdrücklich benannt.",
+    "Nur existierende öffentliche Ressourcen und Markdown-Alternativen verlinkt.",
+    "Google-Sichtbarkeit nicht mit bloßer llms.txt-Veröffentlichung begründet."
+  ],
+  "W017": [
+    "Ein konkretes Leserziel und Voraussetzungen definiert.",
+    "Behauptungen mit Belegen oder klarer Unsicherheit versehen.",
+    "Beispiel samt erwarteter Ausgabe geprüft."
+  ],
+  "W019": [
+    "Metrik und Zählverfahren dokumentiert.",
+    "Beispielrechnung nachvollzogen.",
+    "Mindestens eine echte Verständnisfrage geprüft."
+  ],
+  "W020": [
+    "Vergleichsmethode und Nenner angegeben.",
+    "Treffer in ihrem Kontext manuell kontrolliert.",
+    "SEO-Duplikate getrennt von Rechtefragen bewertet."
+  ],
+  "W022": [
+    "Jede URL hat ein eigenes Leserziel.",
+    "Verantwortliche und Aktualitätsrisiko eingetragen.",
+    "Konsolidierungsentscheidung dokumentiert."
+  ],
+  "W024": [
+    "Suchdaten und Inhaltsnutzen gemeinsam bewertet.",
+    "Passende Zielseite oder Entfernung begründet.",
+    "Interne Links und Sitemap nach Änderung geprüft."
+  ],
+  "W025": [
+    "Freigegebene UTM-Schreibweisen und Feldbedeutungen dokumentiert.",
+    "Bestehende Mehrfachparameter und Fragment nach Linkänderung erhalten.",
+    "Erzeugten Link von tatsächlich beobachteten Analytics-Daten getrennt geprüft."
+  ],
+  "W029": [
+    "Zeitraum und Ausgangsszenario definiert.",
+    "Kosten und Deckungsbeitrag konsistent.",
+    "Mindestens drei Szenarien als Annahmen ausgewiesen."
+  ],
+  "W030": [
+    "Zähler, Nenner, Einheit und Zeitraum eindeutig.",
+    "Beispielwerte manuell gegengerechnet.",
+    "Nullnenner und fehlende Werte separat behandelt."
+  ],
+  "W032": [
+    "Referrer, UTM-Angabe und Analytics-Attribution getrennt behandelt.",
+    "Täuschende Host-Endungen und URL-Pfade als Gegenbeispiele geprüft.",
+    "Fehlende Herkunft und unterschiedliche Sitzungsnenner ausdrücklich berichtet."
+  ],
+  "W036": [
+    "Anleitung in sauberer Umgebung nachvollzogen.",
+    "Links und Überschriften im Zielrenderer geprüft.",
+    "Fremde Inhalte sicher gerendert."
+  ],
+  "W037": [
+    "Vergleichssemantik dokumentiert.",
+    "Diff bei großen Zahlen und doppelten Schlüsseln geprüft.",
+    "Pfadmaskierung und Arrayfälle nachvollzogen."
+  ],
+  "W039": [
+    "Host und Pfad eindeutig geparst.",
+    "Mehrfachparameter und Sonderzeichen erhalten.",
+    "Zieladresse und sensible Parameter geprüft."
+  ],
+  "W040": [
+    "Grenzwerte und Fehlerpfade getestet.",
+    "Netzwerkzugriffe anhand echter Sitzung geprüft.",
+    "Downloads und Ressourcenfreigabe überprüft."
+  ],
+  "W042": [
+    "Kontrast an kritischen Textpositionen geprüft.",
+    "Mehrere Seitenverhältnisse getestet.",
+    "Farbstopps und Winkel reproduzierbar gespeichert."
+  ],
+  "W043": [
+    "Rollen und Zustände definiert.",
+    "Reale Text-Hintergrund-Paare geprüft.",
+    "Status zusätzlich durch Text oder Symbol erkennbar."
+  ],
+  "W044": [
+    "Beide Zielwerte rechnerisch geprüft.",
+    "Root-Schrift-Annahme dokumentiert.",
+    "Zoom, Reflow und lange Texte getestet."
+  ],
+  "W045": [
+    "Layout bei schmaler und breiter Ansicht geprüft.",
+    "DOM- und Fokusreihenfolge sinnvoll.",
+    "Kein unbeabsichtigter horizontaler Seitenscroll."
+  ],
+  "W046": [
+    "Tokenrollen und Typen dokumentiert.",
+    "Alle Referenzen auflösbar.",
+    "Beide Farbmodi und betroffene Komponenten geprüft."
+  ],
+  "W047": [
+    "Alle Hauptaktionen ohne Maus erreichbar.",
+    "Fokus sichtbar und nicht verdeckt.",
+    "Dialoge korrekt geöffnet und verlassen."
+  ],
+  "W048": [
+    "Reduzierte Bewegung in CSS und JS berücksichtigt.",
+    "Status auch ohne Bewegung erkennbar.",
+    "Laufende Animationen bei Bedarf pausierbar."
+  ],
+  "W049": [
+    "Gleiche Ausgabebreite und Motiv verglichen.",
+    "Dateigröße und sichtbare Artefakte dokumentiert.",
+    "Exportformat und Original gesichert."
+  ],
+  "W050": [
+    "Format nach Motiv und Transparenz gewählt.",
+    "Ausgabe-MIME und tatsächliche Darstellung geprüft.",
+    "Fallback bei fehlender Unterstützung vorhanden."
+  ],
+  "W051": [
+    "Reale CSS-Breite und sizes abgeglichen.",
+    "Dateivarianten korrekt beschriftet.",
+    "Abrufe, Layoutstabilität und erstes Inhaltsbild geprüft."
+  ],
+  "W052": [
+    "Motiv bei kleinen Größen lesbar.",
+    "Icon-URL und MIME-Typ geprüft.",
+    "Browser- und Suchanzeige getrennt beurteilt."
+  ],
+  "W053": [
+    "Grafik in mehreren Zuschnitten lesbar.",
+    "Absolute Bild-URL erreichbar und passende Metadaten vorhanden.",
+    "Bildrechte und Vorschau geprüft."
+  ],
+  "W055": [
+    "Original und Optimierung visuell verglichen.",
+    "Referenzen und viewBox erhalten.",
+    "Nicht vertrauenswürdiges SVG getrennt abgesichert."
+  ],
+  "W056": [
+    "Atlasabmessungen und Frame-Rechtecke geprüft.",
+    "Pivot, Timing und Clipreihenfolge dokumentiert.",
+    "Kollision und Sampling separat getestet."
+  ],
+  "W057": [
+    "Regel, Feedback und Reset eindeutig definiert.",
+    "Einfacher und kombinierter Lernfall vorhanden.",
+    "Muster in einem spielbaren Abschnitt getestet."
+  ],
+  "W058": [
+    "Lernziel je Abschnitt formuliert.",
+    "Abstände und Rücksetzpunkte geprüft.",
+    "Unvoreingenommene Playtests eingeplant."
+  ],
+  "W059": [
+    "Layer und Koordinatensystem definiert.",
+    "Spawn, Rand und Übergänge getestet.",
+    "Export mit Tileset- und Formatversion versehen."
+  ],
+  "W061": [
+    "Modellannahmen und Zielgröße dokumentiert.",
+    "Zufall und Randfälle reproduzierbar getestet.",
+    "Spielgefühl durch Playtests separat geprüft."
+  ],
+  "W062": [
+    "Auswahlverfahren und Gewichte definiert.",
+    "Mindestens-einmal-Beispiel korrekt gerechnet.",
+    "Simulation gegen Randfälle und Erwartung geprüft."
+  ],
+  "W064": [
+    "Seed, Parameter und Version gespeichert.",
+    "Gleiche Eingaben liefern dieselbe Karte.",
+    "Erreichbarkeit und Randbedingungen geprüft."
+  ],
+  "W065": [
+    "Audio startet und stoppt nach Nutzeraktion.",
+    "Hüllkurve und Ausgangspegel geprüft.",
+    "Stimmen und Audioressourcen werden freigegeben."
+  ],
+  "W066": [
+    "Notenabstände rechnerisch geprüft.",
+    "Audiozeit und UI-Timer getrennt.",
+    "Längere Timingmessung und Stop-Verhalten eingeplant."
+  ],
+  "W067": [
+    "Klänge einzeln und gemeinsam angehört.",
+    "Masterpegel und Ausklingen geprüft.",
+    "Audioressourcen und Herkunft dokumentiert."
+  ],
+  "W068": [
+    "Intervalle und Zeiteinheit geprüft.",
+    "Ausreißerregel vorab definiert.",
+    "Unsichere Schätzung bei wenigen Taps kenntlich."
+  ],
+  "W069": [
+    "Intervallmuster korrekt.",
+    "Notennamensystem eindeutig.",
+    "Tonhöhe und harmonischer Kontext unterschieden."
+  ],
+  "W070": [
+    "ADSR-Parameter mit Einheit dokumentiert.",
+    "Frühes Loslassen und Wiederholung getestet.",
+    "Keine unbeabsichtigten Klicks oder hängenden Stimmen."
+  ],
+  "W071": [
+    "Punktkorrespondenz und Richtung geprüft.",
+    "Zwischenformen visuell beurteilt.",
+    "Seed und statischer Zustand reproduzierbar."
+  ],
+  "W073": [
+    "Inventar und Zuordnung alter URLs vollständig.",
+    "Abnahme und Backup vor Veröffentlichung geprüft.",
+    "Reale Statuscodes und Suchdaten nach Launch kontrolliert."
+  ],
+  "W075": [
+    "Umgebung und Nutzeraufgabe protokolliert.",
+    "Erwarteter und tatsächlicher Ablauf getrennt.",
+    "Korrektur mit Wiederholungstest bestätigt."
+  ],
+  "W076": [
+    "Muss-Kriterien vor Bewertung geprüft.",
+    "Gewichte und Skalen erklärt.",
+    "Rangfolge mit plausiblen Alternativen getestet."
+  ],
+  "W077": [
+    "Hypothese, Messgröße und Abbruchregel vorab festgelegt.",
+    "Vergleich und Datenqualität beschrieben.",
+    "Abweichungen und Unsicherheiten ausgewiesen."
+  ],
+  "W078": [
+    "Öffentliche Schnittstelle und Kompatibilität definiert.",
+    "Alte Datenformate und Links geprüft.",
+    "Änderungsnotizen und Testnachweise vorhanden."
+  ],
+  "W079": [
+    "Startanleitung in sauberem Checkout nachvollzogen.",
+    "Status, Grenzen und Lizenz eindeutig.",
+    "Testbefehle und Links funktionieren."
+  ],
+  "W001": [
+    "Hinterlegten und beobachteten Titel samt Suchkontext getrennt protokolliert.",
+    "CTR aus Summen sowie Query-Gruppen getrennt nachgerechnet.",
+    "Verarbeitungszeit, Mischungseffekte und offene Wirkung benannt."
+  ],
+  "W002": [
+    "Richtigen Ursprung und passende Bot-Gruppe der Regeln kontrolliert.",
+    "Slash-, Ausnahme- und kodierte Pfade mit Soll-Ergebnis getestet.",
+    "noindex-Abrufbarkeit von vertraulichem Zugriffsschutz getrennt."
+  ],
+  "W003": [
+    "Webseite, Anwendung und reale Person mit konsistenten IDs getrennt.",
+    "Jede ausgezeichnete Tatsachenangabe im sichtbaren Inhalt belegt.",
+    "Syntax, Schema-Vokabular und unterstützte Suchdarstellung separat geprüft."
+  ],
+  "W005": [
+    "Nur tatsächlich vorgesehene kanonische Zielseiten aufgenommen.",
+    "XML-Escaping und URL-Kodierung durch Rücklesen kontrolliert.",
+    "lastmod-Herkunft belegt oder Datum bewusst weggelassen."
+  ],
+  "W006": [
+    "Statusfolge, Quell- und gerenderten Canonical zusammen protokolliert.",
+    "Parameterfunktion vor der Konsolidierungsentscheidung fachlich geprüft.",
+    "Widersprüche zwischen Canonical, Sitemap und Links gezielt bereinigt."
+  ],
+  "W007": [
+    "Für jede alte URL Umzug, Erhalt oder echten Entfall begründet.",
+    "Ersten HTTP-Status und endgültigen Zielinhalt der Weiterleitung beobachtet.",
+    "Betrieb alter Ziele und spätere Nachkontrolle verbindlich geplant."
+  ],
+  "W008": [
+    "Query-Seiten-Zuordnung mit passenden Filtern tatsächlich erhoben.",
+    "Überlappende Seiten nach Nutzeraufgabe statt Keyword allein verglichen.",
+    "Konsolidierung begründet und relevante URL-Gruppe zur Nachkontrolle gesichert."
+  ],
+  "W010": [
+    "Fall-IDs, Sitzungskontext und Modellbezeichnung unverändert protokolliert.",
+    "Gültige Antworten, Ausfälle und Erhebungsabdeckung mit eigenen Nennern berichtet.",
+    "Erwähnung, Link und gestützte Aussage nach vorheriger Regel geprüft."
+  ],
+  "W011": [
+    "Jede wesentliche Teilbehauptung einer konkreten Belegstelle zugeordnet.",
+    "Nicht prüfbare Links von widersprechenden Quellen getrennt erfasst.",
+    "URL-Häufigkeit und Antwortabdeckung ohne Mehrfachzählung ausgewiesen."
+  ],
+  "W015": [
+    "Wesentliche Aussagen einzeln identifiziert.",
+    "Belegstellen tragen die jeweilige Behauptung.",
+    "Unbelegte kritische Aussagen blockieren Freigabe."
+  ],
+  "W016": [
+    "Entwicklungs- und Kontrollfälle vor dem Versionsvergleich festgelegt.",
+    "Kritische Quellenfehler und Regressionen je Fall-ID separat ausgewertet.",
+    "Tatsächlich ausgeführte Modellläufe von bloßer Testplanung unterschieden."
+  ],
+  "W018": [
+    "Leserziel und Voraussetzungen eindeutig.",
+    "Anleitung praktisch nachvollzogen.",
+    "Fachlichkeit, Quellen und notwendige Freigaben geprüft."
+  ],
+  "W021": [
+    "Eigenes URL-Inventar mit Leseraufgabe und konkreter Lücke aufgebaut.",
+    "CTR-/Impressionsveränderung anhand identischer Datenabdeckung getrennt beurteilt.",
+    "Jede Maßnahme mit prüfbarem Ergebnis statt erfundenem Trafficversprechen versehen."
+  ],
+  "W023": [
+    "Primärquelle und genaue Belegstelle dokumentiert.",
+    "Zitat oder Paraphrase stimmt im Kontext.",
+    "Abrufbarkeit, Aktualität und Rechte geprüft."
+  ],
+  "W026": [
+    "Berichtsart, Dimension, Zeitraum und Zeitzone beider Dateien abgeglichen.",
+    "Fehlende Zeilen, Platzhalter und bekannte Erfassungsfehler dokumentiert.",
+    "Impressionsbericht ohne Klickdaten nicht in eine erfundene CTR umgerechnet."
+  ],
+  "W027": [
+    "Exakte und enthaltene Treffer mit einer Gegenbeispielliste geprüft.",
+    "GSC-Standardabgleich und (?-i) vom lokalen JavaScript-Test unterschieden.",
+    "Filterdimension und mögliche Abweichung der Summen im Export festgehalten."
+  ],
+  "W028": [
+    "Impressionen, CTR und Zeitraum als Annahmen markiert.",
+    "Unterschiedliche Szenarien berechnet.",
+    "Prognose und tatsächliche Beobachtungen getrennt."
+  ],
+  "W031": [
+    "Messgröße, Stichprobe und Verfahren vorab bestimmt.",
+    "Voraussetzungen und Zellzahlen geprüft.",
+    "Effektgröße und Unsicherheit neben Signifikanz bewertet."
+  ],
+  "W033": [
+    "JSON-Syntax und Sonderzeichen geprüft.",
+    "Doppelte Schlüssel und große Zahlen getestet.",
+    "Fachliche Felder gegen Schema oder Testfälle geprüft."
+  ],
+  "W034": [
+    "Spalten, Zeilen und ursprüngliche IDs erhalten.",
+    "Trennzeichen, Quotes und Zeilenumbrüche getestet.",
+    "Tabellenimport auf Formelausführung geprüft."
+  ],
+  "W035": [
+    "Positive, negative und Grenzfälle festgelegt.",
+    "Ziel-RegEx-Engine und Flags dokumentiert.",
+    "Lange Eingaben auf Laufzeitrisiken geprüft."
+  ],
+  "W038": [
+    "Originaldatei und Bereinigungsschritte gesichert.",
+    "Zeilenzahlen und entfernte Datensätze überprüft.",
+    "IDs, Datentypen und Fehlwerte konsistent behandelt."
+  ],
+  "W041": [
+    "Textgröße und zutreffende Kontrastschwelle bestimmt.",
+    "Tatsächliche Farben samt Transparenz geprüft.",
+    "Fokus, Hover und weitere Kriterien separat getestet."
+  ],
+  "W054": [
+    "Zielinhalt und Fehlerkorrektur verstanden.",
+    "Export ohne unnötige Umleitung geprüft.",
+    "Mehrere echte Scans samt Druckgröße durchgeführt."
+  ],
+  "W060": [
+    "Einheiten und Physikparameter definiert.",
+    "Berechnete Sprungweite mit echter Simulation verglichen.",
+    "Kollisionen, variable Sprünge und Steuerung getestet."
+  ],
+  "W063": [
+    "Nachbarschaft, Kosten und Heuristik kompatibel.",
+    "Start=Ziel und unerreichbares Ziel getestet.",
+    "Weglänge gegen Referenz oder Handrechnung geprüft."
+  ],
+  "W072": [
+    "Alle Knoten und Enden erreichbar.",
+    "Inventar- und Zustandskombinationen separat getestet.",
+    "Wichtige Pfade mit Lesern ausprobiert."
+  ],
+  "W074": [
+    "Erwartete Ergebnisse unabhängig von der Implementierung.",
+    "Fehlerpfade, Grenzwerte und Browser dokumentiert.",
+    "Regression reproduzierbar ausgeführt."
+  ],
+  "W080": [
+    "Felder, Einheiten und Fehlwertregeln beschrieben.",
+    "Dictionary mit tatsächlichen Beispielen abgeglichen.",
+    "Version, Herkunft und Nutzungsrechte dokumentiert."
+  ]
+}

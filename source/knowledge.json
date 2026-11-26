@@ -1,0 +1,1124 @@
+[
+  {
+    "id": "V001",
+    "tool": "T001",
+    "title": "Titelvarianten für einen Rechner",
+    "kind": "Vorlage",
+    "scenario": "Eine Rechnerseite soll ihren Nutzen und die konkrete Aufgabe in wenigen Worten sichtbar machen.",
+    "check": "Vergleiche beide Titel in der Vorschau. Prüfe, ob Nutzen, Thema und Seitentitel mit dem Seiteninhalt übereinstimmen.",
+    "limit": "Google kann Titel und Beschreibung umschreiben. Pixelwerte sind nur eine Näherung.",
+    "preset": {
+      "title": "Prozentrechner – Prozentwert und Grundwert berechnen",
+      "desc": "Berechne Prozentsatz, Grundwert und Prozentwert mit nachvollziehbarem Rechenweg.",
+      "address": "https://example.org/prozentrechner/",
+      "title2": "Prozentrechner mit Rechenweg – kostenlos"
+    }
+  },
+  {
+    "id": "V002",
+    "tool": "T002",
+    "title": "Crawl-Ausnahme für eine öffentliche Demo",
+    "kind": "Testfall",
+    "scenario": "Ein interner Verzeichnisbaum soll nicht gecrawlt werden; eine öffentliche Demo ist ausgenommen.",
+    "check": "Teste die Wurzel, den gesperrten Ordner, den Demo-Pfad und einen ähnlich benannten öffentlichen Pfad getrennt.",
+    "limit": "robots.txt schützt keine vertraulichen Informationen und erzwingt keine Entfernung aus dem Index.",
+    "preset": {
+      "rules": "User-agent: *\nDisallow: /intern/\nAllow: /intern/demo/",
+      "agent": "Googlebot",
+      "paths": "/\n/intern/bericht\n/intern/demo/index.html\n/intern-alt/",
+      "sitemap": ""
+    }
+  },
+  {
+    "id": "V003",
+    "tool": "T003",
+    "title": "Personenentität für ein Autorenprofil",
+    "kind": "Vorlage",
+    "scenario": "Ein Autorenprofil benötigt eine konsistente, eigenständige Personenentität.",
+    "check": "Vergleiche Name, Beschreibung und URL mit dem tatsächlich sichtbaren Profil. Ergänze echte Identitätsverweise nur nach Prüfung.",
+    "limit": "Keine erfundenen Qualifikationen, Bewertungen oder Zugehörigkeiten. Strukturierte Daten garantieren keine Rich Results.",
+    "preset": {
+      "type": "Person",
+      "name": "Beispielautorin",
+      "address": "https://example.org/autor/",
+      "description": "Autorin technischer Praxisanleitungen."
+    }
+  },
+  {
+    "id": "V004",
+    "tool": "T005",
+    "title": "Sitemap einer kleinen Werkzeugbibliothek",
+    "kind": "Vorlage",
+    "scenario": "Drei kanonische, öffentlich nutzbare Seiten sollen in einer Sitemap erfasst werden.",
+    "check": "Prüfe HTTP-Status, Indexierbarkeit und Canonical jeder URL. Setze lastmod nur bei nachweisbarer relevanter Änderung.",
+    "limit": "Die Beispieldomain ist nicht das Ziel einer Einreichung. Sitemaps garantieren keine Indexierung.",
+    "preset": {
+      "data": "https://example.org/\nhttps://example.org/tools/\nhttps://example.org/tools/rechner/"
+    }
+  },
+  {
+    "id": "V005",
+    "tool": "T006",
+    "title": "Noindex trotz selbstreferenzierendem Canonical",
+    "kind": "Testfall",
+    "scenario": "Eine eigentlich öffentliche Seite besitzt versehentlich ein noindex-Meta-Tag.",
+    "check": "Erwarte, dass der Canonical gefunden und die noindex-Direktive separat gemeldet wird. Prüfe auch reale HTTP-Header.",
+    "limit": "HTML-Schnipsel allein beweist nicht den Indexstatus der Live-Seite.",
+    "preset": {
+      "html": "<html><head><title>Werkzeug</title><meta name=\"robots\" content=\"noindex,follow\"><link rel=\"canonical\" href=\"https://example.org/tool/\"></head><body><h1>Werkzeug</h1></body></html>",
+      "headers": "",
+      "page": "https://example.org/tool/"
+    }
+  },
+  {
+    "id": "V006",
+    "tool": "T007",
+    "title": "Relaunch ohne Weiterleitungsketten",
+    "kind": "Vorlage",
+    "scenario": "Zwei ältere Ratgeber bekommen neue dauerhafte Adressen.",
+    "check": "Ordne jeder alten Adresse genau ein fachlich gleichwertiges Ziel zu; prüfe Zielstatus und Schleifen im Staging.",
+    "limit": "Das generierte Regelwerk muss zum eingesetzten Webserver passen. GitHub Pages führt keine beliebigen Serverregeln aus.",
+    "preset": {
+      "data": "/ratgeber-alt/ | https://example.org/wissen/ratgeber/\n/werkzeug-alt/ | https://example.org/tools/rechner/",
+      "origin": "https://example.org"
+    }
+  },
+  {
+    "id": "V007",
+    "tool": "T011",
+    "title": "Konkurrierende Zielseiten erkennen",
+    "kind": "Testfall",
+    "scenario": "Zwei verschiedene URLs werden derselben normalisierten Suchphrase zugeordnet.",
+    "check": "Prüfe den Konflikt und vergleiche die Suchintentionen manuell. Bestimme erst danach eine Hauptzielseite.",
+    "limit": "Ein Konflikt im Plan ist ein Prüfhinweis, kein Beweis für tatsächliche Ranking-Kannibalisierung.",
+    "preset": {
+      "data": "keyword,url,intent\nkontrast checker,/tools/kontrast/,tool\nKontrast Checker,/wissen/kontrast/,information\nwcag kontrast berechnen,/tools/kontrast/,tool",
+      "sep": ","
+    }
+  },
+  {
+    "id": "V008",
+    "tool": "T012",
+    "title": "SERP-Überschneidung zweier Themen",
+    "kind": "Testfall",
+    "scenario": "Zwei Suchphrasen liefern teilweise dieselben Zielseiten.",
+    "check": "Vergleiche die bereinigten URL-Mengen. In diesem Beispiel sind zwei von vier eindeutigen URLs gemeinsam.",
+    "limit": "Die Beispieldaten sind synthetisch; tatsächliche SERPs nach Land, Datum und Gerät dokumentieren.",
+    "preset": {
+      "a": "https://example.org/a/\nhttps://example.org/b/\nhttps://example.org/c/",
+      "b": "https://example.org/b/\nhttps://example.org/c/\nhttps://example.org/d/"
+    }
+  },
+  {
+    "id": "V009",
+    "tool": "T013",
+    "title": "Neutrale Fragen zu lokalen Browsertools",
+    "kind": "Vorlage",
+    "scenario": "Ein GEO-Test soll Bedarf und Auswahlkriterien erfassen, ohne die eigene Marke in die Frage einzubauen.",
+    "check": "Entferne suggestive Empfehlungen; gruppiere Fragen nach Erklärung, Vergleich und Anwendung. Halte die Formulierungen über Messreihen konstant.",
+    "limit": "Der Generator erzeugt Testfragen, keine gemessenen Suchvolumina oder Antworten.",
+    "preset": {
+      "topic": "datenschutzfreundliche Browsertools",
+      "audience": "kleine Redaktionen",
+      "region": "Deutschland / Deutsch"
+    }
+  },
+  {
+    "id": "V010",
+    "tool": "T014",
+    "title": "Messmatrix mit fehlender Beobachtung",
+    "kind": "Testfall",
+    "scenario": "Zwei Modelle werden mit zwei Fragen verglichen; eine Kombination wurde nicht getestet.",
+    "check": "Unterscheide ausdrücklich fehlende Beobachtung von einer getesteten Antwort ohne Zitat. Die Daten sind fiktive Testwerte.",
+    "limit": "Keine echte Aussage zur Leistung bestimmter Anbieter. Kleine Stichproben nicht verallgemeinern.",
+    "preset": {
+      "data": "model,date,prompt,mentioned,cited\nModell A,2026-11-25,Frage 1,1,1\nModell A,2026-11-25,Frage 2,0,0\nModell B,2026-11-25,Frage 1,1,0",
+      "sep": ","
+    }
+  },
+  {
+    "id": "V011",
+    "tool": "T015",
+    "title": "Gemeinsame und exklusive Quellen",
+    "kind": "Testfall",
+    "scenario": "Zwei synthetische Antwortprotokolle enthalten eine gemeinsame Quelle und je eine exklusive URL.",
+    "check": "Vergleiche Quellenmengen und überprüfe nach dem Import realer Daten jede relevante Seite im Original.",
+    "limit": "Zitationshäufigkeit ist kein Nachweis für Qualität oder Richtigkeit der Quelle.",
+    "preset": {
+      "data": "test,url\nA,https://example.org/methodik/\nA,https://example.net/a/\nB,https://example.org/methodik/\nB,https://example.com/b/",
+      "sep": ","
+    }
+  },
+  {
+    "id": "V012",
+    "tool": "T016",
+    "title": "Entitätsbeziehung zwischen Person und Artikel",
+    "kind": "Vorlage",
+    "scenario": "Ein Autor und ein eigener Artikel sollen über stabile Identifikatoren verknüpft werden.",
+    "check": "Prüfe IDs, Typen und Kanten. Verwende denselben Personen-Identifier auf allen belegbar zugehörigen Seiten.",
+    "limit": "Ein lokaler Graph validiert nicht alle Schema.org-Semantiken und beweist keine externe Anerkennung.",
+    "preset": {
+      "nodes": "https://example.org/autor/#person | Beispielautor | Person\nhttps://example.org/artikel/#article | Technische Anleitung | Article",
+      "edges": "https://example.org/artikel/#article | author | https://example.org/autor/#person"
+    }
+  },
+  {
+    "id": "V013",
+    "tool": "T019",
+    "title": "Beleglücken für Produktbehauptungen",
+    "kind": "Vorlage",
+    "scenario": "Ein Entwurf enthält eine Aussage über lokale Datenverarbeitung und eine unbelegte Rankinggarantie.",
+    "check": "Kennzeichne beide als offen, bis Datenflussprüfung beziehungsweise belastbare Evidenz vorliegen. Streiche unbelegbare Garantieversprechen.",
+    "limit": "Die eingetragene Beispielquelle ist lediglich ein Platzhalter, kein geprüfter Beleg.",
+    "preset": {
+      "data": "claim,source,status\nVerarbeitung bleibt lokal,https://example.org/methodik/,offen\nGarantiert Platz 1,,offen",
+      "sep": ","
+    }
+  },
+  {
+    "id": "V014",
+    "tool": "T020",
+    "title": "Zwei Antwortfassungen vergleichen",
+    "kind": "Testfall",
+    "scenario": "Eine zweite Antwort enthält neben einem Nutzenversprechen einen wichtigen Einschränkungssatz.",
+    "check": "Vergleiche Wortmengen und Länge; kontrolliere den tatsächlich geänderten Aussagegehalt anschließend manuell.",
+    "limit": "Lexikalische Ähnlichkeit ist weder semantische Gleichheit noch ein Faktencheck.",
+    "preset": {
+      "a": "Der Rechner verarbeitet Eingaben lokal.",
+      "b": "Der Rechner verarbeitet Eingaben lokal. Exporte werden auf Wunsch gespeichert; Hosting erzeugt Verbindungsdaten."
+    }
+  },
+  {
+    "id": "V015",
+    "tool": "T023",
+    "title": "Kontextbudget mit Antwortreserve",
+    "kind": "Testfall",
+    "scenario": "Ein System verfügt über 16000 Tokens und benötigt feste Anteile für Anweisungen, Frage und Antwort.",
+    "check": "Rechne 16000 minus 2500 minus 500 minus 3000. Bei 800 Tokens je Abschnitt bleiben rechnerisch 12 vollständige Abschnitte plus Rest.",
+    "limit": "Tokenisierung und zusätzliche Nachrichten-Overheads hängen vom tatsächlichen Modell ab.",
+    "preset": {
+      "context": 16000,
+      "system": 2500,
+      "user": 500,
+      "reserve": 3000,
+      "chunk": 800
+    }
+  },
+  {
+    "id": "V016",
+    "tool": "T024",
+    "title": "Transparenz bei KI-gestützter Redaktion",
+    "kind": "Checkliste",
+    "scenario": "Ein Fachartikel entsteht mit sprachlicher Assistenz, aber fachliche Belege müssen manuell kontrolliert werden.",
+    "check": "Dokumentiere Einsatz, verantwortliche Freigabe, relevante Offenlegung und Umgang mit sensiblen Daten. Keine ungeprüften Quellen übernehmen.",
+    "limit": "Die Checkliste ist keine Rechtsprüfung; tatsächliche Pflichten hängen vom konkreten Einsatz ab.",
+    "preset": {
+      "purpose": "Sprachliche Überarbeitung von Fachartikeln",
+      "model": "Tatsächlich eingesetztes Modell und Version dokumentieren",
+      "human": "Fachredaktion prüft Aussagen und Originalquellen",
+      "disclosure": "Relevanten KI-Einsatz nachvollziehbar beschreiben",
+      "risk": "Keine personenbezogenen Kundendaten in externe Dienste; unbelegte Aussagen sperren"
+    }
+  },
+  {
+    "id": "V017",
+    "tool": "T025",
+    "title": "Briefing für einen Kontrast-Rechner",
+    "kind": "Vorlage",
+    "scenario": "Ein Suchender möchte ein Farbpaar für gut lesbaren Text beurteilen.",
+    "check": "Setze die Anwendung an den Seitenanfang; erkläre Normaltext, Großtext, Grenzfälle, Beispiele und weiterführende Prüfung.",
+    "limit": "Die WCAG-Einstufung einer Farbkombination ist kein vollständiger Barrierefreiheitsnachweis.",
+    "preset": {
+      "topic": "WCAG-Farbkontrast berechnen",
+      "intent": "Kontrast eines eigenen Farbpaars prüfen",
+      "value": "Sofort berechenbares Verhältnis, getrennte Kriterien für Textgrößen",
+      "structure": "Werkzeug; Methode; Beispiele; Grenzfälle; weiterführende Tests",
+      "sources": "WCAG 2.2 und zugehörige W3C Understanding-Dokumente prüfen",
+      "qa": "Referenzfarben; Rundungsgrenzen; Tastaturbedienung"
+    }
+  },
+  {
+    "id": "V018",
+    "tool": "T026",
+    "title": "Ratgeber für sichere CSV-Bereinigung",
+    "kind": "Vorlage",
+    "scenario": "Eine Redaktion möchte fehlerhafte Spalten, Duplikate und führende Nullen erkennen.",
+    "check": "Sichere Originaldatei, bestimme Kodierung und Trennzeichen, definiere Duplikatschlüssel und prüfe Stichproben vor dem Export.",
+    "limit": "Keine automatisierte Löschung ohne vorherige Definition fachlicher Gleichheit.",
+    "preset": {
+      "topic": "CSV-Dateien bereinigen",
+      "audience": "Redaktion ohne Programmierkenntnisse",
+      "goal": "Saubere Datei ohne Verlust wichtiger Werte",
+      "steps": "Original sichern; Trennzeichen prüfen; Spalten vergleichen; Duplikatregel festlegen; Testexport prüfen",
+      "safety": "Nur Kopien bearbeiten; führende Nullen und Formelpräfixe beachten",
+      "visual": "Vorher-Nachher-Tabelle mit markierten Konflikten",
+      "qa": "Zeilenanzahl, Spaltenanzahl, Stichproben und führende Nullen prüfen"
+    }
+  },
+  {
+    "id": "V019",
+    "tool": "T028",
+    "title": "Lange Sätze gezielt vereinfachen",
+    "kind": "Testfall",
+    "scenario": "Ein technischer Absatz enthält eine überladene Anweisung und eine separate Erfolgskontrolle.",
+    "check": "Nutze Satzlänge als Hinweis; trenne Voraussetzung, Aktion und Kontrolle in eigenständige Sätze, ohne Fachbegriffe zu verfälschen.",
+    "limit": "Lesbarkeitskennzahlen sind keine allgemeingültige Bewertung fachlicher Qualität.",
+    "preset": {
+      "text": "Wenn die exportierte Tabelle unterschiedliche Spaltennamen enthält und mehrere Zeiträume zusammengefasst werden, muss vor dem Vergleich zuerst geprüft werden, ob die Dimensionen und die Filter identisch sind. Kontrolliere anschließend die Summen."
+    }
+  },
+  {
+    "id": "V020",
+    "tool": "T030",
+    "title": "Inventar vor einem Website-Relaunch",
+    "kind": "Vorlage",
+    "scenario": "Eine kleine Website enthält eine funktionierende Seite, einen veralteten Beitrag und eine zusammenzuführende Unterseite.",
+    "check": "Vergebe pro URL einen Status und eine begründete Aktion. Keine Seite ohne Bestandsaufnahme löschen.",
+    "limit": "Das Inventar enthält keine automatisch gemessenen Suchdaten oder HTTP-Statuswerte.",
+    "preset": {
+      "data": "url,status,action\nhttps://example.org/tool/,live,erhalten\nhttps://example.org/wissen/alt/,alt,aktualisieren\nhttps://example.org/wissen/doppelt/,prüfen,konsolidieren",
+      "sep": ","
+    }
+  },
+  {
+    "id": "V021",
+    "tool": "T031",
+    "title": "Vierwöchiger Fachredaktionsplan",
+    "kind": "Vorlage",
+    "scenario": "Drei unterschiedliche Rollen sollen einen Rechner und seine Anleitung veröffentlichungsfähig machen.",
+    "check": "Plane Entwicklung, Fachprüfung und Abnahme als getrennte Aufgaben. Setze echte Termine und Verantwortliche ein.",
+    "limit": "Die Beispieldaten sind keine verbindlichen Termine und keine Veröffentlichungsfreigabe.",
+    "preset": {
+      "data": "topic,date,owner,status\nRechner-Prototyp,2026-12-01,Entwicklung,offen\nMethodik prüfen,2026-12-08,Fachredaktion,offen\nAbnahme und Freigabe,2026-12-15,QA,offen",
+      "sep": ","
+    }
+  },
+  {
+    "id": "V022",
+    "tool": "T032",
+    "title": "Überschriften einer Aufgabenanleitung",
+    "kind": "Vorlage",
+    "scenario": "Ein Tutorial soll vom Ausgangsproblem zur geprüften Lösung führen.",
+    "check": "Prüfe eine eindeutige H1, verständliche H2 und nachvollziehbare Unterabschnitte. Titel auf echte Nutzerfragen abstimmen.",
+    "limit": "Eine syntaktisch gute Hierarchie beweist noch keine inhaltliche Vollständigkeit.",
+    "preset": {
+      "data": "# CSV-Datei richtig importieren\n## Voraussetzungen\n## Datei prüfen\n### Trennzeichen erkennen\n### Kodierung kontrollieren\n## Import durchführen\n## Ergebnis prüfen\n## Fehler beheben"
+    }
+  },
+  {
+    "id": "V023",
+    "tool": "T033",
+    "title": "Quellenregister mit ungeprüften Platzhaltern",
+    "kind": "Vorlage",
+    "scenario": "Ein Text benötigt eine normative Quelle und eine praktische Referenz.",
+    "check": "Ersetze Platzhalter durch tatsächlich gelesene Originalquellen, präzise Belegstellen und echte Abrufdaten.",
+    "limit": "Der Testeintrag ist kein Zitat und keine redaktionelle Freigabe.",
+    "preset": {
+      "data": "title,url,date,quote\nNormative Referenz prüfen,https://example.org/standard/,2026-11-25,Platzhalter - nicht als Beleg verwenden\nPraxisbeispiel prüfen,https://example.org/beispiel/,2026-11-25,Platzhalter - Original öffnen",
+      "sep": ","
+    }
+  },
+  {
+    "id": "V024",
+    "tool": "T036",
+    "title": "Alt-Text für eine erklärende Grafik",
+    "kind": "Vorlage",
+    "scenario": "Eine Abbildung zeigt das Ergebnis einer Kontrastberechnung, nicht nur dekorative Farben.",
+    "check": "Nenne im Alternativtext die funktionale Aussage und stelle umfangreiche Zahlen oder Erläuterungen zusätzlich im Text bereit.",
+    "limit": "Die Bildbeschreibung muss zur tatsächlich eingebundenen Grafik passen; dekorative Bilder anders behandeln.",
+    "preset": {
+      "context": "Anleitung zum Farbkontrast",
+      "purpose": "Informativ",
+      "description": "Dunkelgrüner Text auf hellem Hintergrund mit ausgewiesenem Kontrastverhältnis.",
+      "detail": "Das exakte Verhältnis und die Bewertung stehen zusätzlich im benachbarten Text."
+    }
+  },
+  {
+    "id": "V025",
+    "tool": "T037",
+    "title": "Newsletter-Kampagne nachvollziehbar markieren",
+    "kind": "Vorlage",
+    "scenario": "Ein Newsletter verlinkt aus zwei unterschiedlichen Positionen auf dieselbe Werkzeugseite.",
+    "check": "Verwende einheitliche Kleinschreibung für Quelle, Medium und Kampagne; variiere content je Linkposition.",
+    "limit": "Keine personenbezogenen Daten in UTM-Parametern. Interne Navigation nicht als externe Kampagne markieren.",
+    "preset": {
+      "address": "https://example.org/tools/rechner/",
+      "source": "newsletter",
+      "medium": "email",
+      "campaign": "werkzeug-release",
+      "content": "header-link",
+      "term": ""
+    }
+  },
+  {
+    "id": "V026",
+    "tool": "T038",
+    "title": "Klickverlust bei vergleichbaren Exporten",
+    "kind": "Testfall",
+    "scenario": "Ein Suchbegriff hat aktuell 30 Klicks bei 1500 Impressionen und im Vergleich 60 bei 2000.",
+    "check": "Prüfe 2 Prozent aktuelle und 3 Prozent frühere CTR sowie einen Verlust von 30 Klicks. Verwende identische Exportdimensionen.",
+    "limit": "Synthetische Zahlen; fehlende Zeilen sind keine sicheren Nullwerte. Keine Kausalität aus einem Zeitvergleich ableiten.",
+    "preset": {
+      "data": "query,clicks,impressions\nkontrast checker,30,1500\njson formatter,50,1000",
+      "baseline": "query,clicks,impressions\nkontrast checker,60,2000\njson formatter,40,1000",
+      "sep": ",",
+      "filter": "",
+      "order": "Klickverlust"
+    }
+  },
+  {
+    "id": "V027",
+    "tool": "T039",
+    "title": "Sonderzeichen in Suchphrasen maskieren",
+    "kind": "Testfall",
+    "scenario": "Suchphrasen mit Punkten und Pluszeichen sollen als Text und nicht als Regex-Operatoren ausgewertet werden.",
+    "check": "Prüfe positive Beispiele sowie robotsXtxt und geoooki als Gegenbeispiele. Verwende die passende Suchfilterlogik.",
+    "limit": "Der lokale JavaScript-Test ersetzt keine Prüfung gegen die tatsächliche RE2-Auswertung in Search Console.",
+    "preset": {
+      "data": "robots.txt\ngeo+ki",
+      "mode": "enthält",
+      "sample": "robots.txt generator\nrobotsXtxt\ngeo+ki analyse\ngeoooki"
+    }
+  },
+  {
+    "id": "V028",
+    "tool": "T040",
+    "title": "CTR-Szenarien statt Trafficversprechen",
+    "kind": "Testfall",
+    "scenario": "50000 Impressionen erzielen 2 Prozent CTR. Zwei mögliche Szenarien liegen bei 2,5 und 3 Prozent.",
+    "check": "Vergleiche 1000 aktuelle Klicks mit 1250 und 1500 hypothetischen Klicks bei konstanten Impressionen.",
+    "limit": "CTR und Impressionen verändern sich in der Realität gemeinsam; keine Prognose.",
+    "preset": {
+      "impressions": 50000,
+      "old": 2,
+      "low": 2.5,
+      "high": 3,
+      "cvr": 1.5
+    }
+  },
+  {
+    "id": "V029",
+    "tool": "T041",
+    "title": "Investitionsszenario für SEO",
+    "kind": "Vorlage",
+    "scenario": "Eine Optimierungsmaßnahme soll über sechs Monate mit angenommenem Traffic und Wert pro Conversion modelliert werden.",
+    "check": "Vergleiche mehrere Szenarien und dokumentiere, ob der Wert Umsatz oder Deckungsbeitrag bedeutet. Setze echte Kosten erst nach Prüfung ein.",
+    "limit": "Das Modell ersetzt keine Finanzplanung; zusätzliche Besucher sind nicht garantiert.",
+    "preset": {
+      "traffic": 1500,
+      "cvr": 1.8,
+      "value": 40,
+      "cost": 3500,
+      "months": 6
+    }
+  },
+  {
+    "id": "V030",
+    "tool": "T043",
+    "title": "Kampagnenkosten pro Ergebnis",
+    "kind": "Testfall",
+    "scenario": "Eine Kampagne erzielt 100000 Impressionen, 2000 Klicks und 50 Conversions bei 1000 Euro Kosten.",
+    "check": "Prüfe CTR von 2 Prozent, Kosten pro Klick von 0,50 Euro und Kosten pro Conversion von 20 Euro.",
+    "limit": "Attribution und Gewinn werden durch diese Kennzahlen nicht automatisch bewiesen.",
+    "preset": {
+      "impr": 100000,
+      "click": 2000,
+      "conv": 50,
+      "cost": 1000,
+      "revenue": 3000
+    }
+  },
+  {
+    "id": "V031",
+    "tool": "T044",
+    "title": "Zwei Varianten mit kleinen Stichproben",
+    "kind": "Testfall",
+    "scenario": "Eine Testvariante hat 12 und die andere 15 erfolgreiche Ereignisse bei jeweils 150 Beobachtungen.",
+    "check": "Vergleiche 8 und 10 Prozent beobachtete Erfolgsrate. Reduziere anschließend die Erfolge einer Gruppe auf 8: Die Normalapproximation muss diese Eingabe ausdrücklich ablehnen. Lege Auswertung und Stopregel vorab fest.",
+    "limit": "Die Mindestzahlen sind ein technischer Plausibilitätsfilter, keine Garantie für statistisch verlässliche Entscheidungen.",
+    "preset": {
+      "na": 150,
+      "ca": 12,
+      "nb": 150,
+      "cb": 15
+    }
+  },
+  {
+    "id": "V032",
+    "tool": "T046",
+    "title": "Datensparsame Tool-Nutzungsmessung",
+    "kind": "Vorlage",
+    "scenario": "Erfolgreiche Berechnungen sollen gezählt werden, ohne den eingegebenen Inhalt zu übertragen.",
+    "check": "Definiere ein Ereignis nach erfolgreichem Ergebnis, eine technische Tool-ID und einen Test gegen Doppelzählungen.",
+    "limit": "Die Vorlage implementiert kein Tracking. Rechtliche Grundlage und Einwilligung vor Einsatz prüfen.",
+    "preset": {
+      "event": "tool_complete",
+      "trigger": "Erfolgreiche Berechnung nach Nutzeraktion",
+      "params": "tool_id: string; result_type: enum",
+      "goal": "Erfolgreiche Werkzeugnutzung zählen",
+      "privacy": "Keine Eingaben, URLs, freien Texte oder Dateinamen senden",
+      "test": "Erfolg zählt einmal; Fehler und Reset zählen nicht"
+    }
+  },
+  {
+    "id": "V033",
+    "tool": "T049",
+    "title": "Große IDs und führende Nullen",
+    "kind": "Testfall",
+    "scenario": "Eine JSON-Datei enthält eine große numerische ID und eine als Text gespeicherte Postleitzahl.",
+    "check": "Prüfe, dass 9007199254740993 und die Zeichenfolge 00123 beim Formatieren unverändert bleiben.",
+    "limit": "Andere JSON-Parser können große Zahlen bei der weiteren Verarbeitung trotzdem runden.",
+    "preset": {
+      "text": "{\"id\":9007199254740993,\"plz\":\"00123\",\"aktiv\":true}",
+      "indent": "2"
+    }
+  },
+  {
+    "id": "V034",
+    "tool": "T050",
+    "title": "CSV mit eingebettetem Trennzeichen",
+    "kind": "Testfall",
+    "scenario": "Eine zitierte Zelle enthält ein Komma und eine Artikelnummer besitzt führende Nullen.",
+    "check": "Prüfe, dass das Komma innerhalb der Zelle bleibt und 0012 als Zeichenfolge ausgegeben wird.",
+    "limit": "Die Konvertierung trifft keine automatischen Typentscheidungen für fachliche Daten.",
+    "preset": {
+      "text": "artikel,bezeichnung\n0012,\"Papier, weiß\"\n0042,Mappe",
+      "sep": ","
+    }
+  },
+  {
+    "id": "V035",
+    "tool": "T051",
+    "title": "Dateiendungen mit Anker prüfen",
+    "kind": "Testfall",
+    "scenario": "Eine Liste enthält .png-Dateien und ähnlich benannte Sicherungskopien.",
+    "check": "Erwarte Treffer nur bei Zeilen, die wirklich mit .png enden. Teste Großschreibung durch die gewählten Flags.",
+    "limit": "Keine Prüfung des tatsächlichen Dateiinhalts oder MIME-Typs anhand des Namens möglich.",
+    "preset": {
+      "pattern": "\\.png$",
+      "flags": "gim",
+      "text": "bild.png\nBILD.PNG\nbild.png.bak\nfoto.jpg"
+    }
+  },
+  {
+    "id": "V036",
+    "tool": "T053",
+    "title": "Geänderte Konfiguration vergleichen",
+    "kind": "Testfall",
+    "scenario": "Zwischen zwei Konfigurationsständen ändern sich ein Grenzwert und eine Option; eine ID bleibt gleich.",
+    "check": "Prüfe hinzugefügte, entfernte und geänderte Pfade separat. Bewahre beide Originalstände auf.",
+    "limit": "Die Anwendung vergleicht Schreibweisen großer Zahlen exakt, nicht jede mögliche fachliche Gleichheit.",
+    "preset": {
+      "a": "{\"limit\":10,\"debug\":false,\"id\":9007199254740993}",
+      "b": "{\"limit\":20,\"cache\":true,\"id\":9007199254740993}"
+    }
+  },
+  {
+    "id": "V037",
+    "tool": "T054",
+    "title": "Duplikate und Leerraum bei Stammdaten",
+    "kind": "Testfall",
+    "scenario": "Zwei Zeilen unterscheiden sich nur durch Leerraum, eine weitere enthält dieselbe Nummer mit anderem Namen.",
+    "check": "Prüfe nach der Bereinigung die Zeilenzahl und kontrolliere fachlich relevante Konflikte manuell.",
+    "limit": "Gleichheit ganzer Zeilen ist nicht dasselbe wie Gleichheit eines fachlichen Primärschlüssels.",
+    "preset": {
+      "data": "name,id\n Ada ,001\nAda,001\nAda,002\n,",
+      "sep": ","
+    }
+  },
+  {
+    "id": "V038",
+    "tool": "T055",
+    "title": "Query-Parameter gezielt ändern",
+    "kind": "Vorlage",
+    "scenario": "Eine Filter-URL besitzt bestehende Suchparameter und einen Fragmentanker.",
+    "check": "Ändere nur den gewünschten Parameter und kontrolliere, dass übrige Parameter und Fragment erhalten bleiben.",
+    "limit": "Eine URL allein beweist nicht, dass der Zielserver Parameter wie erwartet interpretiert.",
+    "preset": {
+      "address": "https://example.org/tools/?q=seo&sort=name#liste",
+      "key": "q",
+      "value": "geo"
+    }
+  },
+  {
+    "id": "V039",
+    "tool": "T057",
+    "title": "Einfache YAML-Konfiguration",
+    "kind": "Vorlage",
+    "scenario": "Eine kleine lokale Konfiguration enthält nur einfache Schlüssel, Zahlen, Booleans und eine Liste.",
+    "check": "Vergleiche JSON-Ausgabe mit allen erwarteten Werten. Teste komplexe YAML-Dateien separat mit einer vollständigen Referenzbibliothek.",
+    "limit": "Die Anwendung unterstützt eine dokumentierte Teilmenge; keine vollständige YAML-Implementierung.",
+    "preset": {
+      "text": "name: Werkzeugbibliothek\nactive: true\ncount: 3\nsections:\n  - SEO\n  - Design\n  - Daten"
+    }
+  },
+  {
+    "id": "V040",
+    "tool": "T060",
+    "title": "Responsiver Karten-Prototyp",
+    "kind": "Vorlage",
+    "scenario": "Zwei Karten sollen sich bei schmaler Ansicht ohne horizontales Scrollen anordnen.",
+    "check": "Verkleinere die Vorschau und prüfe den Umbruch. Kontrolliere die Überschriften und langen Inhalte zusätzlich im Zielprojekt.",
+    "limit": "Sandbox-Vorschau ersetzt keine vollständigen Browser- und Accessibility-Tests.",
+    "preset": {
+      "html": "<main><h1>Werkzeuge</h1><div class=\"grid\"><article><h2>Analyse</h2><p>Daten prüfen</p></article><article><h2>Design</h2><p>Kontraste prüfen</p></article></div></main>",
+      "css": "body{font:16px system-ui;padding:1rem;color:#202720;background:#f6f4ef}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:1rem}article{border:1px solid;padding:1rem}"
+    }
+  },
+  {
+    "id": "V041",
+    "tool": "T061",
+    "title": "Kontrast: Schwarz auf Weiß",
+    "kind": "Testfall",
+    "scenario": "Eine Referenzkombination dient zur Kontrolle der Kontrastberechnung.",
+    "check": "Das erwartete Verhältnis beträgt 21:1. Nutze es als Kontrollwert und teste anschließend die tatsächlichen Farben.",
+    "limit": "Die Farbprüfung bewertet nicht Fokus, Schriftgröße, Bildhintergründe oder Tastaturbedienung vollständig.",
+    "preset": {
+      "fg": "#000000",
+      "bg": "#ffffff"
+    }
+  },
+  {
+    "id": "V042",
+    "tool": "T061",
+    "title": "Kontrast: hellgrauer Text",
+    "kind": "Testfall",
+    "scenario": "Hellgraue Texte auf weißem Hintergrund können schwer lesbar sein.",
+    "check": "Prüfe das Verhältnis und die Bewertung für Normaltext. Wähle einen dunkleren Textton und berechne erneut.",
+    "limit": "Die Darstellung realer Texte hängt auch von Schrift und Umgebung ab.",
+    "preset": {
+      "fg": "#aaaaaa",
+      "bg": "#ffffff"
+    }
+  },
+  {
+    "id": "V043",
+    "tool": "T062",
+    "title": "Dezenter Hintergrundverlauf",
+    "kind": "Vorlage",
+    "scenario": "Ein ruhiger Verlauf soll einen Editorbereich rahmen, ohne den Inhalt zu überstrahlen.",
+    "check": "Teste Textkontrast an mehreren Positionen des Verlaufs und prüfe die Darstellung auf kleinen Bildschirmen.",
+    "limit": "Ein Farbverlauf ist kein Ersatz für eine kontraststabile Textfläche.",
+    "preset": {
+      "a": "#e8eee4",
+      "b": "#f6f4ef",
+      "mode": "linear",
+      "angle": 145
+    }
+  },
+  {
+    "id": "V044",
+    "tool": "T064",
+    "title": "Fließende Überschrift zwischen Mobil und Desktop",
+    "kind": "Vorlage",
+    "scenario": "Eine Überschrift soll zwischen 24 und 44 Pixeln skalieren.",
+    "check": "Prüfe beide Viewportgrenzen sowie Zwischenwerte; teste 200 Prozent Textvergrößerung im tatsächlichen Layout.",
+    "limit": "Die Formel bestimmt nur die Schriftgröße, nicht Zeilenhöhe, Umbrüche oder Barrierefreiheit.",
+    "preset": {
+      "min": 24,
+      "max": 44,
+      "vw1": 360,
+      "vw2": 1440,
+      "root": 16
+    }
+  },
+  {
+    "id": "V045",
+    "tool": "T065",
+    "title": "Drei Spalten mit kompakten Karten",
+    "kind": "Vorlage",
+    "scenario": "Ein Tool-Verzeichnis benötigt ein Raster mit mindestens 180 Pixel breiten Karten.",
+    "check": "Prüfe enge Ansichten und lange Titel; verhindere abgeschnittene Inhalte und horizontales Scrollen.",
+    "limit": "Die generierte CSS-Regel muss zur tatsächlichen Containerbreite passen.",
+    "preset": {
+      "cols": 3,
+      "gap": 16,
+      "min": 180
+    }
+  },
+  {
+    "id": "V046",
+    "tool": "T066",
+    "title": "Flexible Toolbar mit Umbruch",
+    "kind": "Vorlage",
+    "scenario": "Eine Aktionsleiste enthält mehrere unterschiedlich lange Buttons.",
+    "check": "Teste Umbruch und Abstand bei geringer Breite und prüfe, ob Reihenfolge und Fokus konsistent bleiben.",
+    "limit": "Visueller Umbruch allein löst keine Probleme der DOM- oder Fokusreihenfolge.",
+    "preset": {
+      "direction": "row",
+      "justify": "flex-start",
+      "align": "center",
+      "wrap": "wrap",
+      "gap": 8
+    }
+  },
+  {
+    "id": "V047",
+    "tool": "T069",
+    "title": "Semantische Design-Tokens",
+    "kind": "Vorlage",
+    "scenario": "Mehrere Anwendungen sollen dieselben Farben, Abstände und Schriften nutzen.",
+    "check": "Trenne semantische Rollen von konkreten Farbwerten und prüfe die erzeugten CSS-Namen auf Konflikte.",
+    "limit": "Tokens allein stellen keinen ausreichenden Kontrast und keine konsistente Komponentennutzung sicher.",
+    "preset": {
+      "data": "color-text | #202720\ncolor-surface | #f6f4ef\ncolor-accent | #415b46\nspace-sm | 8px\nspace-md | 16px"
+    }
+  },
+  {
+    "id": "V048",
+    "tool": "T070",
+    "title": "Sichtbarer Tastaturfokus im Vergleich",
+    "kind": "Testfall",
+    "scenario": "Eine Oberfläche soll mit Tab und Umschalt-Tab bedienbar sein.",
+    "check": "Durchlaufe die Demo mit der Tastatur; vergleiche danach bewusst das Negativbeispiel mit schwachem Fokus.",
+    "limit": "Die Demo ist keine vollständige Prüfung der WCAG-Fokuskriterien.",
+    "preset": {
+      "mode": "Sichtbarer Fokus"
+    }
+  },
+  {
+    "id": "V049",
+    "tool": "T073",
+    "title": "Webbild komprimieren ohne Originalverlust",
+    "kind": "Checkliste",
+    "scenario": "Ein großes Foto soll für eine Website verkleinert und als WebP ausgegeben werden.",
+    "check": "Original sichern, Breite und Qualität schrittweise reduzieren, Dateigröße und sichtbare Details im Zielkontext vergleichen.",
+    "limit": "Eigenes Testbild erforderlich. Keine pauschale optimale Kompressionsstufe für alle Bilder.",
+    "preset": {}
+  },
+  {
+    "id": "V050",
+    "tool": "T074",
+    "title": "PNG mit Transparenz konvertieren",
+    "kind": "Checkliste",
+    "scenario": "Ein Logo mit transparentem Hintergrund soll in ein passendes Webformat überführt werden.",
+    "check": "Prüfe Alphakanal auf hellem und dunklem Hintergrund, Abmessungen, Dateigröße und Browserdarstellung.",
+    "limit": "Eine JPEG-Ausgabe erhält Transparenz nicht. Eigenes Testbild erforderlich.",
+    "preset": {}
+  },
+  {
+    "id": "V051",
+    "tool": "T076",
+    "title": "Favicon bei kleiner Darstellung prüfen",
+    "kind": "Checkliste",
+    "scenario": "Ein detailreiches Symbol soll auch im Browser-Tab erkennbar bleiben.",
+    "check": "Erzeuge kleine quadratische Varianten; prüfe Lesbarkeit, Form und Kontrast bei tatsächlicher Anzeigegröße.",
+    "limit": "Das Werkzeug erzeugt Bildvarianten, kein vollständiges plattformübergreifendes Icon-Paket. Datei erforderlich.",
+    "preset": {}
+  },
+  {
+    "id": "V052",
+    "tool": "T077",
+    "title": "Social-Vorschaubild mit klarer Hierarchie",
+    "kind": "Checkliste",
+    "scenario": "Ein Werkzeug benötigt eine teilbare Vorschau mit einem kurzen Titel.",
+    "check": "Prüfe Text im verkleinerten Bild, sichere Abstände, tatsächliches Motiv und das veröffentlichte OG-Metadatum.",
+    "limit": "Die Datei muss selbst bereitgestellt werden; Social-Plattformen können Vorschauen zuschneiden oder zwischenspeichern.",
+    "preset": {}
+  },
+  {
+    "id": "V053",
+    "tool": "T078",
+    "title": "QR-Code für eine kurze Demo-Adresse",
+    "kind": "Vorlage",
+    "scenario": "Eine gedruckte Anleitung verweist auf eine browserbasierte Anwendung.",
+    "check": "Scanne den exportierten Code bei Zielgröße mit mehreren Geräten und prüfe die tatsächlich dekodierte URL.",
+    "limit": "Nur kurze UTF-8-Eingaben im unterstützten Byte-Modus. Keine vertraulichen Zugangsdaten kodieren.",
+    "preset": {
+      "text": "https://example.org/demo/"
+    }
+  },
+  {
+    "id": "V054",
+    "tool": "T079",
+    "title": "Einfaches statisches SVG aufräumen",
+    "kind": "Vorlage",
+    "scenario": "Ein kleines Vektorsymbol enthält einen Kommentar, der nicht zum sichtbaren Motiv gehört.",
+    "check": "Vergleiche Original und Ausgabe visuell und kontrolliere viewBox, Geometrie und Farbe.",
+    "limit": "Keine vollständige SVG-Optimierung für Animationen, Filter oder komplexe fremde Dateien.",
+    "preset": {
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\"><!-- Entwurf --><circle cx=\"32\" cy=\"32\" r=\"22\" fill=\"#415b46\"/></svg>"
+    }
+  },
+  {
+    "id": "V055",
+    "tool": "T082",
+    "title": "16:9-Bild proportional verkleinern",
+    "kind": "Testfall",
+    "scenario": "Ein Bild mit 2560×1440 Pixeln soll 960 Pixel breit werden.",
+    "check": "Erwarte 16:9 und eine Zielhöhe von 540 Pixeln. Kontrolliere Rundung bei anderen Abmessungen.",
+    "limit": "Der Rechner verändert keine Bilddatei und berücksichtigt keine Beschnittregeln.",
+    "preset": {
+      "width": 2560,
+      "height": 1440,
+      "target": 960
+    }
+  },
+  {
+    "id": "V056",
+    "tool": "T083",
+    "title": "Einheitliche Sprite-Raster vorbereiten",
+    "kind": "Checkliste",
+    "scenario": "Mehrere Animationsframes sollen zu einem Sprite-Sheet zusammengeführt werden.",
+    "check": "Nutze gleich große Ausgangsframes, konsistenten Pivot, Abstand und nachvollziehbare Reihenfolge. Teste den Import in der Engine.",
+    "limit": "Eigene Bilder erforderlich. Der Export legt keine automatische Animationslogik oder Kollisionskörper an.",
+    "preset": {}
+  },
+  {
+    "id": "V057",
+    "tool": "T085",
+    "title": "Waldmechaniken für ruhige Rätsel",
+    "kind": "Vorlage",
+    "scenario": "Ein Level soll Aufmerksamkeit und Orientierung belohnen statt hektische Reaktion.",
+    "check": "Filtere Wald und Rätsel; wähle ein Muster, führe es einzeln ein und kombiniere es erst später mit einer bekannten Regel.",
+    "limit": "Die Muster sind Entwurfshilfen. Spielspaß und Lösbarkeit müssen praktisch getestet werden.",
+    "preset": {
+      "biome": "Wald",
+      "mechanic": "Rätsel",
+      "seed": "wald-orientierung"
+    }
+  },
+  {
+    "id": "V058",
+    "tool": "T086",
+    "title": "Lernkurve für eine verschwindende Plattform",
+    "kind": "Vorlage",
+    "scenario": "Eine Plattform verschwindet nach dem Betreten und soll fair eingeführt werden.",
+    "check": "Zeige zuerst eine ungefährliche Demonstration, danach einen kurzen Sprung und erst dann eine Kombination mit Zeitdruck.",
+    "limit": "Warnsignal, Wiederanlaufpunkt und Eingabegerät im tatsächlichen Level testen.",
+    "preset": {
+      "theme": "Plattform mit sichtbarer Zerfallswarnung",
+      "intro": "Gefahrloser erster Kontakt über festem Boden",
+      "variation": "Kurzer Sprung mit gut sichtbarer Warnzeit",
+      "combination": "Bekannte bewegliche Plattform und Zerfall",
+      "final": "Kurze Sequenz mit sicherem Zwischenpunkt",
+      "qa": "Warnsignal, Sprungmarge, Kamera, mobile Eingabe, Neustart"
+    }
+  },
+  {
+    "id": "V059",
+    "tool": "T088",
+    "title": "Sprungdistanz mit Sicherheitsmarge",
+    "kind": "Testfall",
+    "scenario": "Ein Platformer nutzt 180 px/s Bewegung, 420 px/s Absprung und 840 px/s² Schwerkraft.",
+    "check": "Erwarte 1 Sekunde Flugzeit, 105 Pixel Höhe und 180 Pixel theoretische Reichweite auf gleicher Höhe. Plane kürzere Pflichtsprünge.",
+    "limit": "Beschleunigung, Hitbox, Hindernisse und variable Sprunghöhen sind im Modell nicht enthalten.",
+    "preset": {
+      "speed": 180,
+      "jump": 420,
+      "gravity": 840
+    }
+  },
+  {
+    "id": "V060",
+    "tool": "T089",
+    "title": "Gegner mit klarer Trefferzahl",
+    "kind": "Testfall",
+    "scenario": "Ein Gegner besitzt 120 Lebenspunkte; Angriffe verursachen 25 Schaden bei 20 Prozent Reduktion.",
+    "check": "Erwarte 20 effektive Schadenspunkte und sechs Treffer. Prüfe die Bedeutung der ausgegebenen Zeit ab erstem Treffer.",
+    "limit": "Animation, Abklingzeiten, kritische Treffer und Gegnerverhalten können das Spielgefühl verändern.",
+    "preset": {
+      "hp": 120,
+      "damage": 25,
+      "rate": 2,
+      "armor": 20
+    }
+  },
+  {
+    "id": "V061",
+    "tool": "T090",
+    "title": "Seltene Belohnung reproduzierbar simulieren",
+    "kind": "Vorlage",
+    "scenario": "Eine Beutetabelle hat drei Gewichte im Verhältnis 85:14:1.",
+    "check": "Vergleiche relative Häufigkeiten mehrerer Seeds und prüfe die Anzahl der Ziehungen. Die seltene Belohnung bleibt zufällig.",
+    "limit": "Simulation ist keine Garantie für einzelne Läufe und kein Ersatz für Fairness- oder Spielspaßtests.",
+    "preset": {
+      "data": "Standard | 85\nBesonders | 14\nSelten | 1",
+      "draws": 20000,
+      "seed": "belohnung-test-a"
+    }
+  },
+  {
+    "id": "V062",
+    "tool": "T091",
+    "title": "Weg durch einen schmalen Korridor",
+    "kind": "Testfall",
+    "scenario": "Start und Ziel liegen auf gegenüberliegenden Seiten einer Wand mit einem Durchgang.",
+    "check": "Berechne den Weg und schließe anschließend den Durchgang im Rastereditor. Prüfe die neue Erreichbarkeit.",
+    "limit": "Das Modell verwendet Rasterbewegung; es berücksichtigt keine dynamische Physik oder Sprünge.",
+    "preset": {
+      "grid": "S00100\n000100\n000000\n00010E"
+    }
+  },
+  {
+    "id": "V063",
+    "tool": "T092",
+    "title": "Küstenkarte mit festem Seed",
+    "kind": "Vorlage",
+    "scenario": "Ein Kartenprototyp benötigt reproduzierbare Ausgangsdaten für mehrere Durchläufe.",
+    "check": "Erzeuge dieselbe Karte zweimal mit identischen Parametern; ändere anschließend nur die Wasserschwelle und vergleiche.",
+    "limit": "Die Schwelle entspricht nicht zwingend dem exakten Wasserflächenanteil. Keine vollständige Weltgeneration.",
+    "preset": {
+      "seed": "kueste-nord-01",
+      "width": 40,
+      "height": 28,
+      "water": 45
+    }
+  },
+  {
+    "id": "V064",
+    "tool": "T093",
+    "title": "Dialog mit zwei gleichwertigen Enden",
+    "kind": "Vorlage",
+    "scenario": "Eine Figur bietet zwei Wege an, die beide zu einem verständlichen Abschluss führen.",
+    "check": "Teste beide Pfade in der Vorschau und kontrolliere, ob alle Szenen erreichbar sind und ein Ende besitzen.",
+    "limit": "Das Dialogmodell besitzt keine Variablen, Inventare oder Bedingungen.",
+    "preset": {
+      "start": "start",
+      "scenes": "start | Am Wegweiser stehen zwei Richtungen.\nsee | Du erreichst einen ruhigen See.\nwald | Du findest einen Aussichtspunkt im Wald.",
+      "edges": "start | Zum See | see\nstart | In den Wald | wald"
+    }
+  },
+  {
+    "id": "V065",
+    "tool": "T095",
+    "title": "Sanfter Synthesizer-Klang",
+    "kind": "Vorlage",
+    "scenario": "Eine kurze Klangskizze soll weich einsetzen und ausklingen.",
+    "check": "Beginne mit niedriger Lautstärke, spiele einzelne Noten und vergleiche Attack und Release in kleinen Schritten.",
+    "limit": "Nur eine lokale Synthese-Demo; kein Mehrspur-Instrument, keine Aussage zur Lautheit externer Geräte.",
+    "preset": {
+      "wave": "triangle",
+      "freq": 261.63,
+      "cutoff": 1200,
+      "attack": 0.15,
+      "release": 0.8
+    }
+  },
+  {
+    "id": "V066",
+    "tool": "T096",
+    "title": "Arpeggio mit Pausen",
+    "kind": "Vorlage",
+    "scenario": "Ein selbst erstelltes 16-Schritt-Motiv nutzt kurze Tonfolgen und bewusst freie Schritte.",
+    "check": "Spiele es langsam ab, kontrolliere Wiederholung und Pausen; verändere Swing erst nach dem rhythmischen Grundmuster.",
+    "limit": "Kurze Einzelpattern-Demo ohne Songstruktur oder professionellen Audioexport.",
+    "preset": {
+      "tempo": 90,
+      "pattern": "60 - 64 - 67 - 72 - 67 - 64 - 62 - 64 -",
+      "swing": 8
+    }
+  },
+  {
+    "id": "V067",
+    "tool": "T097",
+    "title": "Reduzierter elektronischer Grundrhythmus",
+    "kind": "Vorlage",
+    "scenario": "Ein 16-Schritt-Beat soll mit Kick, Hi-Hat und Snare einen ruhigen Puls erzeugen.",
+    "check": "Prüfe die Spuren einzeln und gemeinsam; starte bei niedriger Wiedergabelautstärke.",
+    "limit": "Drei synthetische Spuren, keine vollständige Drum-Produktionsumgebung.",
+    "preset": {
+      "tempo": 96,
+      "kick": "1000100010001000",
+      "hat": "1010101010101010",
+      "snare": "0000100000001000"
+    }
+  },
+  {
+    "id": "V068",
+    "tool": "T098",
+    "title": "Unregelmäßige Tap-Abstände erkennen",
+    "kind": "Testfall",
+    "scenario": "Vier Zeitintervalle liegen nahe an 600 Millisekunden, sind aber nicht vollkommen gleich.",
+    "check": "Prüfe mittleres Tempo und Streuung; vergleiche mit einer exakt regelmäßigen Messreihe.",
+    "limit": "Kurze Tap-Reihen können durch einzelne Ausreißer verzerrt werden.",
+    "preset": {
+      "times": "0\n590\n1200\n1790\n2400"
+    }
+  },
+  {
+    "id": "V069",
+    "tool": "T099",
+    "title": "Mollklang als harmonische Skizze",
+    "kind": "Vorlage",
+    "scenario": "Ein einzelner Akkord soll als Ausgangspunkt für eine ruhige Klangidee dienen.",
+    "check": "Vergleiche A-Moll mit A-Dur bei gleicher Wiedergabelautstärke und höre die unterschiedlichen Intervalle.",
+    "limit": "Ein Akkord allein definiert keine vollständige Komposition oder Stimmung.",
+    "preset": {
+      "root": "A",
+      "quality": "Moll"
+    }
+  },
+  {
+    "id": "V070",
+    "tool": "T100",
+    "title": "Kurzer perkussiver Hüllkurvenverlauf",
+    "kind": "Vorlage",
+    "scenario": "Ein Klang soll schnell beginnen und nach einer kurzen Haltephase abfallen.",
+    "check": "Vergleiche die visualisierten Abschnitte und prüfe, ob das Ergebnis beim Abspielen ohne auffällige Klicks einsetzt.",
+    "limit": "Die Demo bildet nur eine Hüllkurve und nicht die komplette Synthesekette ab.",
+    "preset": {
+      "attack": 0.02,
+      "decay": 0.12,
+      "sustain": 25,
+      "hold": 0.15,
+      "release": 0.2
+    }
+  },
+  {
+    "id": "V071",
+    "tool": "T101",
+    "title": "Organische Linienkomposition",
+    "kind": "Vorlage",
+    "scenario": "Eine abstrakte Linienzeichnung soll mit festem Seed reproduzierbar sein.",
+    "check": "Vergleiche mehrere Morph-Phasen bei gleicher Kurvenzahl und wähle eine gut lesbare, nicht überladene Komposition.",
+    "limit": "Prozedurale Kurven sind keine manuell gezeichneten naturalistischen Motive.",
+    "preset": {
+      "seed": "flusslinien-01",
+      "curves": 24,
+      "color": "#52765f",
+      "phase": 65
+    }
+  },
+  {
+    "id": "V072",
+    "tool": "T102",
+    "title": "Interaktive Kurzgeschichte am Fluss",
+    "kind": "Vorlage",
+    "scenario": "Eine kurze Erzählung lässt Leser zwischen Beobachtung und Erkundung wählen.",
+    "check": "Teste alle Übergänge und prüfe, ob beide Entscheidungen ein eigenständiges, verständliches Ende haben.",
+    "limit": "Keine persistenten Zustände oder komplexen Konsequenzen in diesem Werkzeug.",
+    "preset": {
+      "start": "ufer",
+      "scenes": "ufer | Am Fluss treibt ein Blatt vorbei.\nsteg | Auf dem Steg entdeckst du die Spiegelung der Wolken.\npfad | Am Pfad hörst du das Wasser zwischen den Steinen.",
+      "edges": "ufer | Zum Steg | steg\nufer | Dem Pfad folgen | pfad"
+    }
+  },
+  {
+    "id": "V073",
+    "tool": "T103",
+    "title": "Relaunch-Abnahme mit Rückfallplan",
+    "kind": "Vorlage",
+    "scenario": "Eine statische Website soll erweitert werden, ohne bestehende URLs oder Verifizierungen zu verlieren.",
+    "check": "Sichere den Ausgangsstand, vergleiche URLs und Dateien, teste Staging, dokumentiere Freigabe und Rückfallkriterien.",
+    "limit": "Ein Plan ist kein ausgeführtes Backup oder Deployment. Tatsächliche Zugriffsrechte vorab prüfen.",
+    "preset": {
+      "scope": "Statische Website und Werkzeuge",
+      "inventory": "URL-Liste, Canonicals, Verifizierungsdateien, bestehende Startseite",
+      "staging": "Interne Links, Sitemap, noindex, Formulare, mobile Tests",
+      "launch": "Backup prüfen; Diff freigeben; deployen; HTTP-Status kontrollieren; Rollback bei Ausfall",
+      "monitor": "Erreichbarkeit, Search Console, 404, Nutzerfehler"
+    }
+  },
+  {
+    "id": "V074",
+    "tool": "T104",
+    "title": "Regressionstest für JSON-Großzahlen",
+    "kind": "Vorlage",
+    "scenario": "Eine Formatierungsfunktion darf eine numerische ID nicht verändern.",
+    "check": "Notiere Eingabe und erwartete Zeichenfolge vor dem Test; führe Formatierung und erneuten Vergleich aus.",
+    "limit": "Status offen bedeutet nicht bestanden. Erst tatsächliches Ergebnis und Beleg eintragen.",
+    "preset": {
+      "id": "QA-JSON-001",
+      "feature": "Tokengetreue JSON-Formatierung",
+      "input": "{\"id\":9007199254740993}",
+      "steps": "Eingabe setzen; formatieren; ausgegebenen Zahlentoken vergleichen",
+      "expected": "9007199254740993 bleibt exakt erhalten",
+      "actual": "Offen – Test ausführen"
+    }
+  },
+  {
+    "id": "V075",
+    "tool": "T105",
+    "title": "Barrierefreiheit einer Tool-Eingabemaske",
+    "kind": "Vorlage",
+    "scenario": "Ein Formular soll ohne Maus und bei hoher Vergrößerung nutzbar sein.",
+    "check": "Teste Tab-Reihenfolge, Beschriftungen, Fehlerzuordnung, Statusmeldungen, Fokus und Reflow mit echten Geräten und Hilfstechnologien.",
+    "limit": "Die Checkliste ist kein Konformitätszertifikat; automatisierte Prüfungen decken nur einen Teil ab.",
+    "preset": {
+      "page": "Werkzeugseite mit Eingabe und Ergebnis",
+      "keyboard": "Tab und Umschalt-Tab; Fokus sichtbar; alle Aktionen erreichbar",
+      "reader": "Labels und Fehler verständlich; Ergebnisstatus angekündigt",
+      "zoom": "200% Text und 320 CSS-Pixel prüfen",
+      "contrast": "Text, Grenzen, Fokus, Disabled-Zustände, reduzierte Bewegung",
+      "evidence": "Browser, Gerät, Hilfstechnologie, Schritte, beobachtetes Ergebnis"
+    }
+  },
+  {
+    "id": "V076",
+    "tool": "T106",
+    "title": "Technologieentscheidung mit transparenten Kriterien",
+    "kind": "Vorlage",
+    "scenario": "Zwei hypothetische Frontend-Ansätze werden nach Qualität, Wartbarkeit und geringem Aufwand bewertet.",
+    "check": "Lege Richtung und Gewichtung der Kriterien vor Bewertung fest; variiere Gewichte und prüfe die Stabilität der Entscheidung.",
+    "limit": "Punktwerte sind Annahmen, keine empirische Messung. Hohe Bewertung muss durchgehend vorteilhaft bedeuten.",
+    "preset": {
+      "weights": "Qualität | 5\nWartbarkeit | 4\nGeringer Aufwand | 2",
+      "options": "Ansatz A | 8 | 9 | 6\nAnsatz B | 9 | 6 | 8"
+    }
+  },
+  {
+    "id": "V077",
+    "tool": "T107",
+    "title": "Experiment zur Werkzeugbedienbarkeit",
+    "kind": "Vorlage",
+    "scenario": "Eine neue Ergebnisnavigation soll den Anteil erfolgreich abgeschlossener Berechnungen erhöhen.",
+    "check": "Definiere Erfolg, Abbruch, Ausschlüsse, Stichprobe, Messdauer und vorab festgelegte Entscheidungsregel.",
+    "limit": "Ein Experimentplan ist noch kein Experimentergebnis. Datenschutz und Auswahlbias prüfen.",
+    "preset": {
+      "hyp": "Ein direkter Ergebnissprung erhöht die Erfolgsquote auf Mobilgeräten.",
+      "variables": "A: bestehende Navigation; B: direkter Sprung",
+      "metric": "Anteil erfolgreicher Berechnungen pro gestarteter Aufgabe",
+      "sample": "Vorab geplante Stichprobe; unabhängige Teilnehmende",
+      "stop": "Feste Messdauer und vorab definierte Auswertung",
+      "limits": "Geräteunterschiede, Lernwirkung, Auswahlbias; keine sensiblen Eingaben speichern"
+    }
+  },
+  {
+    "id": "V078",
+    "tool": "T108",
+    "title": "Nachvollziehbares Release-Protokoll",
+    "kind": "Vorlage",
+    "scenario": "Ein Update enthält eine neue Funktion, eine Änderung und eine Fehlerkorrektur.",
+    "check": "Ersetze alle Platzhalter durch tatsächlich veröffentlichte Änderungen und verlinke belegbare Tests oder Commits.",
+    "limit": "Diese Vorlage belegt kein Deployment und darf nicht als tatsächliches Changelog veröffentlicht werden.",
+    "preset": {
+      "version": "0.1.0",
+      "date": "2026-11-25",
+      "added": "Beispiel: neue lokale Vorlage",
+      "changed": "Beispiel: Eingabe validiert",
+      "fixed": "Beispiel: veralteten Export deaktiviert",
+      "removed": ""
+    }
+  },
+  {
+    "id": "V079",
+    "tool": "T109",
+    "title": "README für ein kleines Browsertool",
+    "kind": "Vorlage",
+    "scenario": "Ein öffentliches Repository soll Zweck, Start, Tests und Grenzen klar dokumentieren.",
+    "check": "Führe die Start- und Testbefehle tatsächlich aus, beschreibe unterstützte Eingaben und wähle eine passende Lizenz.",
+    "limit": "Die Vorlage legt keine Lizenz fest und ersetzt keine Rechteklärung für Drittmaterial.",
+    "preset": {
+      "name": "Beispiel-Browsertool",
+      "intro": "Lokale Verarbeitung eines klar definierten Eingabeformats",
+      "setup": "Statisches Hosting oder lokaler HTTP-Server",
+      "tests": "Reproduzierbare Testbefehle und erwartete Resultate ergänzen",
+      "limits": "Unterstützte Formate und bekannte Browsergrenzen dokumentieren",
+      "license": "Lizenz und Drittmaterial vor Veröffentlichung klären"
+    }
+  },
+  {
+    "id": "V080",
+    "tool": "T110",
+    "title": "Datenwörterbuch für Suchkennzahlen",
+    "kind": "Vorlage",
+    "scenario": "Ein CSV-Export soll einheitlich interpretierbare Felder und fehlende Werte besitzen.",
+    "check": "Dokumentiere Typ, Einheit, Herkunft und fehlende Werte. Unterscheide fehlende Daten von einer gemessenen Null.",
+    "limit": "Exportdimensionen und Zeiträume müssen zusätzlich in den Metadaten festgehalten werden.",
+    "preset": {
+      "data": "field,type,unit,missing,source\nquery,string,text,NA,GSC-Export\nclicks,integer,count,NA,GSC-Export\nimpressions,integer,count,NA,GSC-Export\nctr,number,percent,NA,berechnet",
+      "sep": ","
+    }
+  }
+]
