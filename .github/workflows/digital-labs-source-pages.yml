@@ -24,11 +24,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      QA_REPORTS: ${{ runner.temp }}/digital-labs-source-qa
-      QA_REPOSITORY: ${{ runner.temp }}/digital-labs-source-repository
-      QA_PUBLIC: ${{ runner.temp }}/digital-labs-source-public
       LABS_FONT_DIR: /usr/share/fonts/truetype/dejavu
     steps:
+      - name: Prepare isolated build directories
+        shell: bash
+        run: |
+          printf 'QA_REPORTS=%s/digital-labs-source-qa\nQA_REPOSITORY=%s/digital-labs-source-repository\nQA_PUBLIC=%s/digital-labs-source-public\n' "$RUNNER_TEMP" "$RUNNER_TEMP" "$RUNNER_TEMP" >> "$GITHUB_ENV"
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
