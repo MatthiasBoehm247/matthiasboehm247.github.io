@@ -132,7 +132,9 @@ jobs:
           archive_path.parent.mkdir(parents=True, exist_ok=True)
           with tempfile.TemporaryDirectory(prefix='.labs-pages-package-', dir=archive_path.parent) as temporary:
               temporary_archive = Path(temporary) / 'artifact.tar'
-              with tarfile.open(temporary_archive, 'w') as archive:
+              # Explicit USTAR is a compatibility trial; PAX as the previous
+              # deployment failure cause remains unconfirmed.
+              with tarfile.open(temporary_archive, 'w', format=tarfile.USTAR_FORMAT) as archive:
                   for name, digest in sorted(hashes.items()):
                       if not isinstance(digest, str) or not HASH.fullmatch(digest):
                           raise ValueError('Invalid staging hash: ' + name)
