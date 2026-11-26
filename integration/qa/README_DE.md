@@ -1,6 +1,6 @@
 # Automatische Browser-Abnahme
 
-Der Pages-Workflow führt diese Prüfung vor jeder Veröffentlichung aus. Nutzer müssen dafür keine Testdateien auswählen, Browserwerkzeuge öffnen oder lokale Testbefehle ausführen. GitHub Actions installiert die festgelegte Playwright-Version und ihren Chromium-Browser im Prüfjob.
+Der Source-Pages-Workflow führt diese Prüfung vor jeder Veröffentlichung aus. Nutzer müssen dafür keine Testdateien auswählen, Browserwerkzeuge öffnen oder lokale Testbefehle ausführen. GitHub Actions installiert die festgelegte Playwright-Version und die dazugehörigen Chromium-, Firefox- und WebKit-Browser im Prüfjob. Jede Engine führt 139 Funktionsfälle, sieben Lebenszyklus-/Speicherfälle und zehn Tastatur-/Lastfälle aus: zusammen 468 native Pflichtfälle.
 
 ## Was der Gate prüft
 

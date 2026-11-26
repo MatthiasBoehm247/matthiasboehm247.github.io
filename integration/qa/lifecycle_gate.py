@@ -85,6 +85,23 @@ OBSERVER = r"""(() => {
   }, {once: true});
 })();"""
 
+# Observe the browser-restored scalar inputs in the first task after pageshow.
+# Capture-phase registration queues this read before the application's bubble-
+# phase reconciliation task. It never writes form controls or application state.
+HISTORY_INPUT_OBSERVER = r"""(() => {
+  addEventListener('pageshow', event => {
+    const documentId = window.__labsNativeProbe?.id;
+    setTimeout(() => {
+      const width = document.querySelector('#field-width');
+      const format = document.querySelector('#field-format');
+      if (width && format) window.__labsHistoryInputObservation = {
+        document: documentId, trusted: event.isTrusted,
+        values: {width: width.value, format: format.value}
+      };
+    }, 0);
+  }, true);
+})();"""
+
 
 class NativeServer(http.server.ThreadingHTTPServer):
     daemon_threads = True
@@ -231,17 +248,18 @@ async def observations_through(server, case, path, event):
     raise AssertionError(f'Incomplete native observer sequence through {event["sequence"]}: received {received}')
 
 
-async def event_for(server, case, path, kind, *, document=None):
+async def event_for(server, case, path, kind, *, document=None, after_sequence=0):
     for _ in range(250):
         rows = [row for row in server.events(case, path) if row['kind'] == kind
-                and (document is None or row['document'] == document)]
+                and (document is None or row['document'] == document)
+                and row['sequence'] > after_sequence]
         if rows:
             event = rows[-1]
             if kind == 'pagehide':
                 await observations_through(server, case, path, event)
             return event
         await asyncio.sleep(.02)
-    raise AssertionError(f'No observed native {kind} event for {case}: {server.events(case, path)}')
+    raise AssertionError(f'No observed native {kind} event after sequence {after_sequence} for {case}: {server.events(case, path)}')
 
 
 class NativeHealth(PageHealth):
@@ -436,7 +454,8 @@ async def completed_result(browser, server, origin, routes, fixtures, exports):
         leaving = await event_for(server, case, route, 'pagehide', document=document)
         assert leaving['statusKind'] == 'success' and leaving['result'] == result and leaving['downloadDisabled'] is False, 'Native pagehide discarded a completed result'
         returned_id = await return_forward(page, origin, route)
-        returned = await event_for(server, case, route, 'pageshow', document=returned_id)
+        returned = await event_for(server, case, route, 'pageshow', document=returned_id,
+            after_sequence=leaving['sequence'] if returned_id == document else 0)
         await ready(page)
         current_input = await page.locator('#field-text').input_value()
         current_output = await page.locator('#result-output').input_value()
@@ -474,7 +493,8 @@ async def pending_worker(browser, server, origin, routes, fixtures, exports):
         server.hold_worker = False
         server.worker_release.set()
         returned_id = await return_forward(page, origin, route)
-        returned = await event_for(server, case, route, 'pageshow', document=returned_id)
+        returned = await event_for(server, case, route, 'pageshow', document=returned_id,
+            after_sequence=leaving['sequence'] if returned_id == document else 0)
         detail = navigation_detail(server, case, route, leaving, returned)
         detail['cancellationVariant'] = variant
         detail['pendingImmediatelyBeforeNavigation'] = requested
@@ -506,6 +526,97 @@ def large_png(path):
     return {'width': width, 'height': height, 'pixels': width * height, 'bytes': path.stat().st_size}
 
 
+async def process_identical_large_image(page, fixtures, destination, input_hash):
+    await page.locator('#field-file').set_input_files(str(fixtures / 'large-native.png'))
+    await page.locator('#field-width').fill('4096')
+    await page.locator('#field-format').select_option('image/png')
+    await submit(page)
+    metadata = json.loads(await page.locator('#result-output').input_value())
+    assert (metadata['Breite'], metadata['Höhe'], metadata['Format']) == (4096, 4800, 'image/png')
+    preview = await page.locator('#tool-preview canvas').evaluate("""canvas => ({
+      width: canvas.width, height: canvas.height,
+      pixel: [...canvas.getContext('2d').getImageData(4095, 4799, 1, 1).data]
+    })""")
+    assert preview == {'width': 4096, 'height': 4800, 'pixel': [40, 120, 210, 255]}, preview
+    await download(page, page.get_by_role('button', name='Bild herunterladen', exact=True), destination)
+    exported = destination.read_bytes()
+    assert exported[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II', exported[16:24]) == (4096, 4800)
+    digest = hashlib.sha256((fixtures / 'large-native.png').read_bytes()).hexdigest()
+    assert digest == input_hash, 'Large image fixture changed during the native history case'
+    return {'status': 'PASS', 'fixtureSHA256': digest, **preview, 'downloadBytes': len(exported)}
+
+
+async def completed_image_history_return(context, page, server, origin, case, route, fixtures, exports, input_hash):
+    # Unlike the pending-job race above, this traversal always starts with a
+    # fully completed image. Native form-state restoration must not revive a
+    # result textarea or enabled controls without the application's live model.
+    await context.add_init_script(HISTORY_INPUT_OBSERVER)
+    await page.evaluate(HISTORY_INPUT_OBSERVER)
+    document = await page.evaluate('window.__labsNativeProbe.id')
+    inputs = await page.evaluate("""() => ({width: document.querySelector('#field-width').value,
+      format: document.querySelector('#field-format').value})""")
+    result = await page.locator('#result-output').input_value()
+    assert inputs == {'width': '4096', 'format': 'image/png'}
+    # A BFCache document can already contain a pagehide from the first round.
+    # Wait for this traversal's event, even when its beacon is still in flight.
+    previous_sequence = await page.evaluate('window.__labsNativeProbe.events.length')
+    await page.go_back(wait_until='domcontentloaded')
+    leaving = await event_for(server, case, route, 'pagehide', document=document,
+        after_sequence=previous_sequence)
+    expected_preview = {'width': 4096, 'height': 4800, 'pixel': [40, 120, 210, 255]}
+    assert leaving['result'] == result and leaving['statusKind'] == 'success' \
+        and leaving['status'] == 'Ergebnis erstellt.' and leaving['downloadDisabled'] is False \
+        and leaving['imagePreview'] == expected_preview, 'Completed image model was lost at native pagehide'
+    returned_id = await return_forward(page, origin, route)
+    returned = await event_for(server, case, route, 'pageshow', document=returned_id,
+        after_sequence=leaving['sequence'] if returned_id == document else 0)
+    assert leaving['trusted'] is True and returned['trusted'] is True
+    bfcache = returned_id == document and returned['persisted'] is True
+    observed = await page.evaluate("""() => {
+      const canvas = document.querySelector('#tool-preview canvas');
+      return {result: document.querySelector('#result-output').value,
+        statusKind: document.querySelector('#tool-status').dataset.kind || '',
+        copyDisabled: document.querySelector('#copy-result').disabled,
+        downloadDisabled: document.querySelector('#download-result').disabled,
+        imagePreview: canvas ? {width: canvas.width, height: canvas.height,
+          pixel: [...canvas.getContext('2d').getImageData(canvas.width - 1, canvas.height - 1, 1, 1).data]} : null};
+    }""")
+    if bfcache:
+        assert returned['sequence'] > leaving['sequence']
+        assert observed == {'result': result, 'statusKind': 'success', 'copyDisabled': False,
+            'downloadDisabled': False, 'imagePreview': expected_preview}, \
+            'BFCache return changed the completed image model: ' + json.dumps(observed)
+    else:
+        assert returned_id != document and returned['persisted'] is False, 'Unclassified native history return'
+        assert observed == {'result': '', 'statusKind': '', 'copyDisabled': True,
+            'downloadDisabled': True, 'imagePreview': None}, \
+            'Fresh history document revived orphaned image output or controls: ' + json.dumps(observed)
+    before = await page.evaluate('window.__labsHistoryInputObservation')
+    after = await page.evaluate("""() => ({width: document.querySelector('#field-width').value,
+      format: document.querySelector('#field-format').value})""")
+    assert before and before['document'] == returned_id and before['trusted'] is True, \
+        'Native restored inputs were not observed before the deferred product reconciliation'
+    assert before['values'] == after, 'Result reconciliation changed the browser-restored inputs'
+    rows = server.events(case, route)
+    late_downloads = [row for row in rows if row['kind'] == 'download-click'
+        and ((row['document'] == document and row['sequence'] > leaving['sequence'])
+             or (returned_id != document and row['document'] == returned_id))]
+    late_results = [row for row in rows if row['document'] == document
+        and row['sequence'] > leaving['sequence'] and row['kind'] == 'status-change' and row['afterPagehide']
+        and (row['result'] or row['statusKind'] == 'success' or row['downloadDisabled'] is False)]
+    assert not late_downloads, 'Unsolicited download after completed-image history navigation'
+    assert not late_results, 'Late result after completed-image history navigation'
+    proof = {'status': 'PASS', 'nativePagehide': True, 'nativePageshow': True, 'bfcacheUsed': bfcache,
+        'pagehide': leaving, 'pageshow': returned, 'observedReturn': observed,
+        'outcome': 'BFCACHE_MODEL_PRESERVED' if bfcache else 'FRESH_DOCUMENT_EMPTY_MODEL',
+        'lateDownloads': len(late_downloads), 'lateResults': len(late_results),
+        'beforeNavigationInputs': inputs, 'inputsBeforeDeferredReconcile': before['values'],
+        'inputsAfterReconcile': after, 'inputValuesPreserved': True}
+    proof['sameImageAfterReturn'] = await process_identical_large_image(page, fixtures,
+        exports / 'large-image-after-completed-history.png', input_hash)
+    return proof
+
+
 async def pending_image(browser, server, origin, routes, fixtures, exports):
     case, route = 'navigation-pending-image', routes['T073']
     context, page, health = await observed_page(browser, server, origin, case)
@@ -527,7 +638,8 @@ async def pending_image(browser, server, origin, routes, fixtures, exports):
         assert not any(row['kind'] == 'download-click' and row['document'] == document
                        for row in server.events(case, route)), 'Image processing triggered an unsolicited download'
         returned_id = await return_forward(page, origin, route)
-        returned = await event_for(server, case, route, 'pageshow', document=returned_id)
+        returned = await event_for(server, case, route, 'pageshow', document=returned_id,
+            after_sequence=leaving['sequence'] if returned_id == document else 0)
         detail = navigation_detail(server, case, route, leaving, returned)
         detail['cancellationVariant'] = variant
         detail['pendingImmediatelyBeforeNavigation'] = requested
@@ -536,29 +648,17 @@ async def pending_image(browser, server, origin, routes, fixtures, exports):
             assert await page.locator('#result-output').input_value() == leaving['result']
             assert not await page.locator('#download-result').is_disabled()
         else:
-            assert await page.locator('#result-output').input_value() == ''
-            assert await page.locator('#download-result').is_disabled()
+            assert await page.locator('#result-output').input_value() == '', \
+                'History return retained image metadata without the live completed model'
+            assert await page.locator('#download-result').is_disabled(), \
+                'History return enabled export without the live completed image model'
         # The identical large file and parameters must succeed without leaving
         # the page. This distinguishes a navigation-induced native decoder abort
         # from corrupt input, unsupported dimensions or a persistent product bug.
-        await page.locator('#field-file').set_input_files(str(fixtures / 'large-native.png'))
-        await page.locator('#field-width').fill('4096')
-        await page.locator('#field-format').select_option('image/png')
-        await submit(page)
-        metadata = json.loads(await page.locator('#result-output').input_value())
-        assert (metadata['Breite'], metadata['Höhe']) == (4096, 4800)
-        preview = await page.locator('#tool-preview canvas').evaluate("""canvas => ({
-          width: canvas.width, height: canvas.height,
-          pixel: [...canvas.getContext('2d').getImageData(4095, 4799, 1, 1).data]
-        })""")
-        assert preview == {'width': 4096, 'height': 4800, 'pixel': [40, 120, 210, 255]}, preview
-        await download(page, page.get_by_role('button', name='Bild herunterladen', exact=True), exports / 'large-image-after-return.png')
-        exported = (exports / 'large-image-after-return.png').read_bytes()
-        assert exported[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II', exported[16:24]) == (4096, 4800)
-        detail['identicalLargeImageAfterReturn'] = {
-            'status': 'PASS', 'fixtureSHA256': hashlib.sha256((fixtures / 'large-native.png').read_bytes()).hexdigest(),
-            'width': 4096, 'height': 4800, 'pixel': preview['pixel'], 'downloadBytes': len(exported)}
-        assert detail['identicalLargeImageAfterReturn']['fixtureSHA256'] == input_hash
+        detail['identicalLargeImageAfterReturn'] = await process_identical_large_image(page, fixtures,
+            exports / 'large-image-after-return.png', input_hash)
+        detail['completedImageHistoryReturn'] = await completed_image_history_return(context, page, server,
+            origin, case, route, fixtures, exports, input_hash)
         await page.locator('#field-file').set_input_files(str(fixtures / 'color-grid.png'))
         await page.locator('#field-width').fill('320')
         await page.locator('#field-format').select_option('image/png')
@@ -626,7 +726,8 @@ async def qr_navigation(browser, server, origin, routes, fixtures, exports):
         requested = await event_for(server, case, route, 'navigation-requested', document=document)
         assert requested['sequence'] < leaving['sequence']
         returned_id = await return_forward(page, origin, route)
-        returned = await event_for(server, case, route, 'pageshow', document=returned_id)
+        returned = await event_for(server, case, route, 'pageshow', document=returned_id,
+            after_sequence=leaving['sequence'] if returned_id == document else 0)
         await ready(page)
         detail = navigation_detail(server, case, route, leaving, returned)
         before = [row for row in detail['events'] if row['kind'] == 'download-click' and row['time'] < leaving['time']]

@@ -33,6 +33,71 @@ IMAGE_ERROR = 'Die Bilddatei kann nicht gelesen werden. Bitte eine intakte PNG-,
 IMAGE_PREVIEW = {'width': 4096, 'height': 4800, 'pixel': [40, 120, 210, 255]}
 
 
+def completed_image_history(proof, input_hash, fixture, case, route, label):
+    """Require the completed-image history regression within the existing case."""
+    def require(condition, message):
+        if not condition:
+            raise ValidationError('Invalid completed-image history evidence (' + label + '): ' + message)
+
+    require(isinstance(proof, dict) and proof.get('status') == 'PASS', 'required subproof missing or failed')
+    require(proof.get('nativePagehide') is True and proof.get('nativePageshow') is True,
+            'native history observations missing')
+    require(type(proof.get('bfcacheUsed')) is bool, 'history return type missing')
+    require(all(type(proof.get(key)) is int and proof[key] == 0 for key in ('lateDownloads', 'lateResults')),
+            'late results/downloads or their observations missing')
+    leaving, returned = proof.get('pagehide'), proof.get('pageshow')
+    for event, kind in ((leaving, 'pagehide'), (returned, 'pageshow')):
+        require(isinstance(event, dict) and event.get('kind') == kind and event.get('trusted') is True
+                and event.get('case') == case and event.get('path') == route
+                and isinstance(event.get('document'), str) and event['document']
+                and type(event.get('sequence')) is int and event['sequence'] > 0,
+                'original trusted ' + kind + ' missing')
+    try:
+        metadata = json.loads(leaving.get('result', ''))
+    except (ValueError, TypeError):
+        metadata = None
+    require(leaving.get('statusKind') == 'success' and leaving.get('status') == 'Ergebnis erstellt.'
+            and leaving.get('downloadDisabled') is False and leaving.get('imagePreview') == IMAGE_PREVIEW
+            and isinstance(metadata, dict) and metadata.get('Breite') == 4096 and metadata.get('Höhe') == 4800
+            and metadata.get('OriginalBytes') == fixture['bytes'] and metadata.get('Format') == 'image/png'
+            and type(metadata.get('AusgabeBytes')) is int and metadata['AusgabeBytes'] > 0,
+            'image was not completely processed before history navigation')
+
+    state = proof.get('observedReturn')
+    require(isinstance(state, dict), 'settled return state missing')
+    if proof['bfcacheUsed']:
+        require(proof.get('outcome') == 'BFCACHE_MODEL_PRESERVED'
+                and returned['document'] == leaving['document'] and returned.get('persisted') is True
+                and returned['sequence'] > leaving['sequence'], 'unproved BFCache return')
+        require(state.get('result') == leaving['result'] and state.get('statusKind') == 'success'
+                and state.get('copyDisabled') is False and state.get('downloadDisabled') is False
+                and state.get('imagePreview') == IMAGE_PREVIEW, 'valid BFCache model was not preserved')
+    else:
+        require(proof.get('outcome') == 'FRESH_DOCUMENT_EMPTY_MODEL'
+                and returned['document'] != leaving['document'] and returned.get('persisted') is False,
+                'unproved fresh-document return')
+        require(state.get('result') == '' and state.get('statusKind') == ''
+                and state.get('copyDisabled') is True and state.get('downloadDisabled') is True
+                and 'imagePreview' in state and state['imagePreview'] is None,
+                'fresh document retained orphaned output or export state')
+
+    require(proof.get('beforeNavigationInputs') == {'width': '4096', 'format': 'image/png'},
+            'completed image inputs missing')
+    before, after = proof.get('inputsBeforeDeferredReconcile'), proof.get('inputsAfterReconcile')
+    require(isinstance(before, dict) and set(before) == {'width', 'format'}
+            and all(isinstance(value, str) for value in before.values())
+            and proof.get('inputValuesPreserved') is True and before == after,
+            'product reconciliation changed the browser-restored input values')
+    # A fresh document may legitimately restore native defaults. The product
+    # must preserve those observed inputs, not promise equality to the old page.
+    repeated = proof.get('sameImageAfterReturn')
+    require(isinstance(repeated, dict) and repeated.get('status') == 'PASS'
+            and repeated.get('fixtureSHA256') == input_hash
+            and {key: repeated.get(key) for key in IMAGE_PREVIEW} == IMAGE_PREVIEW
+            and type(repeated.get('downloadBytes')) is int and repeated['downloadBytes'] > 0,
+            'same image/pixels/download after completed history return missing')
+
+
 def image_navigation(row, environment, label):
     """Require original navigation evidence; completion never counts as an abort."""
     def require(condition, message):
@@ -133,7 +198,9 @@ def image_navigation(row, environment, label):
         require(outcome(event), 'unexpected status/result/export transition')
         observed_outcome = True
     require(variant == 'APPLICATION_PAGEHIDE' or observed_outcome, 'original pre-pagehide outcome transition missing')
-    return {'variant': variant, 'abortObserved': variant != 'COMPLETED_BEFORE_PAGEHIDE', 'inputSHA256': input_hash}
+    completed_image_history(row.get('completedImageHistoryReturn'), input_hash, fixture, row['id'], route, label)
+    return {'variant': variant, 'abortObserved': variant != 'COMPLETED_BEFORE_PAGEHIDE', 'inputSHA256': input_hash,
+            'completedImageHistoryOutcome': row['completedImageHistoryReturn']['outcome']}
 
 
 def read_report(directory, name):
