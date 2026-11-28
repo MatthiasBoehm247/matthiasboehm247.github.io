@@ -7,8 +7,8 @@
       "schemaVersion": 1,
       "id": "moodistory-stimmungskalender-20261128",
       "createdAt": "2026-11-28T09:25:18+00:00",
-      "updatedAt": "2026-11-28T11:40:00Z",
-      "stage": "Privates GitHub-Repository · Native v0.5 vollständig importiert · 55/55 Tests und TypeScript/Expo CI PASS · Android-APK-Build läuft",
+      "updatedAt": "2026-11-28T12:05:00Z",
+      "stage": "Privates Native-Projekt v0.5 · 55/55 CI PASS · Android Debug und iOS Debug-Simulator erstellt · eigenständige Builds laufen",
       "name": "Stimmungskalender – Gefühle ohne Bewertung",
       "reference": {
         "type": "apple",
@@ -208,19 +208,19 @@
         }
       ],
       "validation": {
-        "android": "Android-Debug-Build gestartet: https://github.com/MatthiasBoehm247/stimmungskalender-native/actions/runs/46140750500 – Ergebnis offen, keine Gerätetests",
-        "ios": "iOS-Simulator/iPhone-Build noch nicht ausgeführt",
-        "store": "Keine Store-Einreichung",
-        "browser": "Öffentliche Design-Demo nur mit fiktiven flüchtigen Daten",
-        "native": "Quellcode v0.5 im privaten GitHub; 55/55 Mock/Node PASS, TypeScript und Expo-Kompatibilität PASS (CI #46140618471)"
+        "android": "Android Debug erfolgreich (Run #46140750500), ohne JS-Bundle und daher Metro-abhängig; eigenständige APK wird gebaut (Run #46142025605)",
+        "ios": "iOS Debug-Simulator erfolgreich (Run #46141710120), ohne JS-Bundle; Release-Simulator wird gebaut (Run #46142375807), kein iPhone/TestFlight",
+        "store": "Keine Store-Einreichung, RELEASE NO-GO",
+        "browser": "Öffentliche Design-Demo nur fiktive flüchtige Daten",
+        "native": "Vollständiger privater Quellcode, GitHub CI 55/55 PASS, TypeScript und Expo-Kompatibilität PASS; aktualisierter npm Lock via CI geprüft"
       },
       "notes": [
-        "Vollständiger v0.5-Quellcode befindet sich im privaten GitHub-Repository: MatthiasBoehm247/stimmungskalender-native; keine weiteren manuellen ZIP-Uploads nötig.",
-        "GitHub Actions Quellimport erfolgreich: 55/55 Tests, SHA-256 und Syntax geprüft.",
-        "Native CI inklusive TypeScript und Expo-Kompatibilitätsprüfung erfolgreich.",
-        "Android-Debug-APK-Build derzeit ausgeführt; ein Erfolg ist erst bestätigt, wenn ein APK-Artefakt vorhanden und geprüft ist.",
-        "Kein iOS-Build, keine Geräte- oder Sicherheitsprüfung auf echter Hardware; Store-Release bleibt NO-GO.",
-        "Die öffentliche Design-Vorschau enthält ausschließlich fiktive Daten; private Daten dort nicht eingeben."
+        "Quellcode liegt vollständig im privaten GitHub-Repository MatthiasBoehm247/stimmungskalender-native; keine ZIP-Uploads mehr nötig.",
+        "Android-Debug-APK erfolgreich, Paketintegrität und enthaltene SQLCipher-Symbole statisch geprüft; tatsächliche Verschlüsselung am Gerät nicht geprüft.",
+        "iOS-Debug-Simulator-Build erfolgreich; App ist weder signiert noch direkt auf einem physischen iPhone installierbar.",
+        "Standalone Android-APK und iOS-Release-Simulator derzeit als GitHub Actions Builds aktiv; Erfolg noch nicht bestätigt.",
+        "Abhängigkeiten durch aktuelles package-lock.json fixiert und per npm ci geprüft. Dependabot erstellt kontrollierte Update-Pull-Requests.",
+        "Keine echten Android/iOS-Gerätetests, Mediencache-/Biometrie-/Backup-Sicherheitsprüfung; Release bleibt NO-GO."
       ],
       "research": {
         "checkedAt": "2026-11-28",
