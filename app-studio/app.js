@@ -160,13 +160,13 @@
   function savePlan(){if(!S.draft)return;try{const arr=storageGet(),index=arr.findIndex(x=>x.id===S.draft.id);if(index>=0)arr[index]=S.draft;else arr.unshift(S.draft);storageSet(arr.slice(0,80));showNotice('planNotice','Projekt gespeichert. Du findest es unter „Meine Projekte“ in diesem Browser.')}catch{showNotice('planNotice','Speichern nicht möglich (z. B. privater Browser oder voller Speicher). Bitte den Masterplan herunterladen.',true)}}
   async function copyPrompt(){if(!S.draft)return;const t=queryPrompt(S.draft);try{await navigator.clipboard.writeText(t);showNotice('planNotice','Der vollständige Entwicklungsauftrag wurde kopiert. Du kannst ihn jetzt in ChatGPT oder Codex einfügen.')}catch{openModal('Entwicklungsauftrag kopieren','Die Zwischenablage ist nicht verfügbar. Markiere und kopiere den Text aus dem folgenden Feld.',{textarea:t})}}
   function renderProjects(){const list=storageGet();if(!list.length){$('projectList').innerHTML='<div class="empty-panel"><h2>Noch keine Projekte gespeichert</h2><p>Beginne mit einer App-Store-URL. Dein erster Entwurf erscheint anschließend hier.</p><button class="primary-btn" type="button" id="emptyStart">Neue App beginnen →</button></div>';$('emptyStart').onclick=()=>goto(1);return}
-    $('projectList').innerHTML=list.map(p=>`<article class="project-card"><div><h3>${esc(p.name||'Unbenannter Entwurf')}</h3><p>${esc(p.reference.metadata?.name||p.reference.id)} · ${esc(p.positioning?.name||'Entwurf')} · ${esc(p.createdAt?.slice(0,10)||'')}</p><p class="project-status">Plan erstellt · Builds und Stores noch nicht verbunden</p></div><div class="project-actions"><button class="secondary-btn" data-open="${esc(p.id)}">Öffnen</button><button class="secondary-btn" data-export="${esc(p.id)}">Export</button><button class="danger-btn" data-delete="${esc(p.id)}">Löschen</button></div></article>`).join('');
+    $('projectList').innerHTML=list.map(p=>`<article class="project-card"><div><h3>${esc(p.name||'Unbenannter Entwurf')}</h3><p>${esc(p.reference.metadata?.name||p.reference.id)} · ${esc(p.positioning?.name||'Entwurf')} · ${esc(p.createdAt?.slice(0,10)||'')}</p><p class="project-status">${esc(p.stage||'Plan erstellt – nicht entwickelt')} · Stores nicht verbunden</p></div><div class="project-actions"><button class="secondary-btn" data-open="${esc(p.id)}">Öffnen</button><button class="secondary-btn" data-export="${esc(p.id)}">Export</button><button class="danger-btn" data-delete="${esc(p.id)}">Löschen</button></div></article>`).join('');
     document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>loadSaved(b.dataset.open));document.querySelectorAll('[data-export]').forEach(b=>b.onclick=()=>{const p=storageGet().find(x=>x.id===b.dataset.export);if(p)download('masterplan-'+slugify(p.name)+'.md',createMarkdown(p),'text/markdown')});document.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>openModal('Projekt wirklich löschen?','Der lokal gespeicherte Entwurf wird aus diesem Browser entfernt. Bereits exportierte Dateien bleiben erhalten.',{confirm:'Löschen',doConfirm:()=>{storageSet(storageGet().filter(x=>x.id!==b.dataset.delete));renderProjects()}}))}
   function loadSaved(id){const p=storageGet().find(x=>x.id===id);if(!p)return;S.source=p.reference;S.meta=p.reference.metadata;S.reviewSource=p.reference.reviewSource;S.reviews=[];S.selectedIdea=p.positioning?.id||'focus';S.selectedDesign=p.design?.id||'clear';S.draft=p;S.rawUrl=p.reference.url;$('storeUrl').value=S.rawUrl;$('manualAppName').value='';$('manualGenre').value='';$('manualReviews').value='';renderReference();renderIdeas();renderDesigns(); // preserve exported metadata and evidence; do not generate away saved review findings.
     $('planOverview').innerHTML=`<div class="fact"><small>APP-REFERENZ</small><strong>${esc(p.reference.metadata?.name||'')}</strong></div><div class="fact"><small>PRODUKTRICHTUNG</small><strong>${esc(p.positioning?.name||'')}</strong></div><div class="fact"><small>GESTALTUNG</small><strong>${esc(p.design?.name||'')}</strong></div>`;
     $('planDetail').innerHTML=`<div class="plan-block"><h3>Vorgesehene Funktionen</h3><ul>${(p.features||[]).map(f=>`<li>${esc(f)}</li>`).join('')}</ul></div><div class="plan-block"><h3>Qualitätsrahmen</h3><ul>${(p.requirements||[]).slice(0,8).map(q=>`<li class="open">${esc(q.title)}</li>`).join('')}</ul><small>Kein Build und kein Test nachgewiesen.</small></div>`;
     showNotice('planNotice','Gespeicherter Entwurf geöffnet. Bei einer erneuten Auswahl werden die Produktoptionen neu berechnet.');goto(4)}
-  function openModal(title,body,options={}){$('modalTitle').textContent=title;$('modalText').textContent=body;$('modalTextarea').hidden=!options.textarea;$('modalTextarea').value=options.textarea||'';$('modalCancel').hidden=!!options.textarea;$('modalConfirm').textContent=options.confirm||'Schließen';$('modalConfirm').onclick=()=>{if(options.doConfirm)options.doConfirm();$('modal').close()};$('modal').showModal();if(options.textarea)$('modalTextarea').select()}
+  function openModal(title,body,options={}){$('modalTitle').textContent=title;$('modalText').textContent=body;$('modalTextarea').hidden=!options.textarea;$('modalTextarea').value=options.textarea||'';$('modalCancel').hidden=!!options.textarea;$('modalConfirm').textContent=options.confirm||'Schließen';$('modalConfirm').onclick=()=>{$('modal').close();if(options.doConfirm)options.doConfirm()};$('modal').showModal();if(options.textarea)$('modalTextarea').select()}
   function setup(){
     refreshProjectCount();
     document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>openView(b.dataset.view));
@@ -188,7 +188,48 @@
     $('downloadPlan').onclick=()=>{if(S.draft)download('boehm-appstudio-'+slugify(S.draft.name)+'-'+date()+'.md',createMarkdown(S.draft),'text/markdown')};
     $('copyPrompt').onclick=copyPrompt;
     $('exportAll').onclick=()=>download('boehm-appstudio-projekte-'+date()+'.json',JSON.stringify({format:'boehm-app-studio',version:1,exportedAt:new Date().toISOString(),projects:storageGet()},null,2),'application/json');
-    $('importAll').onchange=async(e)=>{const f=e.target.files?.[0];if(!f)return;if(f.size>2e6){openModal('Datei zu groß','Der Projektimport ist auf 2 MB begrenzt.');return}try{const parsed=JSON.parse(await f.text());if(parsed.format!=='boehm-app-studio'||!Array.isArray(parsed.projects)||parsed.projects.length>80||parsed.projects.some(p=>!p.id||!p.reference?.id||!Array.isArray(p.features)))throw Error('format');const merged=storageGet();for(const p of parsed.projects){if(!merged.some(x=>x.id===p.id))merged.push(p)}storageSet(merged.slice(0,80));renderProjects();openModal('Import abgeschlossen',`${parsed.projects.length} Projektdateien gelesen. ${storageGet().length} Projekte sind lokal verfügbar.`)}catch{openModal('Import nicht möglich','Die Datei hat nicht das erwartete Format oder enthält unvollständige Daten.')}finally{e.target.value=''}};
+    $('importAll').onchange=async(e)=>{
+      const f=e.target.files?.[0];if(!f)return;
+      if(f.size>2e6){openModal('Datei zu groß','Der Projektimport ist auf 2 MB begrenzt.');e.target.value='';return}
+      try{
+        const parsed=JSON.parse(await f.text());
+        if(parsed.format!=='boehm-app-studio'||!Array.isArray(parsed.projects)||parsed.projects.length>80||parsed.projects.some(p=>!p.id||!p.reference?.id||!Array.isArray(p.features)))throw Error('format');
+        const existing=storageGet(),additions=[],updates=[];
+        for(const candidate of parsed.projects){
+          const i=existing.findIndex(p=>p.id===candidate.id);
+          if(i<0){if(!additions.some(p=>p.id===candidate.id))additions.push(candidate);continue}
+          const candidateAt=Date.parse(candidate.updatedAt||candidate.createdAt||'');
+          const existingAt=Date.parse(existing[i].updatedAt||existing[i].createdAt||'');
+          if(Number.isFinite(candidateAt)&&(!Number.isFinite(existingAt)||candidateAt>existingAt))updates.push({i,candidate});
+        }
+        const finish=(withUpdates)=>{
+          const all=existing.slice();
+          if(withUpdates)for(const item of updates)all[item.i]=item.candidate;
+          all.unshift(...additions);
+          storageSet(all.slice(0,80));renderProjects();
+          openModal('Import abgeschlossen',`${additions.length} neue Projekte hinzugefügt; ${withUpdates?updates.length:0} bestehende Projekte aktualisiert. Deine Auswahl ist nur in diesem Browser gespeichert.`);
+        };
+        if(updates.length){openModal('Projektstände aktualisieren?',`${additions.length} neue und ${updates.length} neuere vorhandene Projekte gefunden. Die Aktualisierung ersetzt beim jeweiligen Projekt den lokalen Plan. Exportiere deine Projekte vorher, falls du lokale Änderungen behalten möchtest.`,{confirm:'Stände aktualisieren',doConfirm:()=>finish(true)});}
+        else finish(false);
+      }catch{openModal('Import nicht möglich','Die Datei hat nicht das erwartete Format oder enthält unvollständige Daten.')}
+      finally{e.target.value=''}
+    };
+    $('pilotImport').onclick=async()=>{
+      const button=$('pilotImport');button.disabled=true;
+      try{
+        const response=await fetch('./pilots/stimmungskalender-v0.2.json',{cache:'no-store'});
+        if(!response.ok)throw Error('Pilotprojekt ist derzeit nicht abrufbar.');
+        const parsed=await response.json();
+        if(parsed.format!=='boehm-app-studio'||!Array.isArray(parsed.projects)||parsed.projects.length!==1)throw Error('Unbekanntes Format.');
+        const pilot=parsed.projects[0];
+        if(!pilot.id||!pilot.reference?.id||!Array.isArray(pilot.features))throw Error('Ungültiger Projektplan.');
+        const existing=storageGet();const i=existing.findIndex(p=>p.id===pilot.id);
+        const perform=()=>{if(i>=0)existing[i]=pilot;else existing.unshift(pilot);storageSet(existing.slice(0,80));renderProjects();openView('projects');openModal('Pilotprojekt ist verfügbar','Du findest den Stimmungskalender jetzt unter „Meine Projekte“. Der App-Plan wurde importiert; native Android-/iPhone-Builds sind noch nicht ausgeführt.')};
+        if(i>=0){openModal('Bestehenden Pilotplan aktualisieren?','Im Browser liegt bereits ein Projekt mit derselben Kennung. Mit der neuen Fassung werden dessen lokale Planänderungen ersetzt. Bei Bedarf vorher alle Projekte exportieren.',{confirm:'Plan aktualisieren',doConfirm:perform});}
+        else perform();
+      }catch(error){openModal('Import nicht möglich',error.message||'Die Projektdatei konnte nicht geladen werden.')}
+      finally{button.disabled=false}
+    };
     $('clearAll').onclick=()=>openModal('Alle lokalen Projekte löschen?','Hiermit entfernst du alle gespeicherten Entwürfe aus diesem Browser. Exportiere sie vorher, falls du sie behalten möchtest.',{confirm:'Endgültig löschen',doConfirm:()=>{localStorage.removeItem(STORAGE);refreshProjectCount();renderProjects()}});
     $('closeModal').onclick=()=>$('modal').close();$('modalCancel').onclick=()=>$('modal').close();
     $('moduleList').innerHTML=MODULES.map(([n,t,d])=>`<article class="module-card"><span class="module-number">MODUL ${n}</span><h3>${esc(t)}</h3><p>${esc(d)}</p><small>Geplant · noch nicht implementiert</small></article>`).join('');
