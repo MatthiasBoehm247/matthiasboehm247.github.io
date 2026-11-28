@@ -7,8 +7,8 @@
       "schemaVersion": 1,
       "id": "moodistory-stimmungskalender-20261128",
       "createdAt": "2026-11-28T09:25:18+00:00",
-      "updatedAt": "2026-11-28T10:45:00Z",
-      "stage": "Native v0.4 Quellcode – 50/50 Node-/Mock-Tests, Android-/iPhone-Builds und Gerätetests offen",
+      "updatedAt": "2026-11-28T11:40:00Z",
+      "stage": "Privates GitHub-Repository · Native v0.5 vollständig importiert · 55/55 Tests und TypeScript/Expo CI PASS · Android-APK-Build läuft",
       "name": "Stimmungskalender – Gefühle ohne Bewertung",
       "reference": {
         "type": "apple",
@@ -208,20 +208,19 @@
         }
       ],
       "validation": {
-        "android": "Native Expo 0.4 Quelle vorhanden, kein APK und kein Android-Gerätetest",
-        "ios": "Native Expo 0.4 Quelle vorhanden, kein iOS-Simulator-/Gerätebuild, keine IPA",
-        "store": "Weder bei Apple noch Google eingereicht",
-        "browser": "Öffentliche Design-Demo nur mit flüchtigen fiktiven Daten; getrennte Browser-Beta, keine Freigabe für echte sensible Daten",
-        "native": "50/50 Node-/Mock-Tests PASS, Syntax-Transpilation PASS, Domain-Typecheck PASS, native Dependencies/Full-Typecheck/Build offen"
+        "android": "Android-Debug-Build gestartet: https://github.com/MatthiasBoehm247/stimmungskalender-native/actions/runs/46140750500 – Ergebnis offen, keine Gerätetests",
+        "ios": "iOS-Simulator/iPhone-Build noch nicht ausgeführt",
+        "store": "Keine Store-Einreichung",
+        "browser": "Öffentliche Design-Demo nur mit fiktiven flüchtigen Daten",
+        "native": "Quellcode v0.5 im privaten GitHub; 55/55 Mock/Node PASS, TypeScript und Expo-Kompatibilität PASS (CI #46140618471)"
       },
       "notes": [
-        "Nur fiktive Daten in der öffentlichen Design-Vorschau. Browser-Beta und Native-App haben unterschiedliche Backupformate.",
-        "Expo SDK 58 Quellcode 0.4: SQLCipher mit geteiltem Schlüssel und serialisierter Einzelverbindung, keine unverschlüsselte Ersatzdatenbank.",
-        "Foto-JPEG-Neukodierung, Sprachmemos bis 60 Sekunden, optionale biometrische Sperre und App-Switcher-Sichtschutz implementiert; reale Hardwaretests fehlen.",
-        "AES-256-GCM-Export mit separatem Recovery-Key und atomarem Import; mögliche unverschlüsselte OS-Caches bei Sprach-/Foto-Medien müssen vor Release geprüft werden.",
-        "50/50 automatische Node-/Mock-Tests, Native-Syntaxprüfungen und reine TypeScript-Datenmodule bestanden. Native Typecheck, Android-/iOS-Builds und Gerätetests noch nicht ausgeführt.",
-        "Manuell startbare GitHub-Actions-Vorlagen für Android-Debug-APK und iOS-Simulator beigelegt, kein Workflow ausgeführt; privates Repo für den vollständigen Native-Code empfohlen.",
-        "Keine App-Store-Einreichung, keine gültige signierte IPA, kein APK; Release derzeit NO-GO."
+        "Vollständiger v0.5-Quellcode befindet sich im privaten GitHub-Repository: MatthiasBoehm247/stimmungskalender-native; keine weiteren manuellen ZIP-Uploads nötig.",
+        "GitHub Actions Quellimport erfolgreich: 55/55 Tests, SHA-256 und Syntax geprüft.",
+        "Native CI inklusive TypeScript und Expo-Kompatibilitätsprüfung erfolgreich.",
+        "Android-Debug-APK-Build derzeit ausgeführt; ein Erfolg ist erst bestätigt, wenn ein APK-Artefakt vorhanden und geprüft ist.",
+        "Kein iOS-Build, keine Geräte- oder Sicherheitsprüfung auf echter Hardware; Store-Release bleibt NO-GO.",
+        "Die öffentliche Design-Vorschau enthält ausschließlich fiktive Daten; private Daten dort nicht eingeben."
       ],
       "research": {
         "checkedAt": "2026-11-28",
