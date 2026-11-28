@@ -7,8 +7,8 @@
       "schemaVersion": 1,
       "id": "moodistory-stimmungskalender-20261128",
       "createdAt": "2026-11-28T09:25:18+00:00",
-      "updatedAt": "2026-11-28T12:05:00Z",
-      "stage": "Privates Native-Projekt v0.5 · 55/55 CI PASS · Android Debug und iOS Debug-Simulator erstellt · eigenständige Builds laufen",
+      "updatedAt": "2026-11-28T12:12:00Z",
+      "stage": "Privates Native-Projekt v0.5 · 55/55 CI PASS · Android Standalone-APK und iOS Release-Simulator gebaut · Gerätetests offen",
       "name": "Stimmungskalender – Gefühle ohne Bewertung",
       "reference": {
         "type": "apple",
@@ -208,19 +208,19 @@
         }
       ],
       "validation": {
-        "android": "Android Debug erfolgreich (Run #46140750500), ohne JS-Bundle und daher Metro-abhängig; eigenständige APK wird gebaut (Run #46142025605)",
-        "ios": "iOS Debug-Simulator erfolgreich (Run #46141710120), ohne JS-Bundle; Release-Simulator wird gebaut (Run #46142375807), kein iPhone/TestFlight",
-        "store": "Keine Store-Einreichung, RELEASE NO-GO",
-        "browser": "Öffentliche Design-Demo nur fiktive flüchtige Daten",
-        "native": "Vollständiger privater Quellcode, GitHub CI 55/55 PASS, TypeScript und Expo-Kompatibilität PASS; aktualisierter npm Lock via CI geprüft"
+        "android": "Android Standalone-APK für ARM64 gebaut, JavaScript eingebettet, SHA-256 verifiziert (GitHub Run 46142025605); echte Gerätetests offen",
+        "ios": "iOS Release-Simulator gebaut, main.jsbundle eingebettet, SHA-256 verifiziert (GitHub Run 46142375807); keine signierte iPhone-Version",
+        "store": "Keine Store-Einreichung · Freigabe weiterhin NO-GO",
+        "browser": "Öffentliche Design-Demo nur mit fiktiven, flüchtigen Daten",
+        "native": "55/55 Mock/Node-Tests PASS, TypeScript und Expo-Kompatibilität PASS; reproducible npm-ci; 3 moderate npm-Advisories unter Beobachtung"
       },
       "notes": [
-        "Quellcode liegt vollständig im privaten GitHub-Repository MatthiasBoehm247/stimmungskalender-native; keine ZIP-Uploads mehr nötig.",
-        "Android-Debug-APK erfolgreich, Paketintegrität und enthaltene SQLCipher-Symbole statisch geprüft; tatsächliche Verschlüsselung am Gerät nicht geprüft.",
-        "iOS-Debug-Simulator-Build erfolgreich; App ist weder signiert noch direkt auf einem physischen iPhone installierbar.",
-        "Standalone Android-APK und iOS-Release-Simulator derzeit als GitHub Actions Builds aktiv; Erfolg noch nicht bestätigt.",
-        "Abhängigkeiten durch aktuelles package-lock.json fixiert und per npm ci geprüft. Dependabot erstellt kontrollierte Update-Pull-Requests.",
-        "Keine echten Android/iOS-Gerätetests, Mediencache-/Biometrie-/Backup-Sicherheitsprüfung; Release bleibt NO-GO."
+        "Private App-Version v0.5 auf GitHub: MatthiasBoehm247/stimmungskalender-native; Quellcode, Sicherheitsdokumentation, CI und Buildworkflows vorhanden.",
+        "Android ARM64 Standalone-APK mit JavaScript ohne Metro gebaut (Run 46142025605); SHA-256 dokumentiert, Geräteinstallation und Verschlüsselung nicht getestet.",
+        "iOS Release-Simulator ohne Metro gebaut (Run 46142375807); noch keine App für ein physisches iPhone.",
+        "Zweite Android-Buildvariante mit x86_64 für Emulator in Arbeit, iOS-Simulator-Starttest in Arbeit; Ergebnisse noch nicht bestätigt.",
+        "Abhängigkeiten durch package-lock fixiert, CI nutzt npm ci; Audit 0 High/Critical, 3 Moderate (GitHub Issue #4).",
+        "Nicht mit privaten Tagebuchdaten verwenden, bis SQLCipher, Mediencaches, Datenwiederherstellung und Biometrie auf Android/iPhone überprüft sind."
       ],
       "research": {
         "checkedAt": "2026-11-28",
