@@ -1,0 +1,284 @@
+{
+  "format": "boehm-app-studio",
+  "version": 1,
+  "exportedAt": "2026-11-28T09:40:00Z",
+  "projects": [
+    {
+      "schemaVersion": 1,
+      "id": "moodistory-stimmungskalender-20261128",
+      "createdAt": "2026-11-28T09:25:18+00:00",
+      "updatedAt": "2026-11-28T09:40:00Z",
+      "stage": "Browser-Beta v0.2 umgesetzt · nativer Expo-Code v0.1 erstellt · Android/iOS-Builds offen",
+      "name": "Stimmungskalender – Gefühle ohne Bewertung",
+      "reference": {
+        "type": "apple",
+        "id": "1335347860",
+        "country": "de",
+        "url": "https://apps.apple.com/de/app/moodistory-stimmungstagebuch/id1335347860",
+        "metadata": {
+          "name": "Moodistory – Stimmungstagebuch",
+          "genre": "Gesundheit & Fitness",
+          "description": "Schneller Mood-Check-in, Jahr in Farben, Notizen/Fotos, Import/Export, Erinnerungen, Analytics, Apple Watch/Health, optionale Backups.",
+          "source": "Öffentlich sichtbare Apple-/Google-Storetexte und Herstellerseite, Stand Recherche 2026-11-28",
+          "rating": 4.6,
+          "ratingCountApprox": 470,
+          "developer": "Christoph Matzka / Matoph Labs",
+          "id": "1335347860"
+        },
+        "reviewSource": "9 unterschiedliche öffentlich sichtbare Rezensionen aus Apple DE, Apple UK und Google Play; manuelle, nicht repräsentative Auswahl",
+        "reviewSampleSize": 9
+      },
+      "category": "wellness",
+      "positioning": {
+        "id": "private",
+        "name": "Privat & unabhängig",
+        "desc": "Private Stimmungsreflexion ohne Anmeldung und ohne Pflichttracking.",
+        "icon": "◎",
+        "short": "Datensparsam, wertneutral und bewusst"
+      },
+      "design": {
+        "id": "warm",
+        "name": "Warm & organisch",
+        "desc": "Hochwertiges, ruhiges Editorial-Design mit klaren Stimmungsfarben, guter Lesbarkeit und konsequenten Bedienelementen.",
+        "preview": "mock-warm",
+        "line": "Alles darf da sein."
+      },
+      "features": [
+        "Sofort ohne Konto beginnen",
+        "Fünf klar beschriftete Stimmungsoptionen; Farben sind nie alleinige Information",
+        "Mehrere Stimmungen und Einträge pro Tag; optional gemischte Emotionen",
+        "Freie Notizen, Fotos und echte Sprachmemos",
+        "Schnell erreichbare Aktivitäten/Tags inklusive „Zuletzt verwendet“",
+        "Jahreskalender, Monatsansicht und Tageschronik",
+        "Suche, Filter und einfache, nicht diagnostische Reflexion",
+        "Freiwillige Erinnerungen ohne Streak-Druck",
+        "Offline-fähige lokale Datenhaltung",
+        "Optionaler App-Schutz und sichere Schlüsselverwaltung",
+        "JSON-Komplettbackup inklusive Medien, Wiederherstellung und Löschung",
+        "CSV-Export und lesbarer PDF-Export",
+        "Hochwertiges Design mit drei optionalen Varianten",
+        "Barrierefreiheit und echte iPhone-/Android-Gerätetests",
+        "Klare Support-, Store- und Update-Vorbereitung"
+      ],
+      "reviewIssues": [
+        {
+          "topic": "Funktionen schwer zu entdecken",
+          "count": 2,
+          "excerpts": [
+            "DE: „Zuletzt verwendet“ war nicht direkt auffindbar; Entwickler verweist auf versteckte Kategorie-Einstellung.",
+            "DE: Anpassbare Aktivitäten wurden nicht gefunden, obwohl die App diese laut Entwickler bereits unterstützt."
+          ]
+        },
+        {
+          "topic": "Vorbereitete körperliche Befindens-/Symptomkategorien",
+          "count": 1,
+          "excerpts": [
+            "Google Play (11.04.2026): Wunsch nach direkt wählbaren Symptomen statt nur eigenen Kategorien oder Text."
+          ]
+        },
+        {
+          "topic": "Eigene Notizbereiche und Träume",
+          "count": 1,
+          "excerpts": [
+            "DE (26.07.2023): Wunsch nach selbst benennbaren Bereichen inklusive Traumerfassung; abschaltbar."
+          ]
+        },
+        {
+          "topic": "Kaufstatus und Premium-Wiederherstellung",
+          "count": 2,
+          "excerpts": [
+            "UK (Oktober 2024): Zwei Berichte über vorübergehend fehlende Premiumfunktionen; der Anbieter verweist auf „Käufe wiederherstellen“."
+          ]
+        },
+        {
+          "topic": "Historische Probleme beim Einstieg",
+          "count": 1,
+          "excerpts": [
+            "Google Play (05.12.2023): Eine Rezension berichtet von deaktivierten Schaltflächen nach Onboarding und verloren gegangenen Einträgen nach Neuinstallation; älterer Stand."
+          ]
+        },
+        {
+          "topic": "Gelobte Stärken",
+          "count": 3,
+          "excerpts": [
+            "DE: Kurze Check-ins, funktionierende Auswertungen und PDF-Export werden in mehreren ausgewählten Rezensionen gelobt."
+          ]
+        }
+      ],
+      "requirements": [
+        {
+          "title": "Produktnutzen",
+          "detail": "Eigenständige, wertneutrale Tagebuch-App für Erwachsene; kein Klon und keine medizinischen Versprechen.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Referenzdaten",
+          "detail": "Moodistory-Versionen, Plattformdifferenzen, Rezensionen und Quellenstand mit Herkunft und Unsicherheit dokumentieren.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Einstieg und Check-in",
+          "detail": "Ohne Anmeldung; fünf sofort verständliche Stimmungsoptionen; jederzeit bearbeiten.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Mehrere Einträge und Gefühle",
+          "detail": "Mehrere pro Tag, Zeitstempel, gemischte Emotionen, keine irreführenden Durchschnittswerte.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Kontext und Tags",
+          "detail": "Frei bearbeitbar, zuletzt genutzte Kategorien ohne verstecktes Menü, optional.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Notizen und Medien",
+          "detail": "Text, Fotos und echte Sprachmemos inkl. Berechtigungen, Speicherlimits und zuverlässiger Löschung.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Kalender",
+          "detail": "Jahr, Monat, Tag; mehrere Zustände, Schaltjahr, Zeitzone, leere Tage.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Suche und Einblicke",
+          "detail": "Suche, Filter, deskriptive Angaben mit Stichprobengröße, keine Diagnose/Kausalitätsbehauptung.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Reminders",
+          "detail": "Freiwillig und abschaltbar; keine negative Streak-Mechanik.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Barrierefreiheit",
+          "detail": "VoiceOver/TalkBack, größere Schrift, Kontrast, Form/Icon/Text zusätzlich zu Farbe.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Sicherheit",
+          "detail": "Lokale sichere Speicherung und Medienzugriff; Biometrie optional; Schlüsselmanagement; kein Mood-Logging.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Datenhoheit",
+          "detail": "JSON-Komplettbackup inkl. Medien, CSV, PDF, Import und Wiederherstellung; alle Löschpfade.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Offline",
+          "detail": "Sämtliche Kernabläufe auch ohne Netzwerk; stabil nach vollständigem Neustart.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Android-Build",
+          "detail": "Reproduzierbar installierbare Testversion, vollständige Android-spezifische Prüfungen.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "iOS-Build",
+          "detail": "Reproduzierbar installierbare Testversion, vollständige iPhone-spezifische Prüfungen.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Health-/MDR-Compliance",
+          "detail": "Wellnesszweck klar; rechtliche Prüfung von Gesundheitsbezug, Datenschutzhinweisen und Store-Erklärungen.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Rechte und Datenschutz",
+          "detail": "Eigene Original-UI, Medienrechte, Datenschutzerklärung, erforderliche Einwilligungen und Datenminimierung.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Kosten und Monetarisierung",
+          "detail": "Keine Datensale/Ads; Export/Löschung kostenlos; Premium nur nach expliziter Produktentscheidung.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Release und Betrieb",
+          "detail": "TestFlight/Play Internal Test, Support, Store-Metadaten, Release-Nachweise, Migration und spätere Updates.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        },
+        {
+          "title": "Optionale Erweiterungen",
+          "detail": "Sync, Health, Watch, KI separat freigeben, absichern und testen; in v1.0 nicht behaupten.",
+          "status": "Geplant; nicht implementiert oder geprüft"
+        }
+      ],
+      "validation": {
+        "android": "Native Quelle erstellt, kein Android-Build oder Gerätetest",
+        "ios": "Native Quelle erstellt, kein iOS-Build oder Gerätetest",
+        "store": "Nicht eingereicht",
+        "browser": "11 Node-Tests PASS, UI-Chromium-Mock PASS, echte sichere Browser-Origin noch ungeprüft"
+      },
+      "notes": [
+        "Design-Vorschau mit ausschließlich flüchtigen Beispieldaten verfügbar.",
+        "Browser-Beta implementiert: Check-in, Mehrfacheinträge, Kalender, Suche, Medienaufnahme/Import, lokale Verschlüsselung, passwortgeschütztes Backup/Restore. Noch keine Geräteprüfung.",
+        "Nativer Expo-Quellcode mit SQLCipher-Fail-Closed entwickelt. Builds, Medien, Backups, Erinnerungen und Geräteprüfungen stehen aus.",
+        "Für echte private Webdaten ist eine isolierte eigene HTTPS-Origin erforderlich. Auf der gemeinsamen GitHub-Pages-Origin läuft nur die Demo.",
+        "Keine App-Store-Publikation, kein vollständiger Sicherheitsnachweis."
+      ],
+      "research": {
+        "checkedAt": "2026-11-28",
+        "scope": "öffentliche Store-Seiten, Hersteller, ausgewählte Rezensionen und Wettbewerber",
+        "sources": [
+          {
+            "label": "Apple App Store DE",
+            "url": "https://apps.apple.com/de/app/moodistory-stimmungstagebuch/id1335347860",
+            "type": "official_store"
+          },
+          {
+            "label": "Google Play DE",
+            "url": "https://play.google.com/store/apps/details?id=com.matoph.moodistory&hl=de",
+            "type": "official_store"
+          },
+          {
+            "label": "Herstellerseite Moodistory",
+            "url": "https://moodistory.com/de/",
+            "type": "official_provider"
+          },
+          {
+            "label": "Apple UK Rezensionen",
+            "url": "https://apps.apple.com/gb/app/moodistory-mood-tracker/id1335347860?see-all=reviews",
+            "type": "public_review"
+          },
+          {
+            "label": "Daylio",
+            "url": "https://daylio.net/",
+            "type": "competitor"
+          },
+          {
+            "label": "How We Feel",
+            "url": "https://howwefeel.org/",
+            "type": "competitor"
+          },
+          {
+            "label": "Bearable",
+            "url": "https://bearable.app/",
+            "type": "competitor"
+          }
+        ],
+        "reviewSampleDescription": "9 manuell ausgewählte unterschiedliche Rezensionen, kein repräsentatives Sample; kein automatischer Komplettzugriff auf Store Reviews."
+      },
+      "productSettings": {
+        "targetGroup": "Erwachsene 18+ im deutschsprachigen Raum",
+        "firstRelease": "V1.0 Vollprodukt",
+        "businessModel": "Werbefreier, lokaler Kern; optionales Pro-Paket später",
+        "accountRequired": false,
+        "onlineRequired": false,
+        "healthAccessInV1": false,
+        "aiInV1": false,
+        "cloudSyncInV1": false,
+        "estimatedTimeOrCostVerified": false
+      },
+      "extendedMasterplanMarkdown": "# Stimmungskalender – Produkt-Masterplan v1.0\n\n**Projekt:** Eigenständige Android- und iPhone-App, Referenz Moodistory  \n**Stand der Recherche:** 28. November 2026  \n**Produktname:** „Stimmungskalender“ als Arbeitstitel, Marken- und Domainprüfung offen  \n**Projektstatus:** Produktkonzept und Recherche – **keine native App implementiert, kein Build getestet, nicht veröffentlicht**  \n**Empfohlene Produktlinie:** Privat & unabhängig; Designrichtung „Warm & organisch“ mit klarer editorialer Oberfläche\n\n## 0. Managemententscheidung\n\n**Empfohlene App:** Ein ruhiges, vollständig deutschsprachiges, werbefreies Stimmungstagebuch für Erwachsene, das ohne Konto in wenigen Sekunden funktioniert. Es hilft Menschen, Emotionen festzuhalten, ohne sie als „gut“ oder „schlecht“ zu bewerten. Freiwillige Erinnerungen, zurückhaltende Reflexion und ein mehrfarbiger Jahreskalender machen Veränderungen nachvollziehbar. Alle wesentlichen Daten bleiben standardmäßig lokal auf dem Gerät. Datenexport und -löschung sind Kernfunktionen, keine künstliche Premium-Schranke.\n\n**Unterscheidung zum Referenzprodukt:** Kombination aus absolut einfacher Kurzerfassung, mehreren Emotionen pro Eintrag, wertneutraler Bildsprache, leicht auffindbaren Anpassungen, vollständiger Datenhoheit und einer konsequent barrierearmen Informationsarchitektur. Der Schwerpunkt liegt nicht auf einer immer größeren Zahl von Auswertungen. Eine spätere, separat aktivierbare Synchronisierung bleibt optional.\n\n**Wichtigster Produktgrundsatz:** Kein Gefühl wird als falsch dargestellt. Kein Schuldgefühl durch Streaks, keine medizinischen Diagnosen, keine Behauptungen über Kausalität, keine KI-Analyse intimer Tagebuchtexte ohne ausdrücklich gewählte Funktion.\n\n## 1. Referenzdaten und Herkunft\n\n| Attribut | Feststellung | Beleg / Grenze |\n|---|---|---|\n| Referenz | Moodistory – Stimmungstagebuch | https://apps.apple.com/de/app/moodistory-stimmungstagebuch/id1335347860 |\n| Kennung Apple | 1335347860 | URL / Apple App Store |\n| Anbieter | Christoph Matzka / Matoph Labs | Apple App Store / Google Play |\n| Kategorie | Gesundheit & Fitness | Store-Angabe |\n| Apple DE | ca. 4,6 / 5; rund 470 Bewertungen | Öffentlich indexierte Storeseite; Werte können schwanken |\n| Google Play | ca. 4,4 / 5; 50.000+ Downloads; rund 850 Rezensionen | Öffentlich indexierte Storeseite; Werte können schwanken |\n| Preismodell | Kostenlos mit In-App-Käufen | Apple listet mehrere Premium-Produktpreise; Zuordnung zu Laufzeiten nicht verifiziert |\n| Plattformen | iOS und Android; Apple Watch auf iOS | Store-Angaben, keine eigenen Gerätetests |\n| Auswertung | Funktionen und ausgewählte öffentlich sichtbare Rezensionen | Keine vollständige Rezensionendatenbank, keine technischen Einsichten in geschlossenen App-Code |\n\n**Referenzfunktionen laut Anbieter/Store:** schneller Mood-Check-in, konfigurierbare Stimmungsskala von 2 bis 11 Stufen, über 180 erweiterbare Aktivitäten/Ereignisse, Texte, Fotos, optionale Orte, Jahres-/Monats-/Tageskalender, „Year in Pixels“, Einflusshinweise, Erinnerungen, App-Sperre, PDF- und CSV-Export, CSV-Import, lokale Datenhaltung, optionale Sicherung, angepasste Farbpaletten, Apple-Watch-App und Apple-Health-Anbindung (iOS). Die Android-Featureliste unterscheidet sich teilweise von der iOS-Liste, insbesondere bei den Health-Funktionen. **Diese Angaben wurden nicht durch eigene Installation verifiziert.**\n\n### 1.1 Wettbewerbsumfeld\n\n- **Daylio:** extrem schneller Mood-Check-in, Aktivitäten, Fotos, Sprachnotizen, Kalender, Statistiken und Export. https://daylio.net/\n- **How We Feel:** präzise Emotionswörter, Reflexion und kleine Bewältigungsstrategien; gemeinnütziger, kostenfreier Ansatz. https://howwefeel.org/\n- **Bearable:** breiteres Tracking von Befinden, Symptomen, Schlaf, Aktivitäten und Medikamenten. https://bearable.app/\n\n**Folge:** Stimmungs-Check-in, Statistiken, PDF-Export oder Sprachnotizen sind für sich genommen keine Alleinstellungsmerkmale. Die eigene App muss durch einen besonders reibungsarmen, vertrauenswürdigen und wertneutralen Gesamtprozess überzeugen. Die Positionierung ist eine Produktthese, keine validierte Nachfrageprognose.\n\n## 2. Qualitative Bewertung der öffentlichen Rückmeldungen\n\nFür die manuelle Themenerfassung wurden neun unterschiedliche öffentlich lesbare Rezensionen aus Apple Deutschland, Apple Großbritannien und Google Play herangezogen (über verschiedene Jahre). Es handelt sich **nicht** um eine repräsentative Stichprobe und **nicht** um die vollständige Menge der Bewertungen. Wiederholte Darstellung derselben Rezension wurde nicht doppelt gezählt.\n\n| Thema | Dokumentierte Beobachtung | Plan für eigenes Produkt | Verifikation |\n|---|---|---|---|\n| Schnelle Eingabe | Positives Lob für Einträge in wenigen Sekunden und für das unkomplizierte Nutzungskonzept | Hauptfunktion mit wenigen Berührungen erreichbar | Usability-Test mit echten Aufgaben |\n| Export als Stärke | PDF-Export wird positiv hervorgehoben | Verlässlicher vollständiger Export, zusätzlich CSV und Backup | Round-Trip-Test und Öffnen exportierter Dateien |\n| Versteckte Optionen | „Zuletzt verwendet“ und das Anpassen von Aktivitäten waren manchen Nutzern nicht ersichtlich; laut Entwickler vorhanden | Häufige Aktionen direkt sichtbar, klare „Bearbeiten“-Aktion | Moderierter Erstnutzungstest |\n| Körperliches Befinden | Nutzer wünscht vorbereitete Symptomkategorien | Freiwillige Befindlichkeitskategorien in späterem Ausbau, keine medizinische Diagnostik | Nachfragevalidierung und Fachprüfung |\n| Weitere Journaltypen | Nutzer wünscht gesonderte Traum- und Notizbereiche | Frei benennbare Bereiche, optional und standardmäßig verborgen | Navigations- und Tagging-Test |\n| Kaufberechtigungen | Zwei UK-Rezensionen von Oktober 2024 melden fehlenden Zugriff; Entwickler empfiehlt Kaufwiederherstellung | In-App-Kaufstatus und Restore-Pfade ausdrücklich prüfen | Sandbox-Kauf- und Restore-Test |\n| Einstieg / Datenverlust | Eine Android-Rezension aus Dezember 2023 beschreibt ein Problem mit deaktivierten Buttons, eine Neuinstallation und dabei verlorene Einträge | Onboarding-Abbruch, Speicherung, Backups und Recovery als Release-Blocker | Neustart-, Neuinstallations- und Recovery-Matrix |\n\n**Interpretationsgrenzen:** Frühere Beschwerden sind keine bestätigten aktuellen Fehler. Fehlende Funktionen können mittlerweile ergänzt sein. Die Apple-Health-Anbindung ist laut iOS-Versionen neueren Datums vorhanden; sie darf nicht als noch fehlende Funktion bezeichnet werden. Positive Rezensionen sind ebenso wichtige Produktbelege wie Wünsche.\n\n## 3. Drei vorbereitete Produktvarianten\n\n### A – Stimmungskalender Einfach (minimal)\n\n**Für:** Menschen, die zwei Sekunden innehalten wollen, ohne Tagebuchpflicht.  \n**Kern:** fünf Zustandsfelder, optional eine zusätzliche Emotion, Tagesansicht, einfacher Jahreskalender, lokale Speicherung.  \n**Plus:** geringste Einstiegshürde. **Risiko:** wenig Differenzierung von existierenden Mini-Trackern.\n\n### B – Stimmungskalender Atelier (reichhaltig)\n\n**Für:** reflektierende Nutzer mit viel Kontextbedarf.  \n**Kern:** mehrdimensionale Gefühle, Notizen, Fotos, Sprachnotizen, frei konfigurierbare Bereiche, Zusammenhänge und Export.  \n**Plus:** hoher persönlicher Nutzen. **Risiko:** Funktionsfülle kann den Einstieg erschweren.\n\n### C – Stimmungskalender Privat (empfohlen)\n\n**Für:** Erwachsene, die ihre Gefühle wertfrei und privat verstehen möchten.  \n**Kern:** unmittelbarer Check-in, freiwillige Kontextbausteine, Jahr in Farben, private Medien, klare Kontrolle über Export/Löschung, kein Konto.  \n**Plus:** glaubwürdige Positionierung, gut erklärbarer Datenschutz, geringer laufender Serverbedarf. **Risiko:** Gerätewechsel erfordert verständlichen Backup-Ablauf, solange noch keine Synchronisierung existiert.\n\n**Entscheidung:** Variante C für v1.0, mit ausgewählten Ausdrucksmöglichkeiten aus Variante B. Keine App soll durch versteckte Zusatzfragen zum täglichen Ausfüllen gezwungen werden.\n\n## 4. Produktumfang v1.0 – verbindliche Anforderungen\n\n### P0 – muss vollständig funktionieren\n\n1. **Start ohne Konto:** Startansicht mit Option „Jetzt beginnen“. Vor der ersten Speicherung kein Pflicht-Onboarding. Datenschutz- und Exportinformationen verständlich verfügbar.\n2. **Schneller Check-in:** Die fünf selbstbeschreibenden Grundstimmungen sind mit Farbe, Form und Text unterscheidbar. Ein Eintrag kann mit wenigen Interaktionen gespeichert werden; jederzeit korrigierbar.\n3. **Mehrere Gefühle und Einträge pro Tag:** Mehrfachauswahl optional; mehrere Zeitpunkte an einem Tag ohne Überschreibung; keine irreführende Reduktion auf ein gemitteltes Gefühl.\n4. **Kontext:** optionale, leicht erreichbare Aktivitäten/Anlässe, eigene Stichworte, Zeitangaben. „Zuletzt verwendet“ ist sofort sichtbar.\n5. **Notizen:** freier Text, einfaches Bearbeiten, lokale Speicherung mit robustem Wiederöffnen. Keine Pflichttexte.\n6. **Fotos und Sprachmemos:** hinzufügen, wiedergeben/ansehen, ersetzen, löschen. Klare Berechtigungen und Fehlermeldungen, Datei- und Speicherlimits. Sprachnotiz ist eine echte Aufnahme, nicht bloß eine Tastaturdiktat-Funktion.\n7. **Kalender:** Tag, Monat und ganzes Jahr; Schaltjahr, Zeitzonenwechsel, Tage ohne Eintrag, mehrere Einträge pro Tag. Monats- und Jahresfarben vermitteln keine moralische Rangordnung.\n8. **Chronik & Suche:** Datum, Text, Emotion und Tags; Treffer öffnen und ändern. Saubere Leerzustände.\n9. **Reflexion:** einfache deskriptive Angaben („An 6 von 10 dokumentierten Tagen…“) mit Stichprobengröße und Hinweis auf mögliche Verzerrung; keine Aussagen über Ursachen oder Diagnosen.\n10. **Erinnerungen:** nur auf Wunsch, anpassbare Zeit, jederzeit aus. Keine manipulativen Streaks, keine negative Bewertung verpasster Tage.\n11. **Schutz:** optionale Gerätesperre per Biometrie/PIN und Nutzung sicherer Schlüsselverwaltung; App-Sperre ist kein Ersatz für verschlüsselte Speicherung.\n12. **Datenhoheit:** vollständiger Export in ein dokumentiertes JSON-Backup inklusive Medien, zusätzlich CSV und lesbares PDF; Import/Wiederherstellung eines eigenen Backups; gezieltes und vollständiges Löschen der App-Daten samt lokalem Medienverzeichnis.\n13. **Offline:** alle P0-Kernabläufe ohne Internet, auch bei App-Neustart. Kein Backend im Pflichtpfad.\n14. **Hochwertiges Design:** deutschsprachig, leicht/dunkel, responsive, Dynamic Type/Schriftvergrößerung, Screenreader, verständliche Fokus-Reihenfolge, ausreichender Kontrast, niemals nur Farbe als Information.\n15. **App-Betrieb:** Android- und iOS-Builds, Start-/Neustarttests, Fehlermonitoring ohne Tagebuchinhalte, Datensicherungs- und Wiederherstellungstests, versionierte Datenmigration.\n\n### P1 – nach v1.0 separat freizugeben\n\n- Opt-in Ende-zu-Ende-verschlüsselte Synchronisierung mit dokumentierter Gerätebindung, Schlüsselwiederherstellung und Konfliktauflösung.\n- Optionaler, klar differenzierter Bereich für Träume und persönliche Themen; Filter und freie Kategorien.\n- Optionaler Bereich für Schlaf, Energie und körperliches Befinden, zunächst manuell und wertneutral; keinerlei Diagnose.\n- Explizit freigegebene Apple-Health- oder Android-Health-Connect-Anbindung, getrennte Berechtigungen je Datentyp und Plattform.\n- Homescreen-Widgets, Apple Watch und Wear OS als getrennte, tatsächlich testbare Vorhaben.\n\n### P2 – ausschließlich nach zusätzlicher Produkt-, Sicherheits- und Fachprüfung\n\n- Generative Reflexionshilfe nur auf aktiven Wunsch, ohne standardmäßigen Serverupload sensibler Texte; klare Zweck-/Datenhinweise und keine Therapie-Simulation.\n- Pädagogische Emotionsübungen und Wissensbibliothek mit fachlicher Prüfung.\n- Zusätzliche Sprachversionen und methodisch geprüfte Auswertungen.\n\n**Nicht Teil von v1.0:** medizinische Diagnose, Depressions-/Bipolarerkennung, therapeutische Behandlung, automatisierte Krisenbewertung, soziale Feeds, Werbung auf Basis persönlicher Mood-Daten, verpflichtende Registrierung, öffentliche Profilansichten.\n\n## 5. Bedienkonzept und Informationsarchitektur\n\n### Hauptnavigation\n\n**Heute** | **Kalender** | **Einblicke** | **Sammlung**  \nEinstellungen über klar erkennbaren Zugang im Profil-/Menübereich; primäre Aktion „Gefühl festhalten“ auch mit einer Hand erreichbar.\n\n### Hauptablauf – erster Eintrag\n\n- Bildschirm 1 „Wie fühlst du dich gerade?“: fünf großzügige, beschriftete Stimmungsfelder. Keine Abfrage nach Namen, E-Mail, Geburtstagen oder Standort.\n- Nach Wahl erscheint „Speichern“ deutlich; darunter optionale Bereiche „Weitere Gefühle“, „Was war los?“, „Notiz“, „Foto“, „Sprachnotiz“.\n- Sofortige positive **Funktionsrückmeldung**, nicht Bewertung des Gefühls: „Gespeichert“. Zurücknehmen/Bearbeiten sichtbar.\n- Nach dem Speichern auf Wunsch direkt zum Kalender oder zurück zu Heute. Keine Belohnung für gute Stimmung; kein Strafhinweis für Lücken.\n\n### Wiederkehrender Gebrauch\n\n„Heute“ zeigt nur letzte Einträge und eine klare neue Aktion. Der Jahreskalender zeigt für Tage mit mehreren Einträgen eine gestreifte oder segmentierte Markierung, statt mehrere Emotionen in einen Durchschnitt zu pressen. Ein ruhiger Detailbereich erklärt den Tag in Worten. Suche und Export sind ohne Umwege auffindbar.\n\n### Richtlinien für Formulierung\n\nErlaubt: „Du hast an vier Tagen Ruhe ausgewählt.“ / „In deinen Einträgen kommen Natur und Ruhe häufig zusammen vor.“  \nNicht erlaubt: „Spaziergänge heilen deine Angst.“ / „Du bist depressiv.“ / „Du hattest diese Woche schlechte Gefühle.“\n\n### Designsystem\n\n- Charakter: hochwertige zeitgenössische Editorial-App, kein Chatbot-Look, keine KI-Orbs, keine neonbunten generischen Gradients.\n- Layout: helle natürliche Flächen; großzügige Abstände; maximal eine dominante Aktion pro Bildschirm; Bottom Navigation mit Text und Icon.\n- Schrift: klare, sehr lesbare System-/UI-Typografie; kontrastreiche Headlines; adaptive Größen statt fixierter Pixel.\n- Gefühle: fünf unterscheidbare Farbfamilien, immer zusätzlich mit Symbol und Wort; Nutzer kann neutrale oder individuell gewählte Paletten verwenden.\n- Animation: geringe, sinnvolle Übergänge, kein Flackern, Rücksicht auf „Bewegung reduzieren“.\n- Barrierefreiheit: VoiceOver/TalkBack, 200%-Schriftprobe, große Trefferflächen, Schalter und Medien auch ohne Farbe eindeutig.\n- Darstellungsvarianten: „Warm & organisch“ (Standard), „Klar & präzise“, „Dunkel & elegant“; alle erfüllen dieselben funktionalen Standards.\n\n## 6. Datenmodell und Datenschutzarchitektur\n\n### Entitäten\n\n| Entität | Wesentliche Felder |\n|---|---|\n| Entry | UUID, Zeitpunkt in UTC, Zeitzone, lokales Datum, primäres Mood-ID, optionale weitere Emotionen, Tag-IDs, Notiz, Medienreferenzen, erstellt/geändert, Löschmarker |\n| Mood | ID, nutzerverständliche Benennung, Symbol, Farbreferenz, Sortierung, konfigurierbar |\n| Tag | UUID, Kategorie, Titel, Icon, zuletzt verwendet, Sortierung |\n| Media | UUID, Typ, MIME, Datei-/Verschlüsselungsreferenz, Dateigröße, Dauer/Dimension, Erstellzeitpunkt |\n| Reminder | UUID, lokale Uhrzeit, Wiederholung, aktiv, OS-Berechtigungsstatus |\n| Settings | Sprache, Gestaltung, Startansicht, Sperrmodus, Backup-Einstellung, Datenschutzoptionen |\n| Migration | Schema-Version, durchgeführte Schritte, Sicherungsstand, Testnachweis |\n\n**Datenprinzip:** In v1.0 werden Mood-Einträge und Medien ausschließlich in der App-Sandbox gespeichert. Ein Verzeichnis aller Datenflüsse wird erstellt; keine externen Tracking-SDKs mit intimen Tagebuchinhalten. App-Sperre, Verschlüsselung, Schlüsselverwaltung, Medienablage, temporäre Dateien und Sicherungen müssen gemeinsam überprüft werden. Ein lokales, verschlüsseltes Backup wird mit einem echten Wiederherstellungstest belegt.\n\n**Technische Grundrichtung:** React Native + Expo + TypeScript; lokales Repository-/Storage-Modul mit festgelegten Migrationen und integrierter verschlüsselter Datenspeicherung; OS-Keychain/-Keystore für Schlüsselmaterial; die tatsächliche Wahl (z. B. kompatible SQLite/SQLCipher-Integration mit nativen Builds) erst nach einem echten technischen Proof-of-Concept. Sichere lokale Medienhaltung separat berücksichtigen. Keine Behauptung, Expo Go könne alle nativen Sicherheitsfunktionen ohne Zusatzbuild testen.\n\n**Synchronisierung später:** getrenntes Modul und ausdrückliche Aktivierung; vor Nutzung Threat Modeling, korrektes AEAD-Verfahren, eindeutige Nonces, Schlüsselableitung und Recovery, Konfliktauflösung mehrerer Geräte, Export/Import, Löschung sowie Review der E2E-Eigenschaften. „Ende-zu-Ende-verschlüsselt“ erst nach technischer Prüfung bewerben.\n\n**Besondere rechtliche Aufmerksamkeit:** Stimmungs- und Befindensdaten können besonders schutzwürdige Gesundheitsdaten darstellen; Datenschutz und Verzeichnis der Verarbeitung sind entsprechend sorgfältig zu prüfen. Ein Wellness-Tagebuch sollte keine unbelegten Diagnosen oder medizinischen Therapieversprechen machen. Ob zusätzliche Anforderungen der EU-Medizinprodukteverordnung greifen, hängt unter anderem von der erklärten medizinischen Zweckbestimmung ab und ist bei der späteren Funktions-/Werbetextprüfung fachlich-rechtlich zu beurteilen.\n\n## 7. App-Baukasten und Module\n\n**Wiederverwendete App-Studio-Komponenten:** App-Shell, Navigation, Theme-System, Lokalisierung, sichere Speicherung, Export/Import, Medien, Reminders, QA/Test-Utilities, Release-Bundles und Support-Flows. Jedes Modul besitzt Owner, Version, unterstützte Plattformen, Berechtigungen, Datenflüsse, Migrationsregeln und nachprüfbare Tests.\n\n**Eigene Projektmodule:** Mood-Check-in, Mood-Vokabular, Kalender-Heatmap/Segmente, Journal-Detail, Suche, deskriptive Insights und sensible Datenexporte.\n\n**Release-Pipeline:** Lint/Typecheck/Unit → Integration → Verschlüsselungs-/Restore-Probe → iOS Simulator / Android Emulator → tatsächliche iPhone-/Android-Gerätetests → Accessibility/Performance → TestFlight bzw. Google Internal Testing → signierte Store-Artefakte → Store-Review → getrennt belegter Veröffentlichungsstatus.\n\n## 8. QA und Abnahmeszenarien\n\n**Release-Blocker (MUSS, vor Freigabe):**\n\n- Q01: Ersteintrag ohne Anmeldung speichern, App beenden, neu starten: vollständiger Datensatz vorhanden.\n- Q02: Drei Einträge an demselben Tag bearbeiten/löschen; Kalender korrekt, keine verlorenen übrigen Einträge.\n- Q03: Tages-/Monats-/Jahresansicht einschließlich Schaltjahr und Zeitzonenwechsel korrekt.\n- Q04: Foto und Sprachmemo hinzufügen, App-Neustart, Medien wieder öffnen; verweigerte Berechtigungen führen nicht zu Verlust.\n- Q05: 1.000 Einträge + 100 Medien als synthetischer Testbestand; Suche, Jahresansicht und Export bleiben bedienbar.\n- Q06: Vollständiges verschlüsseltes Backup exportieren, App-Testzustand entfernen, wieder einspielen, Feld- und Datei-Hashes vergleichen.\n- Q07: CSV-Export bleibt schema- und encoding-stabil; PDF öffnet mit korrekten Umlauten und Lesereihenfolge.\n- Q08: Löschvorgang entfernt app-eigene Datensätze, Medien, Suchindex und temporäre Dateien; systemseitige Sicherungen werden transparent erläutert.\n- Q09: Kritische Datenbankmigration mit realistischem Altbestand, Unterbrechung und kontrolliertem Wiederanlauf getestet.\n- Q10: Nutzer deaktiviert Benachrichtigungen oder Biometrie; App bleibt korrekt nutzbar.\n- Q11: 200%-Schrift, Screenreader-Fokus, gesteigerter Kontrast und reduzierte Bewegung ohne unzugängliche Hauptelemente.\n- Q12: Android und iPhone je als eigenständige installierbare Testbuilds; keine Erfolgsbehauptung nur aufgrund eines plattformfremden Tests.\n- Q13: Offline-Modus für alle P0-Kernabläufe, inklusive Datenänderung und neuem App-Start.\n- Q14: Export/Löschung bleibt kostenfrei und erfordert keinen Account.\n- Q15: Keine Mood- oder Medieninhalte in Netzwerk-, Analytics-, Crash-, Debug- oder Konsolenprotokollen.\n- Q16: Kauf-/Abo- und Synchronisierungsprüfungen werden nur relevant, wenn die zugehörigen optionalen Module tatsächlich aktiviert werden.\n- Q17: Vor Store-Freigabe aktuelle Datenschutzerklärung, App-Datenschutzangaben, Supportzugang, Rechte/Lizenzen und Release-Notizen geprüft.\n\n**Methodik:** Jeder Nachweis enthält Plattform, Build-SHA, App-/OS-Version, Testumgebung, Datum, Ergebnis und gegebenenfalls Fehlermeldung. Ein neuer Build mit relevantem Code-/Konfigurationswechsel muss passende Prüfungen wiederholen. Keine Prozentzahl kann kritische Blocker verdecken.\n\n## 9. Monetarisierung und Wirtschaftlichkeit\n\n**Vorgabe:** Keine Werbung, keine Vermarktung privater Stimmungsdaten. Auch ein Gratisnutzer darf seine Daten exportieren und löschen.\n\n**Zu testen, keine bestehenden Marktpreise:** Freie Vollversion der Kernnutzung; optional einmaliges Pro-Paket für zusätzliche Gestaltung, fortgeschrittene Ansichten und Komfort. Als unverbindliche Testhypothese kann ein einmaliger Betrag um 12,99 € untersucht werden. Ein Abo wird nur erwogen, wenn eine reale fortlaufende Leistung (z. B. datenschutzkonforme E2E-Synchronisierung) mit transparenten Betriebskosten angeboten wird.\n\nVor Implementierung eines Kaufmoduls: Plattformprodukte, Steuern, Rückerstattung, Berechtigungsabgleich, Wiederherstellung, Familienfreigabe soweit zutreffend und Store-Review-Prüfungen planen. Bezahlte Upgrades niemals als stillschweigende Voraussetzung für den Zugang zu bereits gespeicherten privaten Daten einsetzen.\n\n**Produktmetriken (nach transparenter Einwilligung und ohne intime Tagebuchdaten):** erfolgreiche Erstnutzung, erfolgreiche Export-/Restore-Tests, Supportfälle nach Release, Absturzfreiheit, Barrierefreiheitsfehler, Store-Feedback; Nutzungsanalytik nur bei klarer Datenschutzgrundlage. Keine psychische Gesundheitsbewertung anhand ausbleibender Einträge.\n\n## 10. Projektetappen für Codex/App Studio\n\n| Etappe | Ergebnis | Abnahme |\n|---|---|---|\n| A – Produktvertrag | Definition der ersten vollständigen Version, Designsystem, Datenflüsse, Rechteprüfung | Geklärte Anforderungen und Daten-/Rechtematrix |\n| B – Sicherheits-Spike | Native Testbuilds, verschlüsselte lokale Datenbank und Medienprobe | Reproduzierbare iOS-/Android-Builds und Restore-Test |\n| C – Kernapp | Onboarding, Stimmungen, Mehrfach-Einträge, Tags, Medien, Chronik | End-to-End-Nutzerabläufe offline mit persistenten Daten |\n| D – Kalender und Reflexion | Jahres-/Monats-/Tagesansichten, Suche, deskriptive Insights | Testdaten/Zeitzonen/Schaltjahr korrekt; keine falsche Kausalität |\n| E – Produktqualität | Export, Backup, Löschung, Accessibility, Fehlerfälle | Keine offenen kritischen Fehler, Testnachweise pro Plattform |\n| F – Veröffentlichung | Store-Unterlagen, Testverteilung, Review und spätere Updatekette | Tatsächlich belegter Storestatus statt allein „Build grün“ |\n| G – Erstes Update | Feedback aus Pilot, Bugfix, erneute Prüfung | Ausgeliefertes und überprüftes Verbesserungsupdate |\n\n**Arbeitsregel:** Die Etappen legen keine bereits durchgeführte Entwicklung nahe. Beginne mit einem echten technischen Proof-of-Concept für Verschlüsselung, Medien und Restore, bevor weitere Features integriert werden. Baue funktionierende vertikale Schnitte statt viele dekorative, nicht angeschlossene Ansichten.\n\n## 11. Direkter Entwicklungsauftrag an Codex\n\n> Du bist Tech Lead, Mobile-Engineer, UX-/Accessibility-Designer und QA-/Security-Reviewer für „Stimmungskalender“. Nutze diesen Masterplan als verbindlichen Scope für eine eigenständige, privacy-first Android-/iPhone-App. Überprüfe zu Beginn Repository, Build-Umgebung, aktuelle Bibliotheken, Rechte und Plattformzugänge. Implementiere P0 vollständig: kontoloser, wertneutraler Check-in; mehrere Emotionen und Einträge je Tag; Notizen, Fotos und echte Sprachmemos; Kalender in drei Ebenen; Suche; einfache deskriptive Insights; Erinnerungen; Geräte-/App-Schutz; lokale sichere Speicherung; vollständiger Export/Import/Restore/Löschung; Offline-Nutzung; hochwertige zugängliche UI. Entscheide die native Speicher-/Verschlüsselungstechnologie erst nach überprüfbarem Prototyp. Erstelle reproduzierbare Android-/iOS-Builds und dokumentiere die QA-Szenarien Q01–Q17 mit realen Testergebnissen. Keine ungeprüften Builds als „fertig“ markieren. Keine medizinischen Diagnosen, keine fremden Designassets ohne Rechte, keine Weitergabe sensibler Nutzerdaten. Wenn ein externer Dienst oder Storezugriff fehlt, bearbeite unabhängig mögliche Aufgaben weiter und dokumentiere die echte Sperre. Beende die Arbeit nicht bei einem Mockup oder bei simulierten Daten. Dokumentiere abschließend Code, Architektur, Daten-/Sicherheitsmodell, tatsächlich getestete Geräte/Builds und offenen Store-Status.\n\n## 12. Quellenregister\n\nQuellen wurden am 28. November 2026 recherchiert. Indexierte Storeinhalte können vor diesem Datum zuletzt aktualisiert worden sein. Deshalb sind Preis-/Versions-/Bewertungszahlen Momentaufnahmen und keine garantierten Livewerte.\n\n1. Apple App Store DE: https://apps.apple.com/de/app/moodistory-stimmungstagebuch/id1335347860\n2. Google Play DE: https://play.google.com/store/apps/details?id=com.matoph.moodistory&hl=de\n3. Hersteller-Website: https://moodistory.com/de/\n4. Apple App Store UK Rezensionen: https://apps.apple.com/gb/app/moodistory-mood-tracker/id1335347860?see-all=reviews\n5. Daylio: https://daylio.net/\n6. How We Feel: https://howwefeel.org/\n7. Bearable: https://bearable.app/\n8. Apple App Review Guidelines: https://developer.apple.com/app-store/review/guidelines/\n9. Google Play Health Content and Services: https://support.google.com/googleplay/android-developer/answer/16679511\n10. Apple HealthKit Berechtigungen: https://developer.apple.com/documentation/healthkit/authorizing-access-to-health-data\n11. Android Health Connect Schlaf: https://developer.android.com/health-and-fitness/health-connect/experiences/sleep\n12. Europäische Kommission, Software-Qualifikation MDR (MDCG 2019-11 rev.1): https://health.ec.europa.eu/latest-updates/update-mdcg-2019-11-rev1-qualification-and-classification-software-regulation-eu-2017745-and-2025-06-17_en\n13. DSGVO, insbesondere Art. 9: https://eur-lex.europa.eu/eli/reg/2016/679/\n14. Apple Human Interface Guidelines, Farbe: https://developer.apple.com/design/human-interface-guidelines/color\n\n---\n\n**Endstatus:** Dies ist die Produkt- und Implementierungsgrundlage. Es liegen hierfür noch keine signierten App-Builds, abgeschlossenen Gerätetests oder Store-Freigaben vor.\n",
+      "attachedDocumentation": [
+        "STIMMUNGSKALENDER_MASTERPLAN.md",
+        "CODEX_ENTWICKLUNGSAUFTRAG.md",
+        "STIMMUNGSKALENDER_MASTERPLAN.pdf"
+      ]
+    }
+  ]
+}
