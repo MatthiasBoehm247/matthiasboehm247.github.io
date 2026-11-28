@@ -7,8 +7,8 @@
       "schemaVersion": 1,
       "id": "moodistory-stimmungskalender-20261128",
       "createdAt": "2026-11-28T09:25:18+00:00",
-      "updatedAt": "2026-11-28T12:50:00Z",
-      "stage": "Native v0.6 im privaten Repository · 64/64 CI PASS · Android v0.5 End-to-End gespeichert und neu geöffnet · v0.6 APK-Prüfung offen · iOS Keychain NO-GO",
+      "updatedAt": "2026-11-28T13:22:56.076Z",
+      "stage": "Privates Native-Projekt v0.6.1 + Sicherheitskorrektur · 69/69 CI PASS · Android-APK-Mikrofon-Fix wird kompiliert · iPhone-Keychain gesperrt",
       "name": "Stimmungskalender – Gefühle ohne Bewertung",
       "reference": {
         "type": "apple",
@@ -208,27 +208,19 @@
         }
       ],
       "validation": {
-        "android": "Android v0.5 Universal-APK: Installieren, fiktive Stimmung speichern, App beenden und nach Neustart Eintrag wiederfinden bestanden (GitHub Run #46145895604). Android v0.6 Minimalberechtigungen im Quellcode, APK/Manifest-Check Run #46145714435 noch offen.",
-        "ios": "iOS Release-Simulator gebaut, startet aber mit fehlendem Keychain-Entitlement ohne Zugriff auf verschlüsselte Speicherung; Signaturversuch verworfen (Issue #5). Signierte iPhone/TestFlight-Version fehlt.",
-        "store": "Keine Store-Einreichung · Release NO-GO",
-        "browser": "Öffentliche Design-Demo nur mit fiktiven, flüchtigen Daten",
-        "native": "Native Code v0.6: 64/64 Node/Mock Tests, vollständiger TS-/Expo-Check PASS (Run #46146311523), inklusive Schutz vor neuem Schlüssel bei bestehender Datenbank und vermisstem SecureStore-Key."
+        "android": "Android v0.5 E2E (fiktiven Eintrag speichern → vollständig beenden → wiederfinden) erfolgreich: Run 46145895604. Android v0.6.0 APK wegen RECORD_AUDIO-Konflikt abgelehnt: Run 46145714435. v0.6.1-Korrektur im Prebuild bestätigt; fertiger APK-Build Run 46148616076 noch offen.",
+        "ios": "iOS Release-Simulator kompiliert und gestartet, aber sicherer Speicher mangels gültiger Keychain-Entitlements nicht verfügbar; signierte TestFlight/iPhone-Version fehlt. GitHub Issue #5.",
+        "store": "NO-GO – keine Veröffentlichung, keine physischen Geräteprüfungen, kein dauerhaftes Android-Release-Signing.",
+        "browser": "Öffentliche Design-Demo nur mit fiktiven, flüchtigen Daten.",
+        "native": "Quellcode mit 69/69 bestandenen automatisierten Tests, TS und Expo; Keychain-Prüfung vor privater DB-Erstellung; vier neue Sicherheitsregressionstests. CI 46148814327. At-rest-Dateiprüfung vorbereitet, nicht ausgeführt."
       },
       "notes": [
-        "Private App-Version v0.5 auf GitHub: MatthiasBoehm247/stimmungskalender-native; Quellcode, Sicherheitsdokumentation, CI und Buildworkflows vorhanden.",
-        "Android ARM64 Standalone-APK mit JavaScript ohne Metro gebaut (Run 46142025605); SHA-256 dokumentiert, Geräteinstallation und Verschlüsselung nicht getestet.",
-        "iOS Release-Simulator ohne Metro gebaut (Run 46142375807); noch keine App für ein physisches iPhone.",
-        "Abhängigkeiten durch package-lock fixiert, CI nutzt npm ci; Audit 0 High/Critical, 3 Moderate (GitHub Issue #4).",
-        "Nicht mit privaten Tagebuchdaten verwenden, bis SQLCipher, Mediencaches, Datenwiederherstellung und Biometrie auf Android/iPhone überprüft sind.",
-        "iOS-Simulator Screenshot zeigt 'Privater Speicher nicht verfügbar'; aus Sicherheitsgründen kein unverschlüsselter Ersatz. Signierung/Entitlements werden erneut geprüft (privates GitHub Issue #5).",
-        "iOS Simulator startet, blockiert aber mangels gültiger Keychain-Entitlements die Verschlüsselung. Der ad-hoc Signaturversuch wurde vom Simulator verweigert; kein unsicherer Fallback.",
-        "Noch keine signierte App für physisches iPhone, keine reale Backup-/Biometrie-/Dateicache-QA.",
-        "Android v0.5 APK startet und startet neu im Emulator. UI-Hierarchie sichtbar, Screenshot des Tests schwarz; vollständige Speichern/Neustart-Prüfung noch offen.",
-        "iOS signierter TestFlight-/Gerätebuild mit korrekten Keychain-Entitlements fehlt weiterhin; Veröffentlichung NO-GO.",
-        "Android v0.5 E2E nachgewiesen (fiktiver Mood-Eintrag, Save-Bestätigung, Eintrag vor/nach vollständigem Neustart, XML-Protokolle; Run 46145895604). Raw-At-Rest-Verschlüsselung weiterhin ungeprüft.",
-        "v0.6 Quellcode mit 64 bestandenen Tests (Run 46146311523). Bestehende verschlüsselte Datenbank mit fehlendem Geräteschlüssel wird nicht neu verschlüsselt/überschrieben.",
-        "v0.6 APK-Build und Prüfung der tatsächlichen Manifestrechte war beim letzten Abruf noch aktiv; das gestartete Artefakt enthält die allerletzte Schlüsselverlust-Korrektur noch nicht.",
-        "iPhone: korrekt signierter TestFlight-/Gerätebuild mit gültigen Keychain-Berechtigungen ist noch nötig. Keine echten Tagebuchdaten verwenden."
+        "Eigene private Native-App im Repository MatthiasBoehm247/stimmungskalender-native. Nur quelloffene Projektstatusdaten werden in dieses öffentliche App-Studio-Snapshot übernommen.",
+        "Expo ImagePicker entfernte RECORD_AUDIO trotz expliziter App-Konfiguration. Der Plugin-Konflikt wurde behoben und der Prebuild erfolgreich geprüft; echte APK-Rechte stehen noch aus.",
+        "Der Schlüsselbund wird vor Erstellung einer privaten Datenbankdatei geprüft; existierende verschlüsselte Daten bleiben bei Schlüsselverlust geschützt. Tests bestehen, realer Gerätnachweis offen.",
+        "Das Bildschirm-Schutzflag FLAG_SECURE macht Android-Test-Screenshots absichtlich schwarz; UI- und Speicherabläufe wurden mit Testdaten geprüft.",
+        "Dauerhafte Android-Update-Signierung, Wiederherstellung auf zweitem Gerät, physische Android- und iPhone-Prüfungen sowie die gültige iOS-Keychain-Signierung sind offen.",
+        "Dependencies: 0 kritische/hohe, 3 mittlere NPM-Advisories (Expo-Buildtooling; GitHub Issue #4)."
       ],
       "research": {
         "checkedAt": "2026-11-28",
