@@ -7,8 +7,8 @@
       "schemaVersion": 1,
       "id": "moodistory-stimmungskalender-20261128",
       "createdAt": "2026-11-28T09:25:18+00:00",
-      "updatedAt": "2026-11-28T13:28:57.624Z",
-      "stage": "Privates Native-Projekt v0.6.2 · 74/74 CI PASS · iOS Keychain-Signierung offen · aktuelle Android-APK noch nicht nachgewiesen",
+      "updatedAt": "2026-11-28T13:48:39.548Z",
+      "stage": "Privates Native-Projekt v0.6.2 · 74/74 CI PASS · Android-APK gebaut und Binärprüfung PASS · Offline-/Upgrade-Tests laufen · iOS-Signierung offen",
       "name": "Stimmungskalender – Gefühle ohne Bewertung",
       "reference": {
         "type": "apple",
@@ -208,20 +208,19 @@
         }
       ],
       "validation": {
-        "android": "Android v0.5 E2E: fiktiven Stimmungseintrag gespeichert → Force-Stop → Neustart → wiedergefunden (Run 46145895604). v0.6.0-APK wegen RECORD_AUDIO fehlerhaft; in v0.6.2 Prebuild behoben. Android v0.6.1-Build läuft (#46148616076), neue Sicherheits-/UI-Änderungen in v0.6.2 darin nicht enthalten.",
+        "android": "Native Android v0.6.2 Standalone-APK gebaut, SHA-256, Release-Signatur, SQLCipher-Binärdateien, RECORD_AUDIO, allowBackup=false und Buildnummer 8 statisch geprüft (Runs 46149985091, 46151151174). Offline-/Dateiverschlüsselung auf Emulator läuft (46151289092).",
         "ios": "iOS Release-Simulator-Build erstellt, aber Keychain im unsignierten Simulator nicht nutzbar. Keine signierte iPhone-Testversion, physische iOS-QA offen (Issue #5).",
-        "native": "Quellversion v0.6.2 auf privatem GitHub. 74/74 Node-/Mock-Tests, TypeScript, Expo SDK58 und Android Prebuild-Mikrofonprüfung PASS (CI #46149720573). SQLCipher-Dateiaudit und Release-Signatur weiterhin offen.",
-        "store": "Release NO-GO · keine Store-Einreichung · Hardware- und Signaturtests offen.",
+        "native": "Quellversion v0.6.2, 74/74 Node-/Mock-Tests, TypeScript, Expo SDK58 und Android Prebuild-Mikrofonprüfung PASS (CI 46149720573); APK signiert, APK-SHA f3b24bea8f89a434685931f216a89cd6c619bdb0e985759f1a42eed831ab6e55.",
+        "store": "Release NO-GO · keine Store-Einreichung · Hardware- und iOS-Signaturtests offen.",
         "browser": "Öffentliche Design-Demo nur fiktive flüchtige Daten."
       },
       "notes": [
-        "GitHub privat: MatthiasBoehm247/stimmungskalender-native. Öffentliche Projektübersicht enthält keine privaten Tagebuchdaten.",
-        "Android v0.6.0 tatsächlicher APK-Berechtigungscheck fehlgeschlagen: RECORD_AUDIO wurde durch ImagePicker überschrieben. Plugin-Konflikt v0.6.2 in Android-Prebuild geprüft, neuer fertiger APK-Nachweis offen.",
-        "Android v0.5 E2E mit fiktiven Daten auf Emulator bestanden; keine vollständige Datei-Verschlüsselungsanalyse und kein physischer Gerätetest.",
-        "Schlüsselbundzugriff muss vor der Datenbankdatei erfolgen; vorhandene verschlüsselte Dateien werden ohne Schlüssel niemals neu initialisiert. Quellcode-Regressionstests bestanden.",
-        "Deutsche sichere Fehlermeldungen für Speicherung, Sprachmemos, Backups, Entsperrung und Erinnerungen; keine ungefilterten nativen Fehlermeldungen.",
-        "Ohne signierten iOS-Testbuild bleibt sicherer Speicher im Simulator gesperrt. Kein Klartext-Fallback.",
-        "3 mittlere npm Advisory-Hinweise (Expo Fingerprint/minimatch) dokumentiert; 0 hohe/kritische. Release NO-GO."
+        "GitHub privat: MatthiasBoehm247/stimmungskalender-native. Öffentliche Projektübersicht enthält keine privaten Tagebuch- oder Schlüsseldateien.",
+        "Android v0.6.2 APK aus neuestem Code mit verbessertem Keychain-Schutz und redigierten deutschen Fehlerdialogen gebaut, Binär-/Manifestprüfung bestätigt.",
+        "Android v0.5 E2E Save/Force-Stop/Reopen PASS; Android 0.6.2 offline SQLCipher-Dateiaudit (GitHub Run 46151289092) noch offen.",
+        "Zertifikat v0.5/v0.6.1 identisch, aber tatsächlich durchgeführtes In-Place-Upgrade mit erhaltenem Tagebucheintrag (Run 46151031992) noch offen.",
+        "iOS-Keychain im unsignierten Simulator nicht funktionsfähig. Native TestFlight/iPhone Signierung erfordert autorisierte Apple-Developer-/EAS-Zugänge.",
+        "Drei mittlere Advisory-Hinweise in Expo-Build-Abhängigkeiten; keine hohen oder kritischen NPM-Advisories. Store-Release derzeit NO-GO."
       ],
       "research": {
         "checkedAt": "2026-11-28",
