@@ -7,8 +7,8 @@
       "schemaVersion": 1,
       "id": "moodistory-stimmungskalender-20261128",
       "createdAt": "2026-11-28T09:25:18+00:00",
-      "updatedAt": "2026-11-28T12:42:00Z",
-      "stage": "Native v0.6 Code · 61/61 CI PASS · Android v0.5 Emulator-Start bestätigt · Android v0.6 APK-Build und E2E laufen · iOS Keychain offen",
+      "updatedAt": "2026-11-28T12:50:00Z",
+      "stage": "Native v0.6 im privaten Repository · 64/64 CI PASS · Android v0.5 End-to-End gespeichert und neu geöffnet · v0.6 APK-Prüfung offen · iOS Keychain NO-GO",
       "name": "Stimmungskalender – Gefühle ohne Bewertung",
       "reference": {
         "type": "apple",
@@ -208,11 +208,11 @@
         }
       ],
       "validation": {
-        "android": "Android v0.5 Standalone-APK im Emulator installiert und nach Neustart gestartet (Run 46145034578). Alte APK ohne Mikrofonberechtigung; v0.6 Build mit strenger Manifest-Prüfung gestartet (Run 46145714435). E2E Speichern/Neustart noch offen.",
-        "ios": "iOS Release-Simulator gebaut, aber Keychain-Entitlement im unsignierten Build fehlt. App blockiert sichere Speicherung. Signierte iPhone-Testversion erforderlich (Issue #5).",
-        "store": "Keine Store-Einreichung · Freigabe weiterhin NO-GO",
+        "android": "Android v0.5 Universal-APK: Installieren, fiktive Stimmung speichern, App beenden und nach Neustart Eintrag wiederfinden bestanden (GitHub Run #46145895604). Android v0.6 Minimalberechtigungen im Quellcode, APK/Manifest-Check Run #46145714435 noch offen.",
+        "ios": "iOS Release-Simulator gebaut, startet aber mit fehlendem Keychain-Entitlement ohne Zugriff auf verschlüsselte Speicherung; Signaturversuch verworfen (Issue #5). Signierte iPhone/TestFlight-Version fehlt.",
+        "store": "Keine Store-Einreichung · Release NO-GO",
         "browser": "Öffentliche Design-Demo nur mit fiktiven, flüchtigen Daten",
-        "native": "v0.6 GitHub CI: 61/61 Node-/Mock-Tests, TypeScript und Expo-Kompatibilität erfolgreich (Run 46145647601); neue Fehlertexte und Android Minimalberechtigungen im Quellcode, Binärprüfung läuft."
+        "native": "Native Code v0.6: 64/64 Node/Mock Tests, vollständiger TS-/Expo-Check PASS (Run #46146311523), inklusive Schutz vor neuem Schlüssel bei bestehender Datenbank und vermisstem SecureStore-Key."
       },
       "notes": [
         "Private App-Version v0.5 auf GitHub: MatthiasBoehm247/stimmungskalender-native; Quellcode, Sicherheitsdokumentation, CI und Buildworkflows vorhanden.",
@@ -223,9 +223,12 @@
         "iOS-Simulator Screenshot zeigt 'Privater Speicher nicht verfügbar'; aus Sicherheitsgründen kein unverschlüsselter Ersatz. Signierung/Entitlements werden erneut geprüft (privates GitHub Issue #5).",
         "iOS Simulator startet, blockiert aber mangels gültiger Keychain-Entitlements die Verschlüsselung. Der ad-hoc Signaturversuch wurde vom Simulator verweigert; kein unsicherer Fallback.",
         "Noch keine signierte App für physisches iPhone, keine reale Backup-/Biometrie-/Dateicache-QA.",
-        "v0.6 Code (61/61 CI PASS) mit sicherer deutscher Fehlerbehandlung und minimaler Android-Berechtigungskonfiguration; v0.6 APK wird geprüft.",
         "Android v0.5 APK startet und startet neu im Emulator. UI-Hierarchie sichtbar, Screenshot des Tests schwarz; vollständige Speichern/Neustart-Prüfung noch offen.",
-        "iOS signierter TestFlight-/Gerätebuild mit korrekten Keychain-Entitlements fehlt weiterhin; Veröffentlichung NO-GO."
+        "iOS signierter TestFlight-/Gerätebuild mit korrekten Keychain-Entitlements fehlt weiterhin; Veröffentlichung NO-GO.",
+        "Android v0.5 E2E nachgewiesen (fiktiver Mood-Eintrag, Save-Bestätigung, Eintrag vor/nach vollständigem Neustart, XML-Protokolle; Run 46145895604). Raw-At-Rest-Verschlüsselung weiterhin ungeprüft.",
+        "v0.6 Quellcode mit 64 bestandenen Tests (Run 46146311523). Bestehende verschlüsselte Datenbank mit fehlendem Geräteschlüssel wird nicht neu verschlüsselt/überschrieben.",
+        "v0.6 APK-Build und Prüfung der tatsächlichen Manifestrechte war beim letzten Abruf noch aktiv; das gestartete Artefakt enthält die allerletzte Schlüsselverlust-Korrektur noch nicht.",
+        "iPhone: korrekt signierter TestFlight-/Gerätebuild mit gültigen Keychain-Berechtigungen ist noch nötig. Keine echten Tagebuchdaten verwenden."
       ],
       "research": {
         "checkedAt": "2026-11-28",
