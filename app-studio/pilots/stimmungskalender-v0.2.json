@@ -7,8 +7,8 @@
       "schemaVersion": 1,
       "id": "moodistory-stimmungskalender-20261128",
       "createdAt": "2026-11-28T09:25:18+00:00",
-      "updatedAt": "2026-11-28T09:40:00Z",
-      "stage": "Browser-Beta v0.2 umgesetzt · nativer Expo-Code v0.1 erstellt · Android/iOS-Builds offen",
+      "updatedAt": "2026-11-28T10:35:00Z",
+      "stage": "Native v0.3: Quellcode mit Backup, Foto und Erinnerungen; 26 Mock-/Domain-Tests PASS · APK/IPA offen",
       "name": "Stimmungskalender – Gefühle ohne Bewertung",
       "reference": {
         "type": "apple",
@@ -208,17 +208,19 @@
         }
       ],
       "validation": {
-        "android": "Native Quelle erstellt, kein Android-Build oder Gerätetest",
-        "ios": "Native Quelle erstellt, kein iOS-Build oder Gerätetest",
+        "android": "Native Quelle 0.3 erstellt, kein Android-APK und kein Gerätetest",
+        "ios": "Native Quelle 0.3 erstellt, kein iOS-Build und kein Gerätetest",
         "store": "Nicht eingereicht",
-        "browser": "11 Node-Tests PASS, UI-Chromium-Mock PASS, echte sichere Browser-Origin noch ungeprüft"
+        "browser": "Browser-Beta v0.2 mit separaten Tests; Produktiv-Origin und reale Gerätetests offen",
+        "native": "26/26 Node-/Mock-Tests bestanden; echte native API- und Gerätetests fehlen"
       },
       "notes": [
-        "Design-Vorschau mit ausschließlich flüchtigen Beispieldaten verfügbar.",
-        "Browser-Beta implementiert: Check-in, Mehrfacheinträge, Kalender, Suche, Medienaufnahme/Import, lokale Verschlüsselung, passwortgeschütztes Backup/Restore. Noch keine Geräteprüfung.",
-        "Nativer Expo-Quellcode mit SQLCipher-Fail-Closed entwickelt. Builds, Medien, Backups, Erinnerungen und Geräteprüfungen stehen aus.",
-        "Für echte private Webdaten ist eine isolierte eigene HTTPS-Origin erforderlich. Auf der gemeinsamen GitHub-Pages-Origin läuft nur die Demo.",
-        "Keine App-Store-Publikation, kein vollständiger Sicherheitsnachweis."
+        "Design-Vorschau enthält ausschließlich fiktive flüchtige Daten.",
+        "Browser-Beta v0.2 ist getrennt von der nativen App und verwendet ein inkompatibles Sicherungsformat.",
+        "Nativer Expo-Quellcode v0.3: SQLCipher-Fail-Closed, Fotos in SQLCipher, AES-256-GCM-Export mit separatem Recovery-Key, atomarer Import, lokale Erinnerungen.",
+        "26 automatisierte Node-/Mock-Tests PASS, TypeScript-Domainprüfung PASS. Native Abhängigkeiten und reale Builds konnten in der Ausführungsumgebung nicht installiert werden (EAI_AGAIN).",
+        "Kein APK/IPA, keine echte iOS-/Android-Installation, keine geprüfte Offline-Verschlüsselung, kein Store-Release.",
+        "Sprachmemos, Biometrie und echte iPhone-/Android-Gerätetests sind weiterhin offene Release-Blocker."
       ],
       "research": {
         "checkedAt": "2026-11-28",
