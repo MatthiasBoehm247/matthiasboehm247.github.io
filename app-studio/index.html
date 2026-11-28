@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f7f5">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Böhm App Studio – aus einer App-Referenz einen eigenständigen, überprüfbaren Produktplan entwickeln.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://itunes.apple.com; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Böhm App Studio · Neue App</title>
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Hauptnavigation">
+      <div class="brand"><div class="brand-icon" aria-hidden="true">B<span>.</span></div><div><strong>BÖHM</strong><small>APP STUDIO <span class="brand-ver">BETA</span></small></div></div>
+      <div class="nav-group-label">WERKSTATT</div>
+      <nav class="main-nav" id="mainNav">
+        <button class="nav-link active" data-view="new" type="button"><span class="nav-icon" aria-hidden="true">＋</span>Neue App</button>
+        <button class="nav-link" data-view="projects" type="button"><span class="nav-icon" aria-hidden="true">▦</span>Meine Projekte <span class="nav-count" id="navProjectCount">0</span></button>
+        <button class="nav-link" data-view="modules" type="button"><span class="nav-icon" aria-hidden="true">◫</span>App-Baukasten</button>
+        <button class="nav-link" data-view="quality" type="button"><span class="nav-icon" aria-hidden="true">◇</span>Qualität & Standards</button>
+      </nav>
+      <div class="sidebar-bottom"><span class="status-pulse"></span><div><strong>Lokaler Arbeitsbereich</strong><small>Projekte bleiben in diesem Browser</small></div></div>
+    </aside>
+    <div class="main-area">
+      <header class="topbar"><div class="breadcrumb">PRODUKTWERKSTATT <span class="slash">/</span> <span id="breadcrumbCurrent">Neue App</span></div><div class="top-actions"><span class="top-pill">PROTOTYP · V0.1</span><button type="button" class="top-new" id="topNew">+ Neue App</button></div></header>
+      <main class="content">
+        <section id="view-new" class="view active">
+          <div class="page-heading"><div class="eyebrow"><span class="eyebrow-line"></span> VON DER IDEE ZUM PRODUKT</div><h1>Deine nächste App<br><em>beginnt mit einem Link.</em></h1><p>Eine gute Referenz reicht für den Anfang. Wir machen daraus einen eigenen, strukturierten Produktplan – ohne Technik-Fragebogen.</p></div>
+          <div class="progress-rail" aria-label="Fortschritt"><div class="progress-segment active" data-stepbar="1"></div><div class="progress-segment" data-stepbar="2"></div><div class="progress-segment" data-stepbar="3"></div><div class="progress-segment" data-stepbar="4"></div></div>
+          <div class="step-caption"><span id="stepCaption">01 / 04 · REFERENZ</span><span id="stepRight">Einfach beginnen</span></div>
+          <section class="step" id="step1" aria-labelledby="step1title">
+            <div class="hero-panel">
+              <div class="hero-header"><span class="round-glyph" aria-hidden="true">↗</span><div><h2 id="step1title">Welche App inspiriert dich?</h2><p>Kopiere einen Link aus dem App Store oder von Google Play.</p></div></div>
+              <form id="importForm" novalidate><label for="storeUrl" class="input-label">APP-STORE-LINK</label><div class="url-wrap"><span class="url-icon" aria-hidden="true">⌁</span><input id="storeUrl" type="url" inputmode="url" autocomplete="url" spellcheck="false" placeholder="https://apps.apple.com/de/app/…" maxlength="2048" required aria-describedby="urlHelp"><button type="submit" id="startAnalysis" class="primary-btn">Referenz übernehmen <span aria-hidden="true">→</span></button></div><div class="field-foot"><span id="urlHelp">Apple App Store und Google Play werden erkannt.</span><button type="button" id="pasteBtn" class="text-action">Link einfügen</button></div></form>
+              <div class="notice" id="importNotice" role="status" aria-live="polite" hidden></div>
+              <div class="reference-card" id="referenceCard" hidden></div>
+            </div>
+            <div class="below-intro"><div><span class="mini-icon">01</span><strong>Referenz verstehen</strong><small>Verfügbare Store-Daten</small></div><div><span class="mini-icon">02</span><strong>Richtung wählen</strong><small>Drei verständliche Ideen</small></div><div><span class="mini-icon">03</span><strong>Design bestimmen</strong><small>Visuell, statt technisch</small></div><div><span class="mini-icon">04</span><strong>Plan speichern</strong><small>Mit Qualitätsstandard</small></div></div>
+          </section>
+          <section class="step" id="step2" hidden aria-labelledby="step2title"><div class="section-overline">DEINE PRODUKTRICHTUNG</div><h2 id="step2title">Was soll deine App besonders gut können?</h2><p class="step-lead">Wir haben drei Richtungen vorbereitet. Du kannst die Empfehlung direkt übernehmen.</p><div class="option-grid" id="ideaCards"></div>
+            <details class="optional-details"><summary>Referenz ergänzen <span>freiwillig · falls Informationen fehlen</span></summary>
+              <div class="optional-grid"><label>Bezeichnung der Beispiel-App<input id="manualAppName" type="text" placeholder="Name aus dem Store" maxlength="130"></label><label>App-Kategorie<select id="manualGenre"><option value="">Automatisch erkennen</option><option>Audio & Klang</option><option>Wohlbefinden</option><option>Lernen</option><option>Produktivität & Tools</option><option>Spiel & Interaktion</option><option>Alltag & Lifestyle</option></select></label></div>
+              <label class="optional-review-label">Vorliegende Rezensionen oder Nutzerhinweise (optional, ein Hinweis je Zeile)<textarea id="manualReviews" placeholder="Hier nur Rezensionen einfügen, die du rechtmäßig verwenden darfst. Keine personenbezogenen Daten nötig." rows="3" maxlength="16000"></textarea></label>
+              <p>Eigene Ergänzungen werden als manuelle Angaben gekennzeichnet. Die Rezensionen sind keine bestätigten Fehler.</p>
+            </details><div class="step-actions"><button type="button" class="secondary-btn" data-back="1">← Zurück</button><button type="button" class="primary-btn" id="chooseIdea">Gestaltung auswählen <span aria-hidden="true">→</span></button></div></section>
+          <section class="step" id="step3" hidden aria-labelledby="step3title"><div class="section-overline">DEINE DESIGNRICHTUNG</div><h2 id="step3title">Wie soll sich deine App anfühlen?</h2><p class="step-lead">Alle Entwürfe haben denselben Qualitätsstandard. Wähle nur die Gestaltung, die dir gefällt.</p><div class="design-grid" id="designCards"></div><div class="step-actions"><button type="button" class="secondary-btn" data-back="2">← Zurück</button><button type="button" class="primary-btn" id="chooseDesign">Produktplan erstellen <span aria-hidden="true">→</span></button></div></section>
+          <section class="step" id="step4" hidden aria-labelledby="step4title"><div class="section-overline">DEIN PRODUKTPLAN</div><div class="finish-head"><div><h2 id="step4title">Ein guter Anfang. Alles Wesentliche bedacht.</h2><p class="step-lead">Der Plan verbindet deine Entscheidungen mit Aufgaben und Prüfungen. Die App selbst ist noch nicht programmiert.</p></div><span class="plan-chip">ENTWURF · V1</span></div><div class="plan-overview" id="planOverview"></div><div class="plan-detail" id="planDetail"></div><div class="final-actions"><button type="button" class="primary-btn" id="savePlan">Projekt speichern <span aria-hidden="true">→</span></button><button type="button" class="secondary-btn" id="downloadPlan">Masterplan herunterladen</button><button type="button" class="secondary-btn" id="copyPrompt">Auftrag für ChatGPT kopieren</button></div><div class="notice" id="planNotice" role="status" hidden></div><p class="footnote">Daten, Rezensionen und Quellen werden nicht erfunden. Ohne echte Build- und Store-Anbindung verwaltet dieser Prototyp ausschließlich die Planung.</p></section>
+        </section>
+        <section id="view-projects" class="view" hidden><div class="page-heading compact"><div class="eyebrow"><span class="eyebrow-line"></span> DEINE APP-SAMMLUNG</div><h1>Meine Projekte<span class="heading-dot">.</span></h1><p>Deine Entwürfe sind nur in diesem Browser gespeichert. Für einen Gerätewechsel exportiere die Projektdatei.</p></div><div class="projects-toolbar"><button type="button" id="exportAll" class="secondary-btn">Alle Projekte exportieren</button><label class="secondary-btn file-label" for="importAll">Projektdatei importieren</label><input id="importAll" type="file" accept="application/json,.json" hidden><button type="button" id="clearAll" class="danger-btn">Lokale Daten löschen</button></div><div id="projectList" class="project-list"></div></section>
+        <section id="view-modules" class="view" hidden><div class="page-heading compact"><div class="eyebrow"><span class="eyebrow-line"></span> DIE GEMEINSAME BASIS</div><h1>App-Baukasten<span class="heading-dot">.</span></h1><p>Gemeinsame Standards statt jedes Projekt von vorn zu beginnen. Dies ist derzeit eine Planungsübersicht, keine installierte Modulbibliothek.</p></div><div class="module-grid" id="moduleList"></div></section>
+        <section id="view-quality" class="view" hidden><div class="page-heading compact"><div class="eyebrow"><span class="eyebrow-line"></span> NICHTS WICHTIGES VERGESSEN</div><h1>Qualitätsstandard<span class="heading-dot">.</span></h1><p>Bei jedem Produktplan wird die gleiche Grundlage berücksichtigt. Eine erfolgreiche Prüfung kann erst nach realer Umsetzung gemeldet werden.</p></div><div class="quality-list" id="qualityList"></div></section>
+      </main>
+      <footer class="app-footer"><span>BÖHM APP STUDIO · KONZEPTPROTOTYP</span><span>Kein Konto · Keine eingebauten Trackingdienste</span></footer>
+    </div>
+  </div>
+  <dialog id="modal"><div class="dialog-inner"><button type="button" id="closeModal" class="dialog-close" aria-label="Schließen">×</button><h2 id="modalTitle">Hinweis</h2><p id="modalText"></p><textarea id="modalTextarea" rows="9" readonly hidden></textarea><div class="modal-actions"><button type="button" id="modalCancel" class="secondary-btn">Abbrechen</button><button type="button" id="modalConfirm" class="primary-btn">Bestätigen</button></div></div></dialog>
+</body>
+</html>
