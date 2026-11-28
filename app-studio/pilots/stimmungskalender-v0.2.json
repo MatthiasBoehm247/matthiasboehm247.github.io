@@ -7,8 +7,8 @@
       "schemaVersion": 1,
       "id": "moodistory-stimmungskalender-20261128",
       "createdAt": "2026-11-28T09:25:18+00:00",
-      "updatedAt": "2026-11-28T12:19:00Z",
-      "stage": "Privates Native-Projekt v0.5 · Android-APK funktionsfähig gebündelt · iOS-Simulator startet, Keychain-Berechtigung blockiert Speicher · NO-GO",
+      "updatedAt": "2026-11-28T12:23:00Z",
+      "stage": "Privates Native-Projekt v0.5 · Android Standalone ARM64+x86_64 gebaut · iOS Keychain-Signierung offen · Release NO-GO",
       "name": "Stimmungskalender – Gefühle ohne Bewertung",
       "reference": {
         "type": "apple",
@@ -208,11 +208,11 @@
         }
       ],
       "validation": {
-        "android": "Android Standalone-APK für ARM64 gebaut, JavaScript eingebettet, SHA-256 verifiziert (GitHub Run 46142025605); echte Gerätetests offen",
-        "ios": "iOS Release-Simulator gebaut und gestartet; Simulator-Speicherung derzeit BLOCKIERT: fehlendes Keychain-Entitlement im unsignierten Build. Kein TestFlight/iPhone-Test (GitHub Issue #5)",
+        "android": "Android Standalone für ARM64 und x86_64 kompiliert und JavaScript/SQLCipher-Bibliotheken verifiziert (GitHub Run #46143034346); Emulator-Starttest #46144097543 derzeit offen",
+        "ios": "iOS Release-Simulator kompiliert und gestartet, Datenhaltung wegen fehlendem Keychain-Entitlement blockiert; experimentelle Ad-hoc-Signatur wurde von SpringBoard zurückgewiesen (Issue #5). Signierte iPhone-Version fehlt.",
         "store": "Keine Store-Einreichung · Freigabe weiterhin NO-GO",
         "browser": "Öffentliche Design-Demo nur mit fiktiven, flüchtigen Daten",
-        "native": "55/55 Mock/Node-Tests PASS, TypeScript und Expo-Kompatibilität PASS; reproducible npm-ci; 3 moderate npm-Advisories unter Beobachtung"
+        "native": "55/55 Node/Mock-Tests, TypeScript, Expo und npm-ci PASS; Security Audit 0 kritisch/hoch, 3 mittel; keine echten Hardware- oder Speicherprüfungen"
       },
       "notes": [
         "Private App-Version v0.5 auf GitHub: MatthiasBoehm247/stimmungskalender-native; Quellcode, Sicherheitsdokumentation, CI und Buildworkflows vorhanden.",
@@ -220,7 +220,10 @@
         "iOS Release-Simulator ohne Metro gebaut (Run 46142375807); noch keine App für ein physisches iPhone.",
         "Abhängigkeiten durch package-lock fixiert, CI nutzt npm ci; Audit 0 High/Critical, 3 Moderate (GitHub Issue #4).",
         "Nicht mit privaten Tagebuchdaten verwenden, bis SQLCipher, Mediencaches, Datenwiederherstellung und Biometrie auf Android/iPhone überprüft sind.",
-        "iOS-Simulator Screenshot zeigt 'Privater Speicher nicht verfügbar'; aus Sicherheitsgründen kein unverschlüsselter Ersatz. Signierung/Entitlements werden erneut geprüft (privates GitHub Issue #5)."
+        "iOS-Simulator Screenshot zeigt 'Privater Speicher nicht verfügbar'; aus Sicherheitsgründen kein unverschlüsselter Ersatz. Signierung/Entitlements werden erneut geprüft (privates GitHub Issue #5).",
+        "Android Universal-Test-APK unterstützt ARM64 und x86_64; Build erfolgreich, Emulator-Starttest (GitHub Run 46144097543) läuft.",
+        "iOS Simulator startet, blockiert aber mangels gültiger Keychain-Entitlements die Verschlüsselung. Der ad-hoc Signaturversuch wurde vom Simulator verweigert; kein unsicherer Fallback.",
+        "Noch keine signierte App für physisches iPhone, keine reale Backup-/Biometrie-/Dateicache-QA."
       ],
       "research": {
         "checkedAt": "2026-11-28",
