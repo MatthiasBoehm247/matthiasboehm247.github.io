@@ -7,8 +7,8 @@
       "schemaVersion": 1,
       "id": "moodistory-stimmungskalender-20261128",
       "createdAt": "2026-11-28T09:25:18+00:00",
-      "updatedAt": "2026-11-28T13:22:56.076Z",
-      "stage": "Privates Native-Projekt v0.6.1 + Sicherheitskorrektur · 69/69 CI PASS · Android-APK-Mikrofon-Fix wird kompiliert · iPhone-Keychain gesperrt",
+      "updatedAt": "2026-11-28T13:28:57.624Z",
+      "stage": "Privates Native-Projekt v0.6.2 · 74/74 CI PASS · iOS Keychain-Signierung offen · aktuelle Android-APK noch nicht nachgewiesen",
       "name": "Stimmungskalender – Gefühle ohne Bewertung",
       "reference": {
         "type": "apple",
@@ -208,19 +208,20 @@
         }
       ],
       "validation": {
-        "android": "Android v0.5 E2E (fiktiven Eintrag speichern → vollständig beenden → wiederfinden) erfolgreich: Run 46145895604. Android v0.6.0 APK wegen RECORD_AUDIO-Konflikt abgelehnt: Run 46145714435. v0.6.1-Korrektur im Prebuild bestätigt; fertiger APK-Build Run 46148616076 noch offen.",
-        "ios": "iOS Release-Simulator kompiliert und gestartet, aber sicherer Speicher mangels gültiger Keychain-Entitlements nicht verfügbar; signierte TestFlight/iPhone-Version fehlt. GitHub Issue #5.",
-        "store": "NO-GO – keine Veröffentlichung, keine physischen Geräteprüfungen, kein dauerhaftes Android-Release-Signing.",
-        "browser": "Öffentliche Design-Demo nur mit fiktiven, flüchtigen Daten.",
-        "native": "Quellcode mit 69/69 bestandenen automatisierten Tests, TS und Expo; Keychain-Prüfung vor privater DB-Erstellung; vier neue Sicherheitsregressionstests. CI 46148814327. At-rest-Dateiprüfung vorbereitet, nicht ausgeführt."
+        "android": "Android v0.5 E2E: fiktiven Stimmungseintrag gespeichert → Force-Stop → Neustart → wiedergefunden (Run 46145895604). v0.6.0-APK wegen RECORD_AUDIO fehlerhaft; in v0.6.2 Prebuild behoben. Android v0.6.1-Build läuft (#46148616076), neue Sicherheits-/UI-Änderungen in v0.6.2 darin nicht enthalten.",
+        "ios": "iOS Release-Simulator-Build erstellt, aber Keychain im unsignierten Simulator nicht nutzbar. Keine signierte iPhone-Testversion, physische iOS-QA offen (Issue #5).",
+        "native": "Quellversion v0.6.2 auf privatem GitHub. 74/74 Node-/Mock-Tests, TypeScript, Expo SDK58 und Android Prebuild-Mikrofonprüfung PASS (CI #46149720573). SQLCipher-Dateiaudit und Release-Signatur weiterhin offen.",
+        "store": "Release NO-GO · keine Store-Einreichung · Hardware- und Signaturtests offen.",
+        "browser": "Öffentliche Design-Demo nur fiktive flüchtige Daten."
       },
       "notes": [
-        "Eigene private Native-App im Repository MatthiasBoehm247/stimmungskalender-native. Nur quelloffene Projektstatusdaten werden in dieses öffentliche App-Studio-Snapshot übernommen.",
-        "Expo ImagePicker entfernte RECORD_AUDIO trotz expliziter App-Konfiguration. Der Plugin-Konflikt wurde behoben und der Prebuild erfolgreich geprüft; echte APK-Rechte stehen noch aus.",
-        "Der Schlüsselbund wird vor Erstellung einer privaten Datenbankdatei geprüft; existierende verschlüsselte Daten bleiben bei Schlüsselverlust geschützt. Tests bestehen, realer Gerätnachweis offen.",
-        "Das Bildschirm-Schutzflag FLAG_SECURE macht Android-Test-Screenshots absichtlich schwarz; UI- und Speicherabläufe wurden mit Testdaten geprüft.",
-        "Dauerhafte Android-Update-Signierung, Wiederherstellung auf zweitem Gerät, physische Android- und iPhone-Prüfungen sowie die gültige iOS-Keychain-Signierung sind offen.",
-        "Dependencies: 0 kritische/hohe, 3 mittlere NPM-Advisories (Expo-Buildtooling; GitHub Issue #4)."
+        "GitHub privat: MatthiasBoehm247/stimmungskalender-native. Öffentliche Projektübersicht enthält keine privaten Tagebuchdaten.",
+        "Android v0.6.0 tatsächlicher APK-Berechtigungscheck fehlgeschlagen: RECORD_AUDIO wurde durch ImagePicker überschrieben. Plugin-Konflikt v0.6.2 in Android-Prebuild geprüft, neuer fertiger APK-Nachweis offen.",
+        "Android v0.5 E2E mit fiktiven Daten auf Emulator bestanden; keine vollständige Datei-Verschlüsselungsanalyse und kein physischer Gerätetest.",
+        "Schlüsselbundzugriff muss vor der Datenbankdatei erfolgen; vorhandene verschlüsselte Dateien werden ohne Schlüssel niemals neu initialisiert. Quellcode-Regressionstests bestanden.",
+        "Deutsche sichere Fehlermeldungen für Speicherung, Sprachmemos, Backups, Entsperrung und Erinnerungen; keine ungefilterten nativen Fehlermeldungen.",
+        "Ohne signierten iOS-Testbuild bleibt sicherer Speicher im Simulator gesperrt. Kein Klartext-Fallback.",
+        "3 mittlere npm Advisory-Hinweise (Expo Fingerprint/minimatch) dokumentiert; 0 hohe/kritische. Release NO-GO."
       ],
       "research": {
         "checkedAt": "2026-11-28",
